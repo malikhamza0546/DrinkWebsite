@@ -1,0 +1,76 @@
+.left-ellipses {
+    bottom: -9rem;
+    left: -8rem;
+}
+.right-ellipses {
+    top: -9rem;
+    right: -8rem;
+}
+
+
+
+.extend-height {
+    min-height: 120vh;
+    margin-bottom: 20px;
+}
+
+.signup-tabs {
+    color: black;
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+
+.signup-tabs .active {
+    background: linear-gradient(0deg, var(--primary), var(--primary)), #FFFFFF;
+    color: white;
+}
+
+.signup-btns button {
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.signup-link span{ 
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+
+.ellipses-animate {
+    animation-name: ellipses;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function: lenear;
+    width: 25rem;
+}
+
+@keyframes ellipses {
+    0% {
+        transform: scale(1, 1);
+      }
+      50% {
+        transform: scale(1.5, 1.5);
+      }
+      100% {
+        transform: scale(1, 1);
+      }
+  }
+
+  @media screen and (max-width: 900px) {
+    .signup-outer-wrapper {
+        min-height: 800px;
+    }
+  }
+  .title{
+    font-family: "Nunito";
+    font-size: "24px";
+    font-weight: "700"
+  }
