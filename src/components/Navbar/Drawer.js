@@ -146,7 +146,7 @@ export default DrawerComp;
 const useStyles = makeStyles((theme) => ({
   drawerMain: {
     width: "70vw",
-    height: "100vh",
+    height: "60vh",
   },
   drawer: {
     width: "70vw",
