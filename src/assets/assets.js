@@ -44,6 +44,12 @@ import Visa from "./images/Visa.png";
 
 import Star from "./images/Star.png";
 
+import homeIcon from "./images/home-icon.png";
+import orderIcon from "./images/order-icon.png";
+import reservationIcon from "./images/reservation-icon.png";
+import settingIcon from "./images/setting-icon.png";
+import walletIcon from "./images/wallet-icon.png";
+
 const assets = {
   logo,
   dashboardMenu,
@@ -87,6 +93,12 @@ const assets = {
   QrCode,
   Visa,
   Star,
+
+  homeIcon,
+  orderIcon,
+  reservationIcon,
+  settingIcon,
+  walletIcon,
 };
 
 export default assets;
