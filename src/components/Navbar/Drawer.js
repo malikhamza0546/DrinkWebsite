@@ -132,7 +132,7 @@ const DrawerComp = () => {
         </List>
       </Drawer>
       <IconButton
-        sx={{ color: "white", marginLeft: "auto" }}
+        sx={{ color: "white"}}
         onClick={() => setOpenDrawer(!openDrawer)}
       >
         <AiOutlineMenu color="white" />
