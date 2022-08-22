@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Button, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, Button, useMediaQuery, useTheme, Box } from "@mui/material";
 import img from "../../assets/images/img.png";
 import headerImage1 from "../../assets/images/headerImage1.png";
 import { makeStyles } from "@mui/styles";
@@ -16,6 +16,8 @@ import { MonthPicker } from "@mui/x-date-pickers/MonthPicker";
 import { YearPicker } from "@mui/x-date-pickers/YearPicker";
 import ButtonOne from "../../components/Forms/Button/AuthButton";
 
+import { FaUser } from "react-icons/fa";
+
 const minDate = new Date("2020-01-01T00:00:00.000");
 const maxDate = new Date("2034-01-01T00:00:00.000");
 
@@ -30,6 +32,7 @@ const Racket = () => {
 
   const [tab, setTab] = useState("Food Menu");
   const [mainTab, setMainTab] = useState("Menu");
+  const [confirm, setConfirm] = useState(true);
 
   const [date, setDate] = useState(new Date());
 
@@ -318,6 +321,97 @@ const Racket = () => {
             <Grid container className="mt-16">
               <ButtonOne label="Reserve" />
             </Grid>
+          </Grid>
+        )}
+
+        {confirm && (
+          <Grid>
+            <Box>
+              <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <div>
+                  <div className="font-nunito font-bold text-lg mb-8">
+                    Reservation Confirmed
+                  </div>
+
+                  <div className="mb-8 flex flex-col items-center">
+                    <div>
+                      <img
+                        className="rounded-full border-2 border-[#FF5F00] "
+                        src={assets.Reservation}
+                      />
+                    </div>
+                    <div className="font-bold font-nunito text-lg text-[#FF5F00]">
+                      Racket
+                    </div>
+                  </div>
+                </div>
+              </Grid>
+
+              <Grid className=" lg:px-14 md:px-4 px-4">
+                <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+                  <div className="flex flex-col md:items-start md:justify-start items-center justify-center mb-4 md:mb-0">
+                    <div className="font-nunito md:font-medium font-normal text-lg  text-[#2B2B43] mb-2 md:mb-0">
+                      150 NW 24 Street | Miami, FL 33127
+                    </div>
+                    <div className="font-nunito font-bold md:text-lg text-sm text-[#2B2B43]">
+                      Saturday, March 12, 2022
+                    </div>
+                  </div>
+
+                  <div className="flex flex-row md:flex-col">
+                    <div className="flex ">
+                      <div className="md:pt-1 pt-0 mr-2">
+                        <FaUser />
+                      </div>
+                      <div className="font-nunito font-bold md:text-lg text-sm text-[#2B2B43] mr-4 md:mr-0">
+                        4 people
+                      </div>
+                    </div>
+                    <div className="font-nunito font-bold md:text-lg text-sm text-[#2B2B43]">
+                      9:30 pm
+                    </div>
+                  </div>
+                </div>
+
+                <div className=" mb-8 flex flex-col md:flex-row justify-between items-center ">
+                  <div className="flex flex-col items-center justify-center md:items-start md:justify-start  md:mb-0 mb-4">
+                    <div className="font-medium font-nunito md:text-lg text-sm text-[#FF5F00] mb-2 md:mb-0">
+                      Confirmation #: 02122
+                    </div>
+                    <div className="font-nunito font-medium md:text-lg text-sm text-[#2B2B43]">
+                      (786) 637-2987
+                    </div>
+                  </div>
+
+                  <div>
+                    <img src={assets.QrCode} className="w-16 h-16" />
+                  </div>
+                </div>
+
+                <div className="flex  items-center justify-center mt-4">
+                  <div className="flex mr-4">
+                    <img className="mr-2 mt-1 h-4 w-4" src={assets.modify} />
+                    <div className="font-nunito font-bold text-lg text-[#000000]">
+                      Modify
+                    </div>
+                  </div>
+                  <div className="flex ml-4">
+                    <img
+                      className="mr-2 w-4 mt-1 h-4 w-4"
+                      src={assets.cancel}
+                    />
+                    <div className="font-nunito font-bold text-lg text-[#000000]">
+                      Cancel
+                    </div>
+                  </div>
+                </div>
+              </Grid>
+            </Box>
           </Grid>
         )}
       </Grid>

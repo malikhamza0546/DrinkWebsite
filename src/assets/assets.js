@@ -50,6 +50,10 @@ import reservationIcon from "./images/reservation-icon.png";
 import settingIcon from "./images/setting-icon.png";
 import walletIcon from "./images/wallet-icon.png";
 
+import Reservation from "./images/Reservation.png";
+import modify from "./images/modify.png";
+import cancel from "./images/cancel.png";
+
 const assets = {
   logo,
   dashboardMenu,
@@ -99,6 +103,10 @@ const assets = {
   reservationIcon,
   settingIcon,
   walletIcon,
+
+  Reservation,
+  modify,
+  cancel,
 };
 
 export default assets;
