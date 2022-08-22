@@ -5,7 +5,7 @@ import Logo from "../../assets/images/blackLogo.png";
 
 const AppLoader = ({ loadingMessage, loader }) => {
   return (
-    <div hidden={!loader} className="loader-container">
+    <div className={!loader ? "hidden" : "loader-container"}>
       <div className="loader-content">
         <img src={Logo} alt="logo" />
         <div>
@@ -29,9 +29,8 @@ const AppLoader = ({ loadingMessage, loader }) => {
 };
 
 const mapStateToProps = (state) => {
-  const { loading } = state.loaderReducer;
-  const { loadingMessage } = state.loaderReducer;
-  console.log("loader/////", loading);
+  const { loading } = state.LoaderReducer;
+  const { loadingMessage } = state.LoaderReducer;
   console.log("loader/////", state);
 
   return {

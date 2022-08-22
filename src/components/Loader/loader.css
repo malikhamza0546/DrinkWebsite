@@ -12,6 +12,7 @@
     flex-direction: column;
     top: 0;
     left: 0;
+    
   }
   
   .loader-content {
@@ -20,5 +21,8 @@
     top: 30vh;
   }
   
+  .hidden {
+    display:none
+  }
 
    

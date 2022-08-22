@@ -44,7 +44,7 @@ function App() {
           draggable
           pauseOnHover
         />
-        {/* <Loader /> */}
+        <Loader />
 
         <Routes>
           <Route path="/signup" element={<Signup />} />
