@@ -19,3 +19,10 @@ export const updatePassword = (data) => {
     payload: data,
   };
 };
+
+export const register = (data) => {
+  return {
+    type: "REGISTER",
+    payload: data,
+  };
+};

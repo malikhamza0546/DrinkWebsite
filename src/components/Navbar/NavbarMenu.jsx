@@ -1,12 +1,11 @@
 import { ExpandMore } from "@mui/icons-material";
 import React, { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Icon from "../../assets/images/Icon.png"
+import Icon from "../../assets/images/Icon.png";
 
 const NavbarMenu = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("location: ", location);
 
   const getActiveClass = useCallback(
     (routeToMatch) => {
@@ -65,10 +64,10 @@ const NavbarMenu = () => {
       >
         FAQ
       </span>
-      <span 
+      <span
       // onClick={() => navigate("/faq")}
       >
-        <img src={Icon} className="imageClass"/>
+        <img src={Icon} className="imageClass" />
       </span>
     </div>
   );

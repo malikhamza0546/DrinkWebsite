@@ -1,10 +1,14 @@
 import axios from "axios";
-import { login, forgotPassword, updatePassword } from "../Actions/Auth";
+import {
+  login,
+  forgotPassword,
+  updatePassword,
+  register,
+} from "../Actions/Auth";
 import Notification from "../../components/Notification";
 
-export const loginUser = (data) => {
+export const loginUser = (data, navigate) => {
   return (dispatch) => {
-    console.log("login data", data);
     dispatch({ type: "START_LOADER", payload: "Logging Up User..." });
     axios
       .post(
@@ -17,6 +21,7 @@ export const loginUser = (data) => {
           login(res.data),
           localStorage.setItem("token", res.data.token)
         );
+        navigate("/");
         dispatch({ type: "STOP_LOADER" });
         Notification("success", "Login Successfull");
       })
@@ -71,6 +76,30 @@ export const updatePasswordThunk = (data) => {
         dispatch(updatePassword("error"));
         dispatch({ type: "STOP_LOADER" });
         Notification("error", "Unable to Update Password");
+      });
+  };
+};
+
+export const registerThunk = (data, navigate) => {
+  return (dispatch) => {
+    dispatch({ type: "START_LOADER", payload: "Registering User..." });
+    axios
+      .post(
+        `https://pacific-brushlands-27461.herokuapp.com/v1/auth/register/customer`,
+        data
+      )
+      .then((res) => {
+        console.log(" register user response", res);
+        dispatch(register(res.data));
+        navigate("/signin");
+        dispatch({ type: "STOP_LOADER" });
+        Notification("success", "User Registered Successfully");
+      })
+      .catch((error) => {
+        console.log(" errorr response", error.message);
+        dispatch(register("error"));
+        dispatch({ type: "STOP_LOADER" });
+        Notification("error", "Unable to Register User");
       });
   };
 };

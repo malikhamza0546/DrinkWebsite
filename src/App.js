@@ -13,6 +13,7 @@ import Racket from "./pages/RacketPage/RacketPage";
 import Cart from "./pages/Cart/Cart";
 import WalletPage from "./pages/WalletPage/WalletPage";
 import ForgetPassword from "./pages/Auth/ForgetPassword";
+import RegisterCustomer from "./pages/Auth/RegisterCustomer";
 
 import Explore from "./pages/ExplorePage/ExplorePage";
 import Services from "./pages/Services/Services";
@@ -47,7 +48,7 @@ function App() {
         <Loader />
 
         <Routes>
-          <Route path="/signup" element={<Signup />} />
+          {/* <Route path="/signup" element={<Signup />} /> */}
           <Route path="/signin" element={<Signin />} />
           <Route path="/" element={<Homepage />} />
           <Route path="/explore" element={<Explore />} />
@@ -57,6 +58,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/wallet" element={<WalletPage />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
+          <Route path="/signup" element={<RegisterCustomer />} />
         </Routes>
         <Footer />
       </Grid>

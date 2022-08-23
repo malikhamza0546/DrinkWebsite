@@ -2,6 +2,7 @@ const INITIAL_STATE = {
   user: null,
   forgotPassword: null,
   updatePassword: null,
+  register: null,
 };
 export default function authReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -20,6 +21,11 @@ export default function authReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         updatePassword: action.payload,
+      };
+    case "REGISTER":
+      return {
+        ...state,
+        register: action.payload,
       };
     default:
       return state;

@@ -1,6 +1,5 @@
-import { Grid , useMediaQuery , useTheme } from "@mui/material";
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import React, { useState } from "react";
-
 import Explore from "../../components/Home/Explore";
 import Intro from "../../components/Home/Intro";
 import Reservation from "../../components/Home/Reservation";
@@ -9,45 +8,41 @@ import Wallet from "../../components/Home/Wallet";
 import { makeStyles } from "@mui/styles";
 import assets from "../../assets/assets";
 
-
-
 const Homepage = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [active, setActive] = useState(1);
   const isXS = useMediaQuery(theme.breakpoints.down("sm"));
 
-
-  console.log("active, setActiv", active)
-  console.log("www", isXS)
-
   return (
     <Grid container>
-      <Grid 
-      style={{
-        backgroundImage: isXS ? null : active === 1 ? `url(${assets.headerImage})` : `url(${assets.headerImage1})`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        display: "block",
-        height: "auto",
-        width: "100%",
-      }}
-      className={classes.containers}
+      <Grid
+        style={{
+          backgroundImage: isXS
+            ? null
+            : active === 1
+            ? `url(${assets.headerImage})`
+            : `url(${assets.headerImage1})`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          display: "block",
+          height: "auto",
+          width: "100%",
+        }}
+        className={classes.containers}
       >
-        <Intro active={active}
-          setActive={setActive} />
+        <Intro active={active} setActive={setActive} />
       </Grid>
 
-    
       {active === 1 && <Slider />}
       {active === 1 && <Wallet />}
       {active === 2 && <Wallet />}
       {active === 2 && <Slider />}
 
       {/* <Reservation /> */}
-      {!isXS && active === 2 && <Reservation /> }
-        <Explore />
+      {!isXS && active === 2 && <Reservation />}
+      <Explore />
     </Grid>
   );
 };
@@ -79,8 +74,8 @@ const useStyles = makeStyles((theme) => ({
       // display: "block",
     },
   },
-  back:{},
-  top:{
-    marginTop:"10px"
-  }
+  back: {},
+  top: {
+    marginTop: "10px",
+  },
 }));

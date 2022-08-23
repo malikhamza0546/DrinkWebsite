@@ -48,8 +48,6 @@ const Racket = () => {
     { time: "12:00am" },
   ];
 
-  console.log("tab", time);
-
   return (
     <Grid
       container

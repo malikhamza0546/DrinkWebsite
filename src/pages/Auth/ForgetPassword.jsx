@@ -34,15 +34,10 @@ const ForgetPassword = ({
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log("data of forgot password", data);
-
     passwordForgetThunk(data, navigate);
-    console.log("dataa final", data);
   };
 
   const onSubmitChange = (dataChange) => {
-    console.log("data of forgot password", dataChange);
-
     updatePasswordThunk(dataChange, navigate);
   };
 
@@ -163,7 +158,7 @@ const ForgetPassword = ({
           </form>
         )}
         <div className="flex justify-center mt-6 signup-link">
-          <Link to="/signup">
+          <Link to="/register-customer">
             <span>
               Need to create an account{" "}
               <span className="text-primary">Sign Up</span>
@@ -177,7 +172,6 @@ const ForgetPassword = ({
 
 const mapStateToProps = (state) => {
   let { forgotPassword } = state.Auth;
-  console.log("state from comp", forgotPassword);
   return {
     forgotPassword,
   };

@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Slider from "react-slick";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import ProductCard from "../Product/ProductCard";
 import assets from "../../assets/assets";
 import { CARDS } from "../../services/slider";
+import { getEstablishmentThunk } from "../../Redux/Thunk/Explore";
+import { connect } from "react-redux";
 
-const Products = () => {
+const Products = ({ getEstablishmentThunk }) => {
   const theme = useTheme();
   const isMD = useMediaQuery(theme.breakpoints.only("md"));
   const isSM = useMediaQuery(theme.breakpoints.only("sm"));
@@ -21,8 +23,20 @@ const Products = () => {
     autoplay: true,
     autoplaySpeed: 2000,
   };
+
+  useEffect(() => {
+    console.log("commercial componoent api");
+    getEstablishmentThunk();
+  }, []);
   return (
-    <Grid item xs={12} sm={12} md={12} lg={12} className="pt-10 md:pb-80 pb-24 ">
+    <Grid
+      item
+      xs={12}
+      sm={12}
+      md={12}
+      lg={12}
+      className="pt-10 md:pb-80 pb-24 "
+    >
       <Slider {...settings}>
         {CARDS.map(({ name, pic }, key) => {
           return (
@@ -38,4 +52,14 @@ const Products = () => {
   );
 };
 
-export default Products;
+const mapStateToProps = (state) => {
+  console.log("full state", state);
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getEstablishmentThunk: () => dispatch(getEstablishmentThunk()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

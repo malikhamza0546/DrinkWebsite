@@ -27,12 +27,9 @@ const Signup = ({ loginUser }) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log("data component", data);
     data["isAdmin"] = "false";
     data["isWaiter"] = "false";
-
     loginUser(data, navigate);
-    console.log("dataa final", data);
   };
 
   return (
@@ -98,7 +95,7 @@ const Signup = ({ loginUser }) => {
             <Grid item xs={10} md={6}>
               <Input
                 label={"password"}
-                type="text"
+                type="password"
                 placeholder={"Password"}
                 name="password"
                 validation={{ required: true }}
@@ -159,13 +156,11 @@ const Signup = ({ loginUser }) => {
 
 const mapStateToProps = (state) => {
   // let { user } = state.authReducer;
-  console.log("state", state);
   return {
     // user,
   };
 };
 const mapDispatchToProps = (dispatch) => {
-  console.log("adfa");
   return {
     loginUser: (data, navigate) => dispatch(loginUser(data, navigate)),
   };
