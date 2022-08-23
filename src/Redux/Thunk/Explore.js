@@ -5,7 +5,9 @@ import Notification from "../../components/Notification";
 export const getEstablishmentThunk = () => {
   return (dispatch) => {
     axios
-      .get(`https://pacific-brushlands-27461.herokuapp.com/v1/establishment`)
+      .get(
+        `https://pacific-brushlands-27461.herokuapp.com/v1/establishment/web`
+      )
       .then((res) => {
         console.log(" establishment response", res);
         dispatch(getEstablishment(res.data));

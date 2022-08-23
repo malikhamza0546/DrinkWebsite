@@ -57,7 +57,6 @@ const ProductCard = ({ name, pic }) => {
       md={12}
       lg={12}
       style={{ background: "white" }}
-      onClick={() => navigate("/racket")}
     >
       <div className="relative">
         {isXS && location.pathname !== "/explore" && (
@@ -74,7 +73,12 @@ const ProductCard = ({ name, pic }) => {
           xs={12}
           className={` overflow-hidden  sm:h- ${classes.imgWrapper}`}
         >
-          <img alt="" src={pic} className="w-full h-full " />
+          <img
+            alt=""
+            src={pic}
+            className="w-full h-full "
+            onClick={() => navigate("/racket")}
+          />
         </Grid>
       </div>
       <Grid
@@ -82,7 +86,10 @@ const ProductCard = ({ name, pic }) => {
         item
         xs={12}
       >
-        <p className="w-11/12 font-nunito sm:text-lg text-sm font-bold">
+        <p
+          className="w-11/12 font-nunito sm:text-lg text-sm font-bold"
+          onClick={() => navigate("/racket")}
+        >
           {name}
         </p>
         {isXS && location.pathname !== "/explore" ? (
@@ -100,6 +107,7 @@ const ProductCard = ({ name, pic }) => {
         className={`${classes.detail} flex justify-start gap-1 items-center px-2`}
         item
         xs={12}
+        onClick={() => navigate("/racket")}
       >
         <GrLocation />
         <p className="font-nunito text-xs">2 miles</p>
