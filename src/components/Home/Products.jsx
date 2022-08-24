@@ -56,6 +56,8 @@ const Products = ({ getEstablishmentThunk }) => {
 									pic={obj?.image}
 									Location={obj?.address?.city}
 									ID={obj?.id}
+									address={obj?.address}
+									phoneNumber={obj?.phoneNumber}
 								/>
 							</div>
 						</div>

@@ -34,6 +34,7 @@ export const postFavourite = async (establishmentID) => {
 }
 
 export const getProducts = async (establishmentID, category) => {
+	console.log(establishmentID, category, " establishmentID, category,")
 	const token = localStorage.getItem("access")
 	console.log("token in Post Favourite", token)
 	return new Promise((resolve, reject) => {
