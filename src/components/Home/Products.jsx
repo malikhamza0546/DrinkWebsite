@@ -1,11 +1,7 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import Slider from "react-slick"
 import { Grid, useMediaQuery, useTheme } from "@mui/material"
 import ProductCard from "../Product/ProductCard"
-import assets from "../../assets/assets"
-import { CARDS } from "../../services/slider"
-import { getEstablishmentThunk } from "../../Redux/Thunk/Explore"
-import { connect } from "react-redux"
 import { getEstablishment } from "../../services/API"
 
 const Products = ({ getEstablishmentThunk }) => {
@@ -13,6 +9,7 @@ const Products = ({ getEstablishmentThunk }) => {
 	const isMD = useMediaQuery(theme.breakpoints.only("md"))
 	const isSM = useMediaQuery(theme.breakpoints.only("sm"))
 	const isXS = useMediaQuery(theme.breakpoints.down("sm"))
+	const [cards, setCards] = useState([])
 
 	const settings = {
 		dots: false,
@@ -27,7 +24,7 @@ const Products = ({ getEstablishmentThunk }) => {
 
 	const EstablishmentGetter = async () => {
 		const response = await getEstablishment()
-		console.log(response, "Reposne Hamza")
+		setCards(response?.data)
 	}
 
 	useEffect(() => {
@@ -45,11 +42,15 @@ const Products = ({ getEstablishmentThunk }) => {
 			className="pt-10 md:pb-80 pb-24 "
 		>
 			<Slider {...settings}>
-				{CARDS.map(({ name, pic }, key) => {
+				{cards.map((obj, key) => {
 					return (
 						<div key={key} style={{ padding: 10 }}>
 							<div style={{ padding: 10 }}>
-								<ProductCard name={name} pic={pic} />
+								<ProductCard
+									name={obj?.name}
+									pic={obj?.image}
+									Location={obj?.address?.city}
+								/>
 							</div>
 						</div>
 					)
@@ -59,14 +60,5 @@ const Products = ({ getEstablishmentThunk }) => {
 	)
 }
 
-const mapStateToProps = (state) => {
-	console.log("full state", state)
-	return {}
-}
+export default Products;
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		getEstablishmentThunk: () => dispatch(getEstablishmentThunk()),
-	}
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Products)

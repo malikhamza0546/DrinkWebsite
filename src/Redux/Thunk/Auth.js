@@ -7,6 +7,7 @@ import {
 } from "../Actions/Auth";
 import Notification from "../../components/Notification";
 
+
 export const loginUser = (data, navigate) => {
   return (dispatch) => {
     dispatch({ type: "START_LOADER", payload: "Logging Up User..." });
