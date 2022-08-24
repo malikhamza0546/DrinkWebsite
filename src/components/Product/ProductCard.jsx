@@ -5,7 +5,7 @@ import { GrLocation } from "react-icons/gr"
 import { useNavigate, useLocation } from "react-router-dom"
 import assets from "../../assets/assets"
 import { Grid, Button, useMediaQuery, useTheme } from "@mui/material"
-
+import { postFavourite } from "../../services/API"
 const styles = makeStyles((theme) => ({
 	cardContainer: {
 		height: 290,
@@ -39,7 +39,7 @@ const styles = makeStyles((theme) => ({
 	},
 }))
 
-const ProductCard = ({ name, pic, Location }) => {
+const ProductCard = ({ name, pic, Location, ID }) => {
 	const [heart, setHeart] = useState(false)
 	const classes = styles()
 	const navigate = useNavigate()
@@ -48,6 +48,18 @@ const ProductCard = ({ name, pic, Location }) => {
 
 	const isXS = useMediaQuery(theme.breakpoints.down("sm"))
 
+	const postFavourites = async (EstablishmentID) => {
+		console.log("EstablishmentID", EstablishmentID)
+		try {
+			const response = await postFavourite(EstablishmentID)
+			console.log("Response postFavourites", response)
+			setHeart(!heart)
+		} catch (e) {
+			console.log(e, " else Body Error")
+		}
+	}
+
+	
 	return (
 		<Grid
 			className={`${classes.mobileCard} rounded-3xl overflow-hidden h-44 sm:h- ${classes.cardContainer}`}
@@ -77,7 +89,11 @@ const ProductCard = ({ name, pic, Location }) => {
 						alt=""
 						src={pic}
 						className="w-full h-full "
-						onClick={() => navigate("/racket")}
+						onClick={() =>
+							navigate("/racket", {
+								EstablishmentID: ID,
+							})
+						}
 					/>
 				</Grid>
 			</div>
@@ -95,11 +111,18 @@ const ProductCard = ({ name, pic, Location }) => {
 				{isXS && location.pathname !== "/explore" ? (
 					""
 				) : !heart ? (
-					<AiOutlineHeart className="text-xl" onClick={() => setHeart(true)} />
+					<AiOutlineHeart
+						className="text-xl"
+						onClick={() => {
+							postFavourites(ID)
+						}}
+					/>
 				) : (
 					<AiFillHeart
 						className="text-primary text-xl"
-						onClick={() => setHeart(false)}
+						onClick={() => {
+							postFavourites(ID)
+						}}
 					/>
 				)}
 			</Grid>

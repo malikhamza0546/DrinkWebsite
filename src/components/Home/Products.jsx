@@ -18,13 +18,17 @@ const Products = ({ getEstablishmentThunk }) => {
 		speed: 500,
 		slidesToShow: isXS ? 2 : isSM ? 2 : isMD ? 3 : 4,
 		slidesToScroll: isXS ? 2 : isSM ? 2 : isMD ? 3 : 4,
-		autoplay: true,
+		autoplay: false,
 		autoplaySpeed: 2000,
 	}
 
 	const EstablishmentGetter = async () => {
-		const response = await getEstablishment()
-		setCards(response?.data)
+		try {
+			const response = await getEstablishment()
+			setCards(response?.data)
+		} catch (e) {
+			console.log(e, " else Body Error")
+		}
 	}
 
 	useEffect(() => {
@@ -43,6 +47,7 @@ const Products = ({ getEstablishmentThunk }) => {
 		>
 			<Slider {...settings}>
 				{cards.map((obj, key) => {
+					console.log("explore Data", obj)
 					return (
 						<div key={key} style={{ padding: 10 }}>
 							<div style={{ padding: 10 }}>
@@ -50,6 +55,7 @@ const Products = ({ getEstablishmentThunk }) => {
 									name={obj?.name}
 									pic={obj?.image}
 									Location={obj?.address?.city}
+									ID={obj?.id}
 								/>
 							</div>
 						</div>
@@ -60,5 +66,4 @@ const Products = ({ getEstablishmentThunk }) => {
 	)
 }
 
-export default Products;
-
+export default Products
