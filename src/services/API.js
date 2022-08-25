@@ -34,12 +34,13 @@ export const postFavourite = async (establishmentID) => {
 };
 
 export const getProducts = async (establishmentID, category) => {
+  console.log(establishmentID, category, " establishmentID, category,");
   const token = localStorage.getItem("access");
   console.log("token in Post Favourite", token);
   return new Promise((resolve, reject) => {
     axios({
       method: "get",
-      url: `${REACT_APP_API_URL}/establishment/Products/${establishmentID}`,
+      url: `${REACT_APP_API_URL}/establishment/Products/${establishmentID}/${category}`,
       headers: {
         "x-access-token": token,
         Authorization: `Bearer ${token}`,

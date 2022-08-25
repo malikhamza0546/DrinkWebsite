@@ -5,12 +5,18 @@ import OrderCard from "../../components/OrderCard/OrderCard";
 import { useLocation } from "react-router-dom";
 
 const RacketPage = (props) => {
-  console.log("route.params in Racket Page", props);
   const location = useLocation();
-  console.log("State in Racket page..", location.state);
+  const EstablishmentID = location?.state;
+  const { address } = location?.state;
+  const { phoneNumber } = location?.state;
+  console.log("phoneNumber", phoneNumber);
   return (
     <Grid container>
-      <Racket />
+      <Racket
+        EstablishmentID={EstablishmentID}
+        address={address}
+        phoneNumber={phoneNumber}
+      />
     </Grid>
   );
 };

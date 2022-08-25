@@ -23,8 +23,8 @@ import { useEffect } from "react";
 const minDate = new Date("2020-01-01T00:00:00.000");
 const maxDate = new Date("2034-01-01T00:00:00.000");
 
-const Racket = ({ navigation, props }) => {
-  console.log("route.params", props);
+const Racket = ({ EstablishmentID, phoneNumber, address }) => {
+  const EstablishID = EstablishmentID?.EstablishmentID;
   const classes = useStyles();
   const [active, setActive] = useState(true);
   const theme = useTheme();
@@ -38,7 +38,8 @@ const Racket = ({ navigation, props }) => {
   const [confirm, setConfirm] = useState(true);
 
   const [date, setDate] = useState(new Date());
-
+  const [data, setAPIData] = useState([]);
+  console.log("address", address && address);
   const time = [
     { time: "12:30pm" },
     { time: "3:00pm" },
@@ -52,9 +53,10 @@ const Racket = ({ navigation, props }) => {
   ];
   const ProductGetter = async () => {
     try {
-      const response = await getProducts();
+      const response = await getProducts(EstablishID, "cocktail");
       //
-      console.log("response", Response);
+      console.log("response", response);
+      setAPIData(response?.data);
     } catch (e) {
       console.log(e, " else Body Error");
     }
@@ -83,9 +85,9 @@ const Racket = ({ navigation, props }) => {
           <div className={`flex  ${classes.address}`}>
             <p className={classes.detail}>
               {" "}
-              150 NW 24 Street | Miami, FL 33127{" "}
+              {address.streetName} | {address.city} {address.state}
             </p>
-            <p className={`ml-8 ${classes.detail}`}>(786) 637-2987</p>
+            <p className={`ml-8 ${classes.detail}`}>{phoneNumber} </p>
           </div>
         </Grid>
         <Grid
@@ -199,80 +201,48 @@ const Racket = ({ navigation, props }) => {
                 </div>
               ))}
             </Grid>
+            {data.map((item, i) => (
+              <Grid
+                xs={24}
+                lg={24}
+                md={24}
+                className={`px-8 sm:px-0 ${classes.top}`}
+              >
+                <p className={`mt-8  ${classes.appetizer}`}>{item?.name}</p>
+                <Grid className="flex flex-wrap sm:gap-4 gap-0 ">
+                  {item?.products?.map((obj) => (
+                    <div
+                      className={`mb-6  ${classes.appetizerOuter}`}
+                      onClick={() => navigate("/cart")}
+                    >
+                      <div className="flex sm:p-4 sm:ml-2 ml-0 sm:pl-0 p-4">
+                        <img src={obj?.image} className={classes.InnerImage} />
 
-            <Grid
-              xs={24}
-              lg={24}
-              md={24}
-              className={`px-8 sm:px-0 ${classes.top}`}
-            >
-              <p className={`mt-8  ${classes.appetizer}`}>Appetizer</p>
-              <Grid className="flex flex-wrap sm:gap-4 gap-0 ">
-                {[1, 2, 3, 4].map(() => (
-                  <div
-                    className={`mb-6  ${classes.appetizerOuter}`}
-                    onClick={() => navigate("/cart")}
-                  >
-                    <div className="flex sm:p-4 sm:ml-2 ml-0 sm:pl-0 p-4">
-                      <img src={appetizer} />
-
-                      <div className="w-full">
-                        <div className="flex flex-row justify-between w-full ">
+                        <div className="w-full">
+                          <div className="flex flex-row justify-between w-full ">
+                            <p
+                              className={`text-base font-bold text-black ml-3 mr-16 ${classes.font}`}
+                            >
+                              {obj?.name}
+                            </p>
+                            <p
+                              className={`text-base font-bold text-black ${classes.font}`}
+                            >
+                              {obj?.price}
+                            </p>
+                          </div>
                           <p
-                            className={`text-base font-bold text-black ml-3 mr-16 ${classes.font}`}
+                            className={`text-xs mt-3 font-normal text-black ml-3 ${classes.font}`}
                           >
-                            Truffle Butter Bread
-                          </p>
-                          <p
-                            className={`text-base font-bold text-black ${classes.font}`}
-                          >
-                            $12
-                          </p>
-                        </div>
-                        <p
-                          className={`text-xs mt-3 font-normal text-black ml-3 ${classes.font}`}
-                        >
-                          ahi tuna, sriracha aioli, crispy brioche
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </Grid>
-            </Grid>
-
-            <Grid className={`px-8 sm:px-0 ${classes.top}`}>
-              <p className={`mt-8 ${classes.appetizer}`}>Entrees</p>
-              <Grid className="flex flex-wrap sm:gap-4 gap-0 ">
-                {[1, 2, 3, 4].map(() => (
-                  <div className={`mb-6  ${classes.appetizerOuter}`}>
-                    <div className="flex sm:p-4 pl-2 sm:ml-2 ml-0 sm:pl-0 p-0">
-                      <img src={appetizer} />
-
-                      <div className="w-full">
-                        <div className="flex flex-row justify-between w-full">
-                          <p
-                            className={`text-base font-bold text-black ml-3 mr-16 ${classes.font}`}
-                          >
-                            Truffle Butter Bread
-                          </p>
-                          <p
-                            className={`text-base font-bold text-black ${classes.font}`}
-                          >
-                            $12
+                            {obj?.description}
                           </p>
                         </div>
-                        <p
-                          className={`text-xs mt-3 font-normal text-black ml-3 ${classes.font}`}
-                        >
-                          house-made hummus with pita brea
-                        </p>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </Grid>
               </Grid>
-            </Grid>
+            ))}
           </>
         )}
 
@@ -560,5 +530,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     marginLeft: "10px",
     marginRight: "10px",
+  },
+  InnerImage: {
+    height: 60,
+    width: 60,
   },
 }));

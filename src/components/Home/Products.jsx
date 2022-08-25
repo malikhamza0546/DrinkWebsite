@@ -47,7 +47,6 @@ const Products = ({ getEstablishmentThunk }) => {
     >
       <Slider {...settings}>
         {cards.map((obj, key) => {
-          console.log("explore Data", obj);
           return (
             <div key={key} style={{ padding: 10 }}>
               <div style={{ padding: 10 }}>
@@ -56,6 +55,8 @@ const Products = ({ getEstablishmentThunk }) => {
                   pic={obj?.image}
                   Location={obj?.address?.city}
                   ID={obj?.id}
+                  address={obj?.address}
+                  phoneNumber={obj?.phoneNumber}
                 />
               </div>
             </div>

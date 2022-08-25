@@ -6,6 +6,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import assets from "../../assets/assets";
 import { Grid, Button, useMediaQuery, useTheme } from "@mui/material";
 import { postFavourite } from "../../services/API";
+import { useDispatch } from "react-redux";
+import { EstablishmentID } from "../../Redux/Actions/EstablishmentID";
 const styles = makeStyles((theme) => ({
   cardContainer: {
     height: 290,
@@ -39,13 +41,16 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-const ProductCard = ({ name, pic, Location, ID }) => {
+const ProductCard = ({ name, pic, Location, ID, address, phoneNumber }) => {
   const [heart, setHeart] = useState(false);
   const classes = styles();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const theme = useTheme();
   const location = useLocation();
-
+  dispatch(() => {
+    EstablishmentID(ID);
+  });
   const isXS = useMediaQuery(theme.breakpoints.down("sm"));
 
   const postFavourites = async (EstablishmentID) => {
@@ -58,9 +63,11 @@ const ProductCard = ({ name, pic, Location, ID }) => {
       console.log(e, " else Body Error");
     }
   };
-
-  console.log("iddd", ID);
-
+  //    onClick={() =>
+  // 							navigate("/racket", {
+  // 								EstablishmentID: ID,
+  // 							})
+  // 						}
   return (
     <Grid
       className={`${classes.mobileCard} rounded-3xl overflow-hidden h-44 sm:h- ${classes.cardContainer}`}
@@ -91,7 +98,13 @@ const ProductCard = ({ name, pic, Location, ID }) => {
             src={pic}
             className="w-full h-full "
             onClick={() =>
-              navigate("/racket", { state: { EstablishmentID: ID } })
+              navigate("/racket", {
+                state: {
+                  EstablishmentID: ID,
+                  address: address,
+                  phoneNumber: phoneNumber,
+                },
+              })
             }
           />
         </Grid>
