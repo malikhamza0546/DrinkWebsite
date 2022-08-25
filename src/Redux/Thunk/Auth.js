@@ -16,13 +16,12 @@ export const loginUser = (data, navigate) => {
         data
       )
       .then((res) => {
-        console.log(" login response from thunk", res);
-        console.log(" login response from thunk", res.data.tokens.access.token);
-
         dispatch(
-          login(res.data),
-          localStorage.setItem("token", res.data.token)
+          login(res.data)
+          // localStorage.setItem("refresh", res?.data?.tokens?.refresh?.token)
         );
+        localStorage.setItem("access", res?.data?.tokens?.access?.token);
+
         navigate("/");
         dispatch({ type: "STOP_LOADER" });
         Notification("success", "Login Successfull");
@@ -98,10 +97,10 @@ export const registerThunk = (data, navigate) => {
         Notification("success", "User Registered Successfully");
       })
       .catch((error) => {
-        console.log(" errorr response", error);
-        dispatch(register(error));
+        console.log(" errorr response", error.message);
+        dispatch(register("error"));
         dispatch({ type: "STOP_LOADER" });
-        Notification("error", error.response.data.message);
+        Notification("error", "Unable to Register User");
       });
   };
 };

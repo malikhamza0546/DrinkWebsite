@@ -7,7 +7,7 @@ import colors from "../../assets/colors";
 import { RACKET } from "../../services/slider";
 import assets from "../../assets/assets";
 import appetizer from "../../assets/images/appetizer.png";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -15,13 +15,16 @@ import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker";
 import { MonthPicker } from "@mui/x-date-pickers/MonthPicker";
 import { YearPicker } from "@mui/x-date-pickers/YearPicker";
 import ButtonOne from "../../components/Forms/Button/AuthButton";
-
+import { getProducts } from "../../services/API";
+import { useParams } from "react-router";
 import { FaUser } from "react-icons/fa";
+import { useEffect } from "react";
 
 const minDate = new Date("2020-01-01T00:00:00.000");
 const maxDate = new Date("2034-01-01T00:00:00.000");
 
-const Racket = () => {
+const Racket = ({ navigation, props }) => {
+  console.log("route.params", props);
   const classes = useStyles();
   const [active, setActive] = useState(true);
   const theme = useTheme();
@@ -47,7 +50,21 @@ const Racket = () => {
     { time: "11:30pm" },
     { time: "12:00am" },
   ];
+  const ProductGetter = async () => {
+    try {
+      const response = await getProducts();
+      //
+      console.log("response", Response);
+    } catch (e) {
+      console.log(e, " else Body Error");
+    }
+  };
 
+  useEffect(() => {
+    console.log("commercial componoent api");
+    // getEstablishmentThunk();
+    ProductGetter();
+  }, []);
   return (
     <Grid
       container
