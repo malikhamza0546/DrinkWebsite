@@ -72,3 +72,93 @@ export const getCartData = async (productID) => {
 			})
 	})
 }
+
+export const getStripeToken = async (cardDetails) => {
+	const token = localStorage.getItem("access")
+	console.log("token in Post Favourite", token)
+	return new Promise((resolve, reject) => {
+		axios({
+			method: "post",
+			url: `${REACT_APP_API_URL}/users/payment/get-token`,
+			headers: {
+				"x-access-token": token,
+				Authorization: `Bearer ${token}`,
+			},
+			data: cardDetails,
+		})
+			.then((res) => resolve(res))
+			.catch((err) => {
+				reject(err)
+			})
+	})
+}
+
+export const addVicaCardToCustm = async (cardDetails) => {
+	const token = localStorage.getItem("access")
+	console.log("token in Post Favourite", token)
+	return new Promise((resolve, reject) => {
+		axios({
+			method: "post",
+			url: `${REACT_APP_API_URL}/users/payment/stripe`,
+			headers: {
+				"x-access-token": token,
+				Authorization: `Bearer ${token}`,
+			},
+			data: cardDetails,
+		})
+			.then((res) => resolve(res))
+			.catch((err) => {
+				reject(err)
+			})
+	})
+}
+
+export const cardDetailsShow = async () => {
+	const token = localStorage.getItem("access")
+	console.log("token in cardDetailsShow", token)
+	return new Promise((resolve, reject) => {
+		axios({
+			method: "get",
+			url: `${REACT_APP_API_URL}/users/payment`,
+			headers: {
+				"x-access-token": token,
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((res) => resolve(res))
+			.catch((err) => {
+				reject(err)
+			})
+	})
+}
+
+export const getExploreCardData = async (maxNum, PageNumber, catagory) => {
+	const token = localStorage.getItem("access")
+	console.log("catagory getExploreCardData", catagory)
+	return new Promise((resolve, reject) => {
+		axios({
+			method: "get",
+			url: `${REACT_APP_API_URL}/establishment/web?limit=${
+				maxNum || null
+			}&page=${PageNumber || null}&search=${catagory || null}`,
+		})
+			.then((res) => resolve(res))
+			.catch((err) => {
+				reject(err)
+			})
+	})
+}
+
+export const postSocailAccount = async (Data) => {
+	return new Promise((resolve, reject) => {
+		axios({
+			method: "post",
+			url: `${REACT_APP_API_URL}/auth/social-media-auth/customer`,
+			data: Data,
+		})
+			.then((res) => resolve(res))
+			.catch((err) => {
+				reject(err)
+			})
+	})
+}
