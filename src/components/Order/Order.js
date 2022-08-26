@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import assets from "../../assets/assets";
 import TextField from "../../components/Forms/Input/TextField";
 import Button from "../../components/Forms/Button/AuthButton";
-// import "./signup.css";
+import "./order.css";
 import Google from "../../components/Forms/Button/Google";
 import Apple from "../../components/Forms/Button/Apple";
 import Facebook from "../../components/Forms/Button/Facebook";
@@ -12,6 +12,7 @@ import { makeStyles } from "@mui/styles";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import { borderRadius } from "@mui/system";
+import { FaGreaterThan } from "react-icons/fa";
 
 const data = [
   { name: "Rice" },
@@ -45,18 +46,24 @@ const Cart = () => {
             <div
               className={`${"active"} text-xl flex justify-center items-center`}
             >
-              Appetizers Copens
+              Cart
             </div>
           </div>
         )}
 
-        <Grid className="p-6">
-          <div className={`${classes.title} mb-2`}>
-            Australian Wagyu Beef Sliders
-          </div>
-          <div>
-            Sesame brioche bun, au wagyu patties, cheddar cheese, slaw &
-            sriracha aioli
+        <Grid
+          className={`${classes.card} bg-[#FF9901] sm:mx-16 mx-0 py-4 rounded-2xl mt-8`}
+        >
+          <div className="  sm:px-10 px-4">
+            <div className="bg-[#ffff] w-full h-12 rounded-md">
+              <div className="bg-[#F17]">
+                <img src={assets.QrCode} />
+                <div>hello</div>
+              </div>
+              <div>
+                <FaGreaterThan />
+              </div>
+            </div>
           </div>
         </Grid>
 

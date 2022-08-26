@@ -24,6 +24,8 @@ import Notification from "./components/Notification";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
+import Order from "./components/Order/Order";
+
 import { Provider } from "react-redux";
 import { store } from "./Redux/store";
 
@@ -59,6 +61,7 @@ function App() {
           <Route path="/wallet" element={<WalletPage />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/signup" element={<RegisterCustomer />} />
+          <Route path="/order" element={<Order />} />
         </Routes>
         <Footer />
       </Grid>
