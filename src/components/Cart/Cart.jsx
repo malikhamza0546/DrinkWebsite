@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import assets from "../../assets/assets";
 import TextField from "../../components/Forms/Input/TextField";
@@ -12,7 +12,7 @@ import { makeStyles } from "@mui/styles";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import { borderRadius } from "@mui/system";
-
+import { getCartData } from "../../services/API";
 const data = [
   { name: "Rice" },
   { name: "Beans" },
@@ -24,12 +24,28 @@ const data = [
   { name: "No Ice" },
 ];
 
-const Cart = () => {
+const Cart = ({ ID }) => {
   const classes = useStyles();
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const theme = useTheme();
   const isXS = useMediaQuery(theme.breakpoints.down("sm"));
+  const [data, setAPIData] = useState([]);
+  const [counter, setCounter] = useState(0);
+  const cartValueGetter = async () => {
+    try {
+      console.log("ID in cartValueGetter", ID);
+      const response = await getCartData(ID);
+      setAPIData(response?.data);
+      console.log("response in cartValueGetter", response?.data);
+    } catch (e) {
+      console.log(" error in cartValueGetter", e);
+    }
+  };
 
+  useEffect(() => {
+    // getEstablishmentThunk();
+    cartValueGetter();
+  }, []);
   return (
     <div
       className={` ${classes.outerWrapper} w-screen h-screen   overflow-x-hidden `}
@@ -74,9 +90,23 @@ const Cart = () => {
           ))}
         </Grid>
         <div className="flex align-center justify-center py-3">
-          <div className={classes.removeCart}>-</div>
-          <div className={classes.number}>0</div>
-          <div className={classes.addCart}>+</div>
+          <div
+            className={classes.removeCart}
+            onClick={() => {
+              if (counter > 0) setCounter(counter - 1);
+            }}
+          >
+            -
+          </div>
+          <div className={classes.number}>{counter}</div>
+          <div
+            className={classes.addCart}
+            onClick={() => {
+              setCounter(counter + 1);
+            }}
+          >
+            +
+          </div>
         </div>
         <Grid container className="my-8">
           <Grid item xs={1} md={3}></Grid>
