@@ -1,12 +1,19 @@
 import { ExpandMore } from "@mui/icons-material";
 import React, { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Icon from "../../assets/images/Icon.png"
+import Icon from "../../assets/images/Icon.png";
+import { useSelector } from "react-redux";
+
+import Badge from "@mui/material/Badge";
 
 const NavbarMenu = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("location: ", location);
+
+  const token = localStorage.getItem("access");
+
+  const cart = useSelector((state) => state.Cart);
+  console.log("cart", cart.quantity);
 
   const getActiveClass = useCallback(
     (routeToMatch) => {
@@ -65,10 +72,14 @@ const NavbarMenu = () => {
       >
         FAQ
       </span>
-      <span 
-      // onClick={() => navigate("/faq")}
-      >
-        <img src={Icon} className="imageClass"/>
+
+      {/* // onClick={() => navigate("/faq")} */}
+      <span className="flex" onClick={() => navigate("/order")}>
+        {/* <MailIcon color="action" /> */}
+        <img src={Icon} className="imageClass" />
+        <sup className="h-5 w-5 rounded-full bg-[#FF9901] flex items-center justify-center">
+          <p className=" text-sm font-bold">{cart.quantity}</p>
+        </sup>
       </span>
     </div>
   );

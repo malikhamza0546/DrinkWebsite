@@ -97,34 +97,34 @@ export const mobile = [
 ]
 
 export const RACKET = [
-  {
-    name: "Food Menu",
-    pic: assets.food,
-    picwhite: assets.food_white,
-
-  },
-  {
-    name: "Drink Menu",
-    pic: assets.drink,
-    picwhite: assets.drink_white,
-
-  },
-  {
-    name: "Desserts",
-    pic: assets.dessert,
-    picwhite: assets.dessert_white,
-
-  },
-  {
-    name: "Bottles",
-    pic: assets.bottles,
-    picwhite: assets.bottles_white,
-
-  },
-  {
-    name: "Deals",
-    pic: assets.Deals,
-    picwhite: assets.Deals_white,
-
-  },
+	{
+		name: "Food Menu",
+		pic: assets.food,
+		picwhite: assets.food_white,
+		APIProductName: "food",
+	},
+	{
+		name: "Drink Menu",
+		pic: assets.drink,
+		picwhite: assets.drink_white,
+		APIProductName: "cocktail",
+	},
+	{
+		name: "Desserts",
+		pic: assets.dessert,
+		picwhite: assets.dessert_white,
+		APIProductName: "dessert",
+	},
+	{
+		name: "Bottles",
+		pic: assets.bottles,
+		picwhite: assets.bottles_white,
+		APIProductName: "bottleDrink",
+	},
+	{
+		name: "Deals",
+		pic: assets.Deals,
+		picwhite: assets.Deals_white,
+		APIProductName: "happy-hour",
+	},
 ]

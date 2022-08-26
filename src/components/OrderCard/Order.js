@@ -76,7 +76,7 @@ const Order = () => {
       spacing={4}
       className={`mt-4  md:px-36 py-2  flex justify-center ${classes.card}`}
     >
-      {[1, 2, 3, 4, 5, 6].map((val, index) => {
+      {[1, 2].map((val, index) => {
         return (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <OrderCard />

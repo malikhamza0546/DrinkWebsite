@@ -21,6 +21,7 @@ const DrawerComp = () => {
   const classes = useStyles();
   const history = useNavigate();
   const theme = useTheme();
+  const token = localStorage.getItem("access");
 
   return (
     <>
@@ -69,39 +70,60 @@ const DrawerComp = () => {
               setOpenDrawer(false);
             }}
           >
+            {" "}
             <ListItemIcon>
-              <img src={assets.orderIcon} className="ml-4" />
+              <img src={assets.explore} className="ml-4" />
             </ListItemIcon>
-            <ListItemText className="font-nunito font-semibold text-base ">
-              Orders
+            <ListItemText className="font-nunito font-semibold text-base text-black">
+              Explore
             </ListItemText>
           </ListItemButton>
-          <ListItemButton
-            onClick={() => {
-              history("/services");
-              setOpenDrawer(false);
-            }}
-          >
-            <ListItemIcon>
-              <img src={assets.reservationIcon} className="ml-4" />
-            </ListItemIcon>
-            <ListItemText className="font-nunito font-semibold text-base ">
-              Reservation
-            </ListItemText>
-          </ListItemButton>
-          <ListItemButton
-            onClick={() => {
-              history("/signup");
-              setOpenDrawer(false);
-            }}
-          >
-            <ListItemIcon>
-              <img src={assets.walletIcon} className="ml-4" />
-            </ListItemIcon>
-            <ListItemText className="font-nunito font-semibold text-base ">
-              Wallet
-            </ListItemText>
-          </ListItemButton>
+
+          {token !== null && (
+            <>
+              <ListItemButton
+                onClick={() => {
+                  history("/explore");
+                  setOpenDrawer(false);
+                }}
+              >
+                <ListItemIcon>
+                  <img src={assets.orderIcon} className="ml-4" />
+                </ListItemIcon>
+                <ListItemText className="font-nunito font-semibold text-base ">
+                  Orders
+                </ListItemText>
+              </ListItemButton>
+
+              <ListItemButton
+                onClick={() => {
+                  history("/services");
+                  setOpenDrawer(false);
+                }}
+              >
+                <ListItemIcon>
+                  <img src={assets.reservationIcon} className="ml-4" />
+                </ListItemIcon>
+                <ListItemText className="font-nunito font-semibold text-base ">
+                  Reservation
+                </ListItemText>
+              </ListItemButton>
+
+              <ListItemButton
+                onClick={() => {
+                  history("/signup");
+                  setOpenDrawer(false);
+                }}
+              >
+                <ListItemIcon>
+                  <img src={assets.walletIcon} className="ml-4" />
+                </ListItemIcon>
+                <ListItemText className="font-nunito font-semibold text-base ">
+                  Wallet
+                </ListItemText>
+              </ListItemButton>
+            </>
+          )}
 
           <ListItemButton
             onClick={() => {
@@ -116,23 +138,40 @@ const DrawerComp = () => {
               Settings
             </ListItemText>
           </ListItemButton>
-          <ListItemButton
-            onClick={() => {
-              history("/signup");
-              setOpenDrawer(false);
-            }}
-          >
-            <ListItemIcon>
-              <div className="ml-4 pt-32" />
-            </ListItemIcon>
-            <ListItemText className="font-nunito font-semibold text-base ">
-              Sign Out
-            </ListItemText>
-          </ListItemButton>
+
+          {token !== null ? (
+            <ListItemButton
+              onClick={() => {
+                history("/");
+                setOpenDrawer(false);
+              }}
+            >
+              <ListItemIcon>
+                <div className="ml-4 pt-32" />
+              </ListItemIcon>
+              <ListItemText className="font-nunito font-semibold text-base ">
+                Sign Out
+              </ListItemText>
+            </ListItemButton>
+          ) : (
+            <ListItemButton
+              onClick={() => {
+                history("/signin");
+                setOpenDrawer(false);
+              }}
+            >
+              <ListItemIcon>
+                <div className="ml-4 pt-32" />
+              </ListItemIcon>
+              <ListItemText className="font-nunito font-semibold text-base ">
+                Sign In
+              </ListItemText>
+            </ListItemButton>
+          )}
         </List>
       </Drawer>
       <IconButton
-        sx={{ color: "white"}}
+        sx={{ color: "white" }}
         onClick={() => setOpenDrawer(!openDrawer)}
       >
         <AiOutlineMenu color="white" />

@@ -49,6 +49,16 @@ import orderIcon from "./images/order-icon.png";
 import reservationIcon from "./images/reservation-icon.png";
 import settingIcon from "./images/setting-icon.png";
 import walletIcon from "./images/wallet-icon.png";
+import walletCard from "./images/walletCard.png";
+
+import Reservation from "./images/Reservation.png";
+import modify from "./images/modify.png";
+import cancel from "./images/cancel.png";
+
+import error from "./images/error.png";
+import success from "./images/success.png";
+
+import explore from "./images/explore.png"
 
 const assets = {
   logo,
@@ -99,6 +109,15 @@ const assets = {
   reservationIcon,
   settingIcon,
   walletIcon,
+  walletCard,
+
+  Reservation,
+  modify,
+  cancel,
+
+  error,
+  success,
+  explore
 };
 
 export default assets;

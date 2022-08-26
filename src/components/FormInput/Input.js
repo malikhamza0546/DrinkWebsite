@@ -12,6 +12,7 @@ export default function Input({
   name,
   error,
   errorMessage,
+  className,
 }) {
   return (
     // <div className="input">
@@ -21,7 +22,8 @@ export default function Input({
         {required && <sup>*</sup>}
       </label> */}
       <input
-        className="inputField"
+        // className="inputField"
+        className={`${className} shadow w-full appearance-none border border-borderGrey rounded py-2 px-3 text-black font-roboto leading-tight focus:outline-none focus:shadow-outline`}
         type={type}
         {...register(name, validation)}
         placeholder={placeholder}

@@ -26,7 +26,10 @@
     background-color: #FAC476 !important;
     border:1px solid #DFDFDF !important;
     /* margin:0px 0px 0px 0px !important; */
+}
 
+.css-ss6y4i-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+    background-color: #f6fa76 !important;
 
 }
 
@@ -41,4 +44,17 @@
 .css-480o17-MuiGrid-root>.MuiGrid-item{
     padding-left:0px !important;
     padding-top: 0px !important;
+}
+
+
+.css-10j522o-MuiBadge-badge {
+    height:2px !important;
+    width: 2px !important;
+    top:4 !important;
+    border-radius: 50% !important;
+    right:-4 !important;
+    /* font-size: 4px !important; */
+    font-weight: 200 !important;
+    /* padding: 0 !important; */
+    min-width: 10px !important;
 }
