@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import assets from "../../assets/assets";
 import TextField from "../../components/Forms/Input/TextField";
 import Button from "../../components/Forms/Button/AuthButton";
@@ -13,6 +13,10 @@ import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import { borderRadius } from "@mui/system";
 import { getCartData } from "../../services/API";
+import { AddToCart } from "../../Redux/Actions/Cart";
+import { useDispatch } from "react-redux";
+import { ContentPasteOffSharp } from "@mui/icons-material";
+
 const data = [
   { name: "Rice" },
   { name: "Beans" },
@@ -25,12 +29,46 @@ const data = [
 ];
 
 const Cart = ({ ID }) => {
+  const product = ["food", "milk"];
+
   const classes = useStyles();
+  const dispatch = useDispatch();
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const theme = useTheme();
   const isXS = useMediaQuery(theme.breakpoints.down("sm"));
   const [data, setAPIData] = useState([]);
-  const [counter, setCounter] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [addons, setAddons] = useState([]);
+
+  let navigate = useNavigate();
+
+  const obj = {
+    products: [],
+  };
+
+  var arrayNew = [];
+  const inner = {};
+
+  inner["addons"] = addons;
+  inner["count"] = quantity;
+  inner["product"] = "11312312312312";
+
+  arrayNew.push(inner);
+  console.log("aarraaryneeww", arrayNew);
+
+  const handleAddons = (e) => {
+    console.log("e", e.target.value);
+    if (e.target.checked) {
+      addons.push(e.target.value);
+    } else {
+      var newArray = addons.filter((item) => {
+        return item != e.target.value;
+      });
+      setAddons(newArray);
+    }
+  };
+
+  // const [counter, setCounter] = useState(0);
   const cartValueGetter = async () => {
     try {
       console.log("ID in cartValueGetter", ID);
@@ -42,16 +80,31 @@ const Cart = ({ ID }) => {
     }
   };
 
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const handleClick = (arrayNew) => {
+    dispatch(AddToCart({ product, quantity }));
+    navigate("/order", {
+      state: {
+        arrayData: "aa",
+      },
+    });
+  };
+
   useEffect(() => {
     // getEstablishmentThunk();
     cartValueGetter();
   }, []);
   return (
-    <div
-      className={` ${classes.outerWrapper} w-screen h-screen   overflow-x-hidden `}
-    >
+    <div className="w-screen h-screen signup-outer-wrapper relative overflow-x-hidden mt-12 ">
       <div
-        className={` ${classes.signupWrapper} h-full    bg-white overflow-scroll mx-auto left-0 top-0 bottom-0 right-0 `}
+        className="absolute my-12 z-10 bg-white overflow-clip mx-auto signup-wrapper left-0 top-0 bottom-0 right-0"
         style={{ background: "white" }}
       >
         {isXS ? (
@@ -85,6 +138,8 @@ const Cart = ({ ID }) => {
               <Checkbox
                 {...label}
                 sx={{ "& .MuiSvgIcon-root": { margin: 0, padding: 0 } }}
+                onChange={handleAddons}
+                value={item?.id}
               />
             </div>
           ))}
@@ -92,18 +147,17 @@ const Cart = ({ ID }) => {
         <div className="flex align-center justify-center py-3">
           <div
             className={classes.removeCart}
-            onClick={() => {
-              if (counter > 0) setCounter(counter - 1);
-            }}
+            // onClick={() => {
+            //   if (counter > 0) setCounter(counter - 1);
+            // }}
+            onClick={() => handleQuantity("dec")}
           >
             -
           </div>
-          <div className={classes.number}>{counter}</div>
+          <div className={classes.number}>{quantity}</div>
           <div
             className={classes.addCart}
-            onClick={() => {
-              setCounter(counter + 1);
-            }}
+            onClick={() => handleQuantity("inc")}
           >
             +
           </div>
@@ -111,7 +165,14 @@ const Cart = ({ ID }) => {
         <Grid container className="my-8">
           <Grid item xs={1} md={3}></Grid>
           <Grid item xs={10} md={6}>
-            <Button label="Add To Cart" />
+            {/* <Button label="Add To Cart" onClick={() => alert("aa")} /> */}
+            <button
+              style={{ fontSize: 13, height: 45 }}
+              className="flex bg-black w-full text-whiteColor font-bold py-2 px-4 rounded items-center"
+              onClick={handleClick}
+            >
+              <span className="text-center m-auto">{"Add to Cart"}</span>
+            </button>
           </Grid>
         </Grid>
       </div>
@@ -151,6 +212,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    cursor: "pointer",
   },
   addCart: {
     border: "1px solid #000000",
@@ -160,6 +222,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    cursor: "pointer",
   },
   number: {
     border: "1px solid #000000",

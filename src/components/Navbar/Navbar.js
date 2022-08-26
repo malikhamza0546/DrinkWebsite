@@ -15,13 +15,13 @@ import DrawerComp from "./Drawer";
 import { useNavigate } from "react-router-dom";
 import NavbarMenu from "./NavbarMenu";
 import "./navbar.css";
-import Icon from "../../assets/images/Icon.png"
-
+import Icon from "../../assets/images/Icon.png";
 
 const Navbar = () => {
   const [value, setValue] = useState();
   const theme = useTheme();
   const classes = useStyles();
+  const token = localStorage.getItem("access");
 
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -29,9 +29,7 @@ const Navbar = () => {
 
   return (
     <>
-      <AppBar
-        style={{ background: "none", width: "100%", left: 0 }}
-      >
+      <AppBar style={{ background: "none", width: "100%", left: 0 }}>
         <Toolbar className={classes.appbar}>
           <img
             onClick={() => history("/")}
@@ -42,12 +40,14 @@ const Navbar = () => {
           {isMatch ? (
             <div className={classes.mobileHeader}>
               <DrawerComp />
-              <img className={classes.smLogo}
+              <img
+                className={classes.smLogo}
                 onClick={() => history("/")}
-                src={assets.logo} alt="logo" />
-              
-                <img src={Icon} className="imageClass" />
-              
+                src={assets.logo}
+                alt="logo"
+              />
+
+              <img src={Icon} className="imageClass" />
             </div>
           ) : (
             <>
@@ -94,7 +94,7 @@ const Navbar = () => {
                     }}
                   />
                 </Tabs> */}
-
+                {/* 
                 <Button
                   sx={{
                     // marginLeft: "auto",
@@ -108,15 +108,65 @@ const Navbar = () => {
                   variant="text"
                 >
                   Login
-                </Button>
-                <Button
-                  className={classes.signupBtn}
-                  sx={{ color: colors.white }}
-                  variant="contained"
-                  onClick={() => history("/signup")}
-                >
-                  SIGN UP
-                </Button>
+                </Button> */}
+
+                {token !== null ? (
+                  <>
+                    <div>
+                      <img
+                        className="rounded-full border-2 border-[#FF5F00] w-10 h-10"
+                        src={assets.Reservation}
+                      />
+                    </div>
+
+                    <Button
+                      onClick={() => {
+                        localStorage.clear();
+                        history("/signin");
+                      }}
+                      sx={{
+                        // marginLeft: "auto",
+                        fontSize: "16px",
+                        fontFamily: "Mulish",
+                        fontWeight: 600,
+                        marginRight: "50px",
+                        marginLeft: "10px",
+                      }}
+                      // onClick={() => history("/signin")}
+                      variant="text"
+                    >
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    sx={{
+                      // marginLeft: "auto",
+                      fontSize: "16px",
+                      fontFamily: "Mulish",
+                      fontWeight: 600,
+                      marginRight: "50px",
+                      marginLeft: "10px",
+                    }}
+                    onClick={() => history("/signin")}
+                    variant="text"
+                  >
+                    Login
+                  </Button>
+                )}
+
+                {token == null ? (
+                  <Button
+                    className={classes.signupBtn}
+                    sx={{ color: colors.white }}
+                    variant="contained"
+                    onClick={() => history("/signup")}
+                  >
+                    SIGN UP
+                  </Button>
+                ) : (
+                  ""
+                )}
               </div>
             </>
           )}
@@ -139,7 +189,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "mulish",
     [theme.breakpoints.down("sm")]: {
       paddingLeft: "2% !important",
-      paddingRight: "2% !important"
+      paddingRight: "2% !important",
     },
   },
   logo: {
@@ -148,7 +198,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "-9px",
     height: "64px",
     [theme.breakpoints.down("md")]: {
-      
       display: "none",
     },
   },
@@ -187,6 +236,5 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-
-  }
+  },
 }));

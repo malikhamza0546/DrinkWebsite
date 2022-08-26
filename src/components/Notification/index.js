@@ -4,8 +4,10 @@ import React from "react";
 import { toast } from "react-toastify";
 import { FaTimesCircle, FaCheckCircle } from "react-icons/fa";
 import "./notification.css";
+import assets from "../../assets/assets";
 
 function Notification(type, notify) {
+  console.log("typeeee", type);
   const icons = {
     // error: ErrorIcon,
     // success: CheckCircleIcon,
@@ -13,10 +15,12 @@ function Notification(type, notify) {
   const message = (
     <div className="notification">
       {type == "error" && (
-        <FaTimesCircle fontSize="large" style={{ fill: "#00FF00" }} />
+        // <FaTimesCircle fontSize="large" style={{ fill: "#f54242" }} />
+        <img src={assets.error} className="icon" />
       )}
       {type == "success" && (
-        <FaCheckCircle fontSize="large" style={{ fill: "#00FF00" }} />
+        // <FaCheckCircle fontSize="large" style={{ fill: "#00FF00" }} />
+        <img src={assets.success} className="icon" />
       )}
       <p className="message">{notify}</p>
     </div>

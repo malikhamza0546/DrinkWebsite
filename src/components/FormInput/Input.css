@@ -21,6 +21,9 @@
 
 .errorMessage{
     color: red;
+    font-size: 12px;
+    margin-bottom: 4px;
+    margin-top: 2px;
 }
 
 .labelText{

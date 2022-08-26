@@ -15,80 +15,84 @@ import { borderRadius } from "@mui/system";
 import { FaGreaterThan } from "react-icons/fa";
 
 const data = [
-  { name: "Rice" },
-  { name: "Beans" },
-  { name: "Fries" },
-  { name: "Ceasear Salad" },
-  { name: "Bread" },
-  { name: "Mashed Potatoes" },
-  { name: "Ice Cubes" },
-  { name: "No Ice" },
+  { name: "Rice", quantity: 2, price: 10 },
+  { name: "Beans", quantity: 2, price: 10 },
+  { name: "Fries", quantity: 2, price: 10 },
+  { name: "Ceasear Salad", quantity: 2, price: 10 },
+  ,
 ];
 
-const Cart = () => {
+const Order = ({ arrayData }) => {
   const classes = useStyles();
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const theme = useTheme();
   const isXS = useMediaQuery(theme.breakpoints.down("sm"));
 
+  console.log("arraayayayayayay", arrayData && arrayData);
   return (
-    <div
-      className={` ${classes.outerWrapper} w-screen h-screen   overflow-x-hidden `}
-    >
+    <div className="w-screen h-screen signup-outer-wrapper relative overflow-x-hidden mt-12 mb-12">
       <div
-        className={` ${classes.signupWrapper} h-full    bg-white overflow-scroll mx-auto left-0 top-0 bottom-0 right-0 `}
+        className="absolute my-12 z-10 bg-white overflow-clip mx-auto signup-wrapper left-0 top-0 bottom-0 right-0"
         style={{ background: "white" }}
       >
-        {isXS ? (
-          <Grid xs={12}>{<img src={assets.headerImage1} />}</Grid>
-        ) : (
-          <div className="h-16  grid grid-cols signup-tabs">
-            <div
-              className={`${"active"} text-xl flex justify-center items-center`}
-            >
-              Cart
-            </div>
+        <div className="h-16  grid grid-cols signup-tabs">
+          <div
+            className={`${"active"} text-xl flex justify-center items-center`}
+          >
+            Orders
           </div>
-        )}
+        </div>
 
         <Grid
           className={`${classes.card} bg-[#FF9901] sm:mx-16 mx-0 py-4 rounded-2xl mt-8`}
         >
           <div className="  sm:px-10 px-4">
-            <div className="bg-[#ffff] w-full h-12 rounded-md">
-              <div className="bg-[#F17]">
-                <img src={assets.QrCode} />
-                <div>hello</div>
+            <div className="bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-8 px-2">
+              <div className=" flex ">
+                <img src={assets.walletCard} className="mr-4" />
+                <div className={classes.cardNumber}>*****1234</div>
               </div>
               <div>
-                <FaGreaterThan />
+                <FaGreaterThan color="#000000" fontSize="1em" />
               </div>
             </div>
           </div>
         </Grid>
 
-        <Grid className="px-6">
-          <div className={`${classes.subtitle} mb-2`}>Sides</div>
+        <Grid className="sm:px-24 mt-8 px-4">
           {data.map((item) => (
-            <div className="flex justify-between px-4">
-              <div className={`${classes.name} `}>{item.name}</div>
-              {/* <input className="mb-2 "type="checkbox"/>     */}
-              <Checkbox
-                {...label}
-                sx={{ "& .MuiSvgIcon-root": { margin: 0, padding: 0 } }}
-              />
+            <div className="flex justify-between mt-2">
+              <div className="flex">
+                <div className={`${classes.name} sm:w-16 w-8`}>
+                  {item.quantity}x
+                </div>
+                <div className={`${classes.name} `}>{item.name}</div>
+              </div>
+
+              <div className={`${classes.name} `}>${item.price}</div>
             </div>
           ))}
+          <hr className={`${classes.hr} mt-8`} />
+          <div className="mt-4">
+            <div className={`${classes.name} flex justify-between`}>
+              <div>Subtotal</div>
+              <div>$10</div>
+            </div>
+            <div className={`${classes.name} flex justify-between mt-2`}>
+              <div>ServiceFee</div>
+              <div>$10</div>
+            </div>
+            <div className={`${classes.total}  flex justify-between mt-6`}>
+              <div>Total</div>
+              <div>$10</div>
+            </div>
+          </div>
         </Grid>
-        <div className="flex align-center justify-center py-3">
-          <div className={classes.removeCart}>-</div>
-          <div className={classes.number}>0</div>
-          <div className={classes.addCart}>+</div>
-        </div>
+
         <Grid container className="my-8">
           <Grid item xs={1} md={3}></Grid>
           <Grid item xs={10} md={6}>
-            <Button label="Add To Cart" />
+            <Button label="Order" />
           </Grid>
         </Grid>
       </div>
@@ -96,7 +100,7 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default Order;
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -114,6 +118,19 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "16px",
     fontWeight: "400",
   },
+  cardNumber: {
+    fontFamily: "Nunito",
+    fontSize: "16px",
+    fontWeight: "700",
+    color: "#000000",
+    marginTop: "4px",
+  },
+  total: {
+    fontFamily: "Nunito",
+    fontSize: "16px",
+    fontWeight: "700",
+  },
+
   detail: {
     fontFamily: "Nunito",
     fontSize: "16px",
@@ -168,6 +185,12 @@ const useStyles = makeStyles((theme) => ({
 
     outerWrapper: {
       marginBottom: "20px",
+    },
+    hr: {
+      display: "block",
+      height: "1px",
+      border: 0,
+      borderTop: "1px solid #000000",
     },
   },
 }));
