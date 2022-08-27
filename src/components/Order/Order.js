@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import assets from "../../assets/assets";
 import TextField from "../../components/Forms/Input/TextField";
 import Button from "../../components/Forms/Button/AuthButton";
@@ -22,13 +22,15 @@ const data = [
   ,
 ];
 
-const Order = ({ arrayData }) => {
+const Order = ({ route }) => {
   const classes = useStyles();
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const theme = useTheme();
   const isXS = useMediaQuery(theme.breakpoints.down("sm"));
 
-  console.log("arraayayayayayay", arrayData && arrayData);
+  const { state } = useLocation();
+  console.log("statete", state);
+
   return (
     <div className="w-screen h-screen signup-outer-wrapper relative overflow-x-hidden mt-12 mb-12">
       <div

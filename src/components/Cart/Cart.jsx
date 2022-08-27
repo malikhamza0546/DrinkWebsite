@@ -39,14 +39,10 @@ const Cart = ({ ID }) => {
   const [data, setAPIData] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [addons, setAddons] = useState([]);
+  const [arrayNew, setArrayNew] = useState([]);
 
   let navigate = useNavigate();
 
-  const obj = {
-    products: [],
-  };
-
-  var arrayNew = [];
   const inner = {};
 
   inner["addons"] = addons;
@@ -88,11 +84,11 @@ const Cart = ({ ID }) => {
     }
   };
 
-  const handleClick = (arrayNew) => {
+  const handleClick = () => {
     dispatch(AddToCart({ product, quantity }));
     navigate("/order", {
       state: {
-        arrayData: "aa",
+        arrayData: [arrayNew],
       },
     });
   };
