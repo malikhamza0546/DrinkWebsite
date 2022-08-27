@@ -113,7 +113,7 @@ export const PaymentWallet = (props) => {
         {wallet && (
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="sm:mx-16 mx-0">
+              <div className="sm:mx-16 mx-4 mt-4">
                 <Input
                   //   label={"First Name"}
                   type="text"
@@ -138,7 +138,7 @@ export const PaymentWallet = (props) => {
                   className="mb-4"
                 />
 
-                <div className="mb-4 flex justify-between items-center">
+                <div className=" flex justify-between items-center">
                   <Input
                     //   label={"First Name"}
                     type="text"
@@ -164,7 +164,7 @@ export const PaymentWallet = (props) => {
                   />
                 </div>
 
-                <div className="mb-4 flex justify-between items-center">
+                <div className="flex justify-between items-center">
                   <Input
                     //   label={"First Name"}
                     type="text"
