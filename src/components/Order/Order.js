@@ -14,7 +14,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { borderRadius } from "@mui/system";
 import { FaGreaterThan } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { cardDetailsShow } from "../../services/API";
+import { cardDetailsShow, postOrder } from "../../services/API";
 
 const data = [
   { name: "Rice", quantity: 2, price: 10 },
@@ -23,6 +23,35 @@ const data = [
   { name: "Ceasear Salad", quantity: 2, price: 10 },
   ,
 ];
+const cardDataChexk = [
+  {
+    brand: "visa",
+    card_number: "4242424242424221",
+    exp_month: "8",
+    exp_year: "2023",
+    name_on_card: "alex",
+    stripe_card_id: "card_1Lb6gTLFKwlHVomwnaOPaaxc",
+    _id: "630908e6e66e7300210a3170",
+  },
+  {
+    brand: "visa",
+    card_number: "4242424242424245",
+    exp_month: "8",
+    exp_year: "2023",
+    name_on_card: "alex",
+    stripe_card_id: "card_1Lb6gTLFKwlHVomwnaOPaaxc",
+    _id: "630908e6e66e7300210a3171",
+  },
+  {
+    brand: "visa",
+    card_number: "4242424242424246",
+    exp_month: "8",
+    exp_year: "2023",
+    name_on_card: "alex",
+    stripe_card_id: "card_1Lb6gTLFKwlHVomwnaOPaaxc",
+    _id: "630908e6e66e7300210a3172",
+  },
+];
 
 const Order = ({ route }) => {
   const classes = useStyles();
@@ -30,11 +59,18 @@ const Order = ({ route }) => {
   const theme = useTheme();
   const isXS = useMediaQuery(theme.breakpoints.down("sm"));
   const [cardData, setCardData] = useState();
+  const [cardSelected, setCardSelected] = useState("");
+  const [orderResponse, setOrderResponse] = useState("");
 
   const cart = useSelector((state) => state.Cart);
 
   const { state } = useLocation();
   console.log("statete1111", state);
+  const orderData = state.products;
+  const EstablishmentID = state;
+
+  console.log("fffffff", orderData);
+  console.log("havoc", EstablishmentID);
 
   const cardDetailsShowGetter = async () => {
     try {
@@ -43,6 +79,30 @@ const Order = ({ route }) => {
       console.log("response in carrd detail Getter", response?.data);
     } catch (e) {
       console.log(" error in card detail ", e);
+    }
+  };
+
+  const handleClick = (EstablishmentID, state) => {
+    PostOrderOnClick(EstablishmentID, state);
+  };
+
+  const cardID = (item) => {
+    setCardSelected(item);
+    orderData["cardId"] = item;
+    console.log("aaaaaaaaitem", item);
+  };
+
+  const PostOrderOnClick = async (EstablishmentID, state) => {
+    try {
+      const response = await postOrder(EstablishmentID, state);
+      setOrderResponse(response?.data);
+      //   handleOpen();
+      Notification("success", "Order Done");
+    } catch (e) {
+      console.log(e.response.data.message, " else Body Error");
+      Notification("error", "Time Slot not available");
+
+      // <Notification type="success" notify="Reservation Done" />;
     }
   };
 
@@ -67,17 +127,38 @@ const Order = ({ route }) => {
         <Grid
           className={`${classes.card} bg-[#FF9901] sm:mx-16 mx-0 py-4 rounded-2xl mt-8`}
         >
-          <div className="  sm:px-10 px-4">
-            <div className="bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-8 px-2">
-              <div className=" flex ">
-                <img src={assets.walletCard} className="mr-4" />
-                <div className={classes.cardNumber}>*****1234</div>
-              </div>
-              <div>
-                <FaGreaterThan color="#000000" fontSize="1em" />
-              </div>
-            </div>
+          <div
+            className={`${"active"} text-xl flex justify-center items-center text-white`}
+          >
+            Select Card
           </div>
+          {cardData &&
+            cardData.map((item) => (
+              <div
+                className="  sm:px-10 px-4"
+                // onClick={() => setCardSelected(item._id)}
+                onClick={() => cardID(item._id)}
+              >
+                <div
+                  className={
+                    item._id == cardSelected
+                      ? "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-8 px-2 mb-2 border-4 border-[#006400]"
+                      : "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-8 px-2 mb-2"
+                  }
+                >
+                  <div className=" flex ">
+                    <img src={assets.walletCard} className="mr-4" />
+                    <div className={classes.cardNumber}>
+                      *****
+                      {item?.card_number.substr(item?.card_number.length - 5)}
+                    </div>
+                  </div>
+                  <div>
+                    <FaGreaterThan color="#000000" fontSize="1em" />
+                  </div>
+                </div>
+              </div>
+            ))}
         </Grid>
 
         <Grid className="sm:px-24 mt-8 px-4">
@@ -113,7 +194,13 @@ const Order = ({ route }) => {
         <Grid container className="my-8">
           <Grid item xs={1} md={3}></Grid>
           <Grid item xs={10} md={6}>
-            <Button label="Order" />
+            <button
+              style={{ fontSize: 13, height: 45 }}
+              className="flex bg-black w-full text-whiteColor font-bold py-2 px-4 rounded items-center"
+              onClick={() => handleClick(EstablishmentID, state)}
+            >
+              <span className="text-center m-auto">{"Order"}</span>
+            </button>
           </Grid>
         </Grid>
       </div>

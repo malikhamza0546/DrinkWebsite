@@ -78,7 +78,7 @@ const Racket = ({ EstablishmentID, phoneNumber, address }) => {
   // const currentDate = moment().format("YYYY-MM-DD");
 
   const dateFinal = moment(date).format("YYYY-MM-DD");
-  console.log("date final", slot);
+  console.log("date final....", data);
 
   const obj = {};
 
@@ -159,19 +159,6 @@ const Racket = ({ EstablishmentID, phoneNumber, address }) => {
       // <Notification type="success" notify="Reservation Done" />;
     }
   };
-
-  const time = [
-    { time: "12" },
-    {
-      time: "12",
-    },
-    {
-      time: "12",
-    },
-    {
-      time: "12",
-    },
-  ];
 
   useEffect(() => {
     ProductGetter();
@@ -331,6 +318,9 @@ const Racket = ({ EstablishmentID, phoneNumber, address }) => {
                           navigate("/cart", {
                             state: {
                               ID: obj?.id,
+                              productName: obj?.name,
+                              productDescripion: obj?.description,
+                              EstablishmentID: "62cd6d96c4f14e00215b34c9",
                             },
                           })
                         }
