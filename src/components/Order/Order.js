@@ -66,7 +66,8 @@ const Order = ({ route }) => {
 
   const { state } = useLocation();
   console.log("statete1111", state);
-  const orderData = state.products;
+
+  const orderData = state;
   const EstablishmentID = state;
 
   console.log("fffffff", orderData);

@@ -7,7 +7,7 @@ import colors from "../../assets/colors";
 import { RACKET } from "../../services/slider";
 import assets from "../../assets/assets";
 import appetizer from "../../assets/images/appetizer.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -159,6 +159,9 @@ const Racket = ({ EstablishmentID, phoneNumber, address }) => {
       // <Notification type="success" notify="Reservation Done" />;
     }
   };
+
+  const { state } = useLocation();
+  console.log("state in racket", state.EstablishmentID);
 
   useEffect(() => {
     ProductGetter();
@@ -320,7 +323,7 @@ const Racket = ({ EstablishmentID, phoneNumber, address }) => {
                               ID: obj?.id,
                               productName: obj?.name,
                               productDescripion: obj?.description,
-                              EstablishmentID: "62cd6d96c4f14e00215b34c9",
+                              EstablishmentID: state.EstablishmentID,
                             },
                           })
                         }
