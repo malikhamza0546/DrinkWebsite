@@ -65,12 +65,16 @@ const Order = ({ route }) => {
 	const cart = useSelector((state) => state.Cart)
 
 	const { state } = useLocation()
-	console.log("statete1111", state)
-	const orderData = state.products
-	const EstablishmentID = state
+	// console.log("statete1111", state)
 
-	console.log("fffffff", orderData)
-	console.log("havoc", EstablishmentID)
+	const orderData = state
+
+	var orderDataForAPI = {
+		cardId: cardSelected,
+		products: state?.products?.products,
+	}
+	console.log("orderDataForAPI outside", orderDataForAPI)
+	const EstablishmentedID = state?.establishmentID
 
 	const cardDetailsShowGetter = async () => {
 		try {
@@ -82,9 +86,9 @@ const Order = ({ route }) => {
 		}
 	}
 
-	const handleClick = (EstablishmentID, state) => {
-		console.log(EstablishmentID, "EstablishmentID", state, "state")
-		PostOrderOnClick(EstablishmentID, state)
+	const handleClick = (EstablishmentedID, orderDataForAPI) => {
+		console.log("orderDataForAPI Inside", orderDataForAPI)
+		PostOrderOnClick(EstablishmentedID, orderDataForAPI)
 	}
 
 	const cardID = (item) => {
@@ -93,15 +97,16 @@ const Order = ({ route }) => {
 		console.log("aaaaaaaaitem", item)
 	}
 
-	const PostOrderOnClick = async (EstablishmentID, state) => {
+	const PostOrderOnClick = async (EstablishmentID, orderDataForAPI) => {
 		try {
-			const response = await postOrder(EstablishmentID, state)
-			setOrderResponse(response?.data)
+			const response = await postOrder(EstablishmentID, orderDataForAPI)
+			console.log("postOrder API Response ", response?.data)
+			setOrderResponse(response)
 			//   handleOpen();
-			Notification("success", "Order Done")
+			// Notification("success", "Order Done")
 		} catch (e) {
-			console.log(e.response.data.message, " else Body Error")
-			Notification("error", "Time Slot not available")
+			console.log(e, "Error  PostOrderOnClick")
+			// Notification("error", "Time Slot not available")
 
 			// <Notification type="success" notify="Reservation Done" />;
 		}
@@ -198,7 +203,7 @@ const Order = ({ route }) => {
 						<button
 							style={{ fontSize: 13, height: 45 }}
 							className="flex bg-black w-full text-whiteColor font-bold py-2 px-4 rounded items-center"
-							onClick={() => handleClick(EstablishmentID, state)}
+							onClick={() => handleClick(EstablishmentedID, orderDataForAPI)}
 						>
 							<span className="text-center m-auto">{"Order"}</span>
 						</button>

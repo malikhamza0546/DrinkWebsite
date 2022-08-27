@@ -3,7 +3,7 @@ import Slider from "react-slick"
 import { Grid, useMediaQuery, useTheme } from "@mui/material"
 import ProductCard from "../Product/ProductCard"
 import { getEstablishment } from "../../services/API"
-
+// import { LoadingButton } from "@mui/lab"
 const Products = ({ getEstablishmentThunk }) => {
 	const theme = useTheme()
 	const isMD = useMediaQuery(theme.breakpoints.only("md"))
