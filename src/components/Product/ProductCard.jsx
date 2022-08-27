@@ -161,14 +161,20 @@ const ProductCard = ({
 					<AiOutlineHeart
 						className="text-xl"
 						onClick={() => {
-							postFavourites(ID)
+							if (token !== null) postFavourites(ID)
+							else {
+								console.log(" Not Signed in ")
+							}
 						}}
 					/>
 				) : (
 					<AiFillHeart
 						className="text-primary text-xl"
 						onClick={() => {
-							postFavourites(ID)
+							if (token !== null) postFavourites(ID)
+							else {
+								console.log(" Not Signed in ")
+							}
 						}}
 					/>
 				)}

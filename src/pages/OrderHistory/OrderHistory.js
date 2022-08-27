@@ -108,28 +108,31 @@ const OrderHistory = () => {
 						</div>
 					</div>
 
-					{item.map((obj) => (
+					{OrderHistory?.map((obj) => (
 						<div className={`mb-6  ${classes.appetizerOuter}`}>
 							<div className="flex sm:p-4 sm:ml-2 ml-0 sm:pl-0 p-4">
-								<img src={obj?.image} className={classes.InnerImage} />
+								<img
+									src={obj?.products[0]?.product?.image}
+									className={classes.InnerImage}
+								/>
 
 								<div className="w-full">
 									<div className="flex flex-row justify-between w-full ">
 										<p
 											className={`text-base font-bold text-black ml-3 mr-16 ${classes.font}`}
 										>
-											{obj?.name}
+											{obj?.products[0]?.product?.name}
 										</p>
 										<p
 											className={`text-base font-bold text-black ${classes.font}`}
 										>
-											{obj?.price}
+											${obj?.products[0]?.product?.price}
 										</p>
 									</div>
 									<p
-										className={`text-xs mt-3 font-normal text-black ml-3 ${classes.font}`}
+										className={`text-xs mt-3 font-bold text-black ml-3 ${classes.font}`}
 									>
-										{obj?.description}
+										{obj?.order_status}
 									</p>
 								</div>
 							</div>
