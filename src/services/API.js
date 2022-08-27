@@ -222,4 +222,25 @@ export const postSocailAccount = async (Data) => {
   });
 };
 
-
+export const postOrder = async (establishmentID, data) => {
+  const token = localStorage.getItem("access");
+  console.log(
+    "token in Post dataaaaaaaaaa for order",
+    establishmentID.EstablishmentID
+  );
+  return new Promise((resolve, reject) => {
+    axios({
+      method: "post",
+      url: `${REACT_APP_API_URL}/order/establishment/${establishmentID.EstablishmentID}`,
+      data,
+      headers: {
+        "x-access-token": token,
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => resolve(res))
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};

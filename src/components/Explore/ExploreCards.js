@@ -7,18 +7,18 @@ import { getExploreCardData } from "../../services/API"
 import { useSelector } from "react-redux"
 
 const styles = makeStyles((theme) => ({
-	card: {},
-	cardsWrapper: {
-		paddingLeft: "10%",
-		paddingRight: "10%",
-	},
-	btn: {
-		[theme.breakpoints.down("sm")]: {
-			marginLeft: "50px",
-			margin: "30px 0",
-		},
-	},
-}))
+  card: {},
+  cardsWrapper: {
+    paddingLeft: "10%",
+    paddingRight: "10%",
+  },
+  btn: {
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: "50px",
+      margin: "30px 0",
+    },
+  },
+}));
 
 const ExploreCards = ({ catagory }) => {
 	console.log("catagory in ExploreCards", catagory)
@@ -98,4 +98,4 @@ const ExploreCards = ({ catagory }) => {
 	)
 }
 
-export default ExploreCards
+export default ExploreCards;

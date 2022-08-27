@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import assets from "../../assets/assets";
 import TextField from "../../components/Forms/Input/TextField";
 import Button from "../../components/Forms/Button/AuthButton";
@@ -28,7 +28,7 @@ const data = [
   { name: "No Ice" },
 ];
 
-const Cart = ({ ID }) => {
+const Cart = ({ ID, productName, productDescription, EstablishmentID }) => {
   // const product = ["food", "milk"];
 
   const classes = useStyles();
@@ -42,9 +42,11 @@ const Cart = ({ ID }) => {
   const [arrayNew, setArrayNew] = useState([]);
 
   let navigate = useNavigate();
+  const { state } = useLocation();
+  console.log("azzzzzz", state);
+  console.log("cart EstablishmentIDEstablishmentID", state);
 
-  // arrayNew.push(inner);
-  // console.log("aarraaryneeww", arrayNew);
+  console.log("prod stae id...", ID);
 
   const handleAddons = (e) => {
     console.log("e", e.target.value);
@@ -58,10 +60,11 @@ const Cart = ({ ID }) => {
     }
   };
 
+  console.log("ID in EstablishmentIDEstablishmentID", EstablishmentID);
+
   // const [counter, setCounter] = useState(0);
   const cartValueGetter = async () => {
     try {
-      console.log("ID in cartValueGetter", ID);
       const response = await getCartData(ID);
       setAPIData(response?.data);
       console.log("response in cartValueGetter", response?.data);
@@ -83,14 +86,15 @@ const Cart = ({ ID }) => {
 
     inner["addons"] = addons;
     inner["count"] = quantity;
-    inner["product"] = "11312312312312";
+    inner["product"] = ID;
 
     console.log("inner from func", inner);
 
     dispatch(AddToCart({ arrayNew, quantity }));
     navigate("/order", {
       state: {
-        arrayData: inner,
+        products: inner,
+        establishmentID: EstablishmentID,
       },
     });
   };
@@ -118,13 +122,8 @@ const Cart = ({ ID }) => {
         )}
 
         <Grid className="p-6">
-          <div className={`${classes.title} mb-2`}>
-            Australian Wagyu Beef Sliders
-          </div>
-          <div>
-            Sesame brioche bun, au wagyu patties, cheddar cheese, slaw &
-            sriracha aioli
-          </div>
+          <div className={`${classes.title} mb-2`}>{state.productName}</div>
+          <div>{state.productDescripion}</div>
         </Grid>
 
         <Grid className="px-6">
