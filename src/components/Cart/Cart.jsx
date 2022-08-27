@@ -43,10 +43,9 @@ const Cart = ({ ID, productName, productDescription, EstablishmentID }) => {
 
   let navigate = useNavigate();
   const { state } = useLocation();
-  console.log("azzzzzz", state);
-  console.log("cart EstablishmentIDEstablishmentID", state);
+  
 
-  console.log("prod stae id...", ID);
+ 
 
   const handleAddons = (e) => {
     console.log("e", e.target.value);
