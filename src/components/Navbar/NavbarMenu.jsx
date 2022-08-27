@@ -62,6 +62,14 @@ const NavbarMenu = () => {
           >
             Drink Guide
           </span>
+          <span
+            onClick={() => navigate("/order-history")}
+            className={`${getActiveClass(
+              "drink-guide"
+            )} font-mulish cursor-pointer font-semibold text-base`}
+          >
+            Order History
+          </span>
         </div>
       </div>
       <span

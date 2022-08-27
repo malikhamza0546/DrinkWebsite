@@ -17,6 +17,8 @@ import RegisterCustomer from "./pages/Auth/RegisterCustomer";
 
 import Explore from "./pages/ExplorePage/ExplorePage";
 import Services from "./pages/Services/Services";
+import OrderHistory from "./pages/OrderHistory/OrderHistory";
+
 import DrinkGuidePage from "./pages/Services/DrinkGuidePage";
 
 import Loader from "./components/Loader";
@@ -62,6 +64,7 @@ function App() {
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/signup" element={<RegisterCustomer />} />
           <Route path="/order" element={<Order />} />
+          <Route path="/order-history" element={<OrderHistory />} />
         </Routes>
         <Footer />
       </Grid>
