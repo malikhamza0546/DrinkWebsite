@@ -9,12 +9,14 @@ import Apple from "../../components/Forms/Button/Apple"
 import Facebook from "../../components/Forms/Button/Facebook"
 import colors from "../../assets/colors"
 import { makeStyles } from "@mui/styles"
-import { Grid, useMediaQuery, useTheme } from "@mui/material"
+import { Grid, useMediaQuery, useTheme, Box } from "@mui/material"
 import Checkbox from "@mui/material/Checkbox"
 import { borderRadius } from "@mui/system"
 import { FaGreaterThan } from "react-icons/fa"
 import { useSelector } from "react-redux"
 import { cardDetailsShow, postOrder } from "../../services/API"
+import Modal from "@mui/material/Modal"
+import { FaUser } from "react-icons/fa"
 
 const data = [
 	{ name: "Rice", quantity: 2, price: 10 },
@@ -53,6 +55,19 @@ const cardDataChexk = [
 	},
 ]
 
+const style = {
+	position: "absolute",
+	top: "50%",
+	left: "50%",
+	transform: "translate(-50%, -50%)",
+	width: 600,
+	bgcolor: "background.paper",
+	// border: "2px solid #000",
+	borderRadius: 4,
+	boxShadow: 24,
+	p: 4,
+}
+
 const Order = ({ route }) => {
 	const classes = useStyles()
 	const label = { inputProps: { "aria-label": "Checkbox demo" } }
@@ -60,8 +75,11 @@ const Order = ({ route }) => {
 	const isXS = useMediaQuery(theme.breakpoints.down("sm"))
 	const [cardData, setCardData] = useState()
 	const [cardSelected, setCardSelected] = useState("")
-	const [orderResponse, setOrderResponse] = useState("")
-
+	const [orderResponse, setOrderResponse] = useState()
+	const [open, setOpen] = React.useState(false)
+	const handleOpen = () => setOpen(true)
+	const handleClose = () => setOpen(false)
+	const [confirm, setConfirm] = useState(true)
 	const cart = useSelector((state) => state.Cart)
 
 	const { state } = useLocation()
@@ -101,7 +119,8 @@ const Order = ({ route }) => {
 		try {
 			const response = await postOrder(EstablishmentID, orderDataForAPI)
 			console.log("postOrder API Response ", response?.data)
-			setOrderResponse(response)
+			setOrderResponse(response?.data)
+			handleOpen()
 			//   handleOpen();
 			// Notification("success", "Order Done")
 		} catch (e) {
@@ -209,6 +228,89 @@ const Order = ({ route }) => {
 						</button>
 					</Grid>
 				</Grid>
+
+				<Modal
+					open={open}
+					onClose={handleClose}
+					aria-labelledby="modal-modal-title"
+					aria-describedby="modal-modal-description"
+				>
+					<Box sx={style}>
+						{confirm && (
+							<Grid>
+								<Box>
+									<Grid
+										container
+										direction="column"
+										justifyContent="center"
+										alignItems="center"
+									>
+										<div>
+											<div className="font-nunito font-bold text-lg mb-8">
+												Order {orderResponse?.order_status}
+											</div>
+
+											<div className="mb-8 flex flex-col items-center">
+												<div className="font-bold font-nunito text-lg text-[#FF5F00]">
+													Racket
+												</div>
+											</div>
+										</div>
+									</Grid>
+
+									<Grid className=" lg:px-14 md:px-4 px-4">
+										<div className="flex flex-col md:flex-row justify-between items-center mb-8">
+											<div className="flex flex-col md:items-start md:justify-start items-center justify-center mb-4 md:mb-0">
+												<div className="font-nunito font-bold md:text-lg text-sm text-[#2B2B43]">
+													{/* {moment(orderResponse?.date).format("MMMM Do YYYY")} */}
+													<p>Date Here </p>
+												</div>
+											</div>
+
+											<div className="flex flex-row md:flex-col">
+												<div className="flex ">
+													<div className="md:pt-1 pt-0 mr-2">
+														<FaUser />
+													</div>
+													<div className="font-nunito font-bold md:text-lg text-sm text-[#2B2B43] mr-4 md:mr-0">
+														{"5"} people
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div className=" mb-8 flex flex-col md:flex-row justify-between items-center ">
+											<div className="flex flex-col items-center justify-center md:items-start md:justify-start  md:mb-0 mb-4">
+												<div className="font-medium font-nunito md:text-lg text-sm text-[#FF5F00] mb-2 md:mb-0">
+													Confirmation #: {orderResponse?.order_number}
+												</div>
+												{/* <div className="font-nunito font-medium md:text-lg text-sm text-[#2B2B43]">
+													{"reservationAPI?.establishment?.phoneNumber"}
+												</div> */}
+											</div>
+
+											{/* <div>
+												<img src={assets.QrCode} className="w-16 h-16" />
+											</div> */}
+										</div>
+
+										<div className="flex  items-center justify-center mt-4">
+											<div className="flex ml-4" onClick={handleClose}>
+												<img
+													className="mr-2 w-4 mt-1 h-4 w-4"
+													src={assets.cancel}
+												/>
+												<div className="font-nunito font-bold text-lg text-[#000000]">
+													Cancel
+												</div>
+											</div>
+										</div>
+									</Grid>
+								</Box>
+							</Grid>
+						)}
+					</Box>
+				</Modal>
 			</div>
 		</div>
 	)
