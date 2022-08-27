@@ -4,10 +4,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import { makeStyles } from "@mui/styles";
 import TextField from "../Forms/Input/TextField";
 
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { flexbox } from "@mui/system";
 
 const useStyle = makeStyles((theme) => ({
@@ -65,30 +65,31 @@ const useStyle = makeStyles((theme) => ({
   category: {
     maxWidth: 200,
   },
-  mobile:{
+  mobile: {
     [theme.breakpoints.down("sm")]: {
-      display:"none"
+      display: "none",
     },
   },
-  list:{
-    display:"flex",
-    overflowX: "scroll",   
-overflowY: "hidden",   
-whiteSpace: "nowrap",
-width:"100%",
-active:{
-  backgroundColor:"red",
-}
+  list: {
+    display: "flex",
+    overflowX: "scroll",
+    overflowY: "hidden",
+    whiteSpace: "nowrap",
+    width: "100%",
+    active: {
+      backgroundColor: "red",
+    },
   },
 }));
 
-const Explore = () => {
+const Explore = ({ setcatagory }) => {
   const [open, setOpen] = useState(false);
   const classes = useStyle({ open });
-  const [sort, setSort] = React.useState("");
+  const [sort, setSort] = useState("");
 
   const handleChange = (event) => {
     setSort(event.target.value);
+    setcatagory(event.target.value);
   };
 
   return (
@@ -117,11 +118,22 @@ const Explore = () => {
           />
         )}
       </Grid>
-      <Grid item xs={12} md={4} lg={5} className={`flex justify-end ${classes.mobile}`}>
-
-        <FormControl sx={{
-          m: 1, minWidth: '250px', backgroundColor: "#EDEEF2", borderColor: '#EDEEF2'
-        }} size="small">
+      <Grid
+        item
+        xs={12}
+        md={4}
+        lg={5}
+        className={`flex justify-end ${classes.mobile}`}
+      >
+        <FormControl
+          sx={{
+            m: 1,
+            minWidth: "250px",
+            backgroundColor: "#EDEEF2",
+            borderColor: "#EDEEF2",
+          }}
+          size="small"
+        >
           <InputLabel id="demo-select-smal">{`Category`}</InputLabel>
           <Select
             labelId="emo-select-small"
@@ -129,36 +141,41 @@ const Explore = () => {
             value={sort}
             onChange={handleChange}
             // autoWidth
-            label="Category">
+            label="Category"
+          >
             {/* <MenuItem value="">
                   <em>None</em>
                 </MenuItem> */}
-            <MenuItem value={10}>Restaurant</MenuItem>
-            <MenuItem value={20}>Lounge</MenuItem>
-            <MenuItem value={30}>Nightclub</MenuItem>
-            <MenuItem value={40}>Bar/ Tavern</MenuItem>
-            <MenuItem value={50}>Coffee Shop</MenuItem>
-
+            <MenuItem value={"Restaurant"}>Restaurant</MenuItem>
+            <MenuItem value={"Lounge"}>Lounge</MenuItem>
+            <MenuItem value={"Nightclub"}>Nightclub</MenuItem>
+            <MenuItem value={"Bar/ Tavern"}>Bar/ Tavern</MenuItem>
+            <MenuItem value={"Coffee Shop"}>Coffee Shop</MenuItem>
           </Select>
         </FormControl>
       </Grid>
-      <p style={{ fontSize: 18, marginTop: '2rem', marginBottom: '5rem' }}
+      <p
+        style={{ fontSize: 18, marginTop: "2rem", marginBottom: "5rem" }}
         className={`my-6 text-lg font-cabin font-semibold text-[#94A3B1] ${classes.heading} ${classes.mobile}`}
       >
         Explore our exclusive list of establishment, curated for any distinct
         occasion
       </p>
-     
-      <Grid xs={12} md={4} lg={4} className="flex justify-between block sm:hidden w-full overflow-x-hidden" item>
+
+      <Grid
+        xs={12}
+        md={4}
+        lg={4}
+        className="flex justify-between block sm:hidden w-full overflow-x-hidden"
+        item
+      >
         <ul className={`flex ${classes.list}`}>
-        <li className="font-bold text-xs mr-6 mb-8">Resturant</li>
-        <li className="font-bold text-xs mr-6 mb-8">Lounge</li>
-        <li className="font-bold text-xs mr-6 mb-8">Nightclub</li>
-        <li className="font-bold text-xs mr-6 mb-8">Bar/Tavern</li>
-        <li className="font-bold text-xs mr-6 mb-8">CoffeeShop</li>
-      </ul>
-      
-       
+          <li className="font-bold text-xs mr-6 mb-8">Resturant</li>
+          <li className="font-bold text-xs mr-6 mb-8">Lounge</li>
+          <li className="font-bold text-xs mr-6 mb-8">Nightclub</li>
+          <li className="font-bold text-xs mr-6 mb-8">Bar/Tavern</li>
+          <li className="font-bold text-xs mr-6 mb-8">CoffeeShop</li>
+        </ul>
       </Grid>
     </Grid>
   );

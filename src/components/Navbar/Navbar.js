@@ -26,6 +26,7 @@ const Navbar = () => {
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
 
   const history = useNavigate();
+  // const token = localStorage.getItem("access")
 
   return (
     <>

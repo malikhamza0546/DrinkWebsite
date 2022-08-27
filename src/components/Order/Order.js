@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import assets from "../../assets/assets";
 import TextField from "../../components/Forms/Input/TextField";
@@ -13,6 +13,8 @@ import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import { borderRadius } from "@mui/system";
 import { FaGreaterThan } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { cardDetailsShow } from "../../services/API";
 
 const data = [
   { name: "Rice", quantity: 2, price: 10 },
@@ -27,9 +29,26 @@ const Order = ({ route }) => {
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const theme = useTheme();
   const isXS = useMediaQuery(theme.breakpoints.down("sm"));
+  const [cardData, setCardData] = useState();
+
+  const cart = useSelector((state) => state.Cart);
 
   const { state } = useLocation();
-  console.log("statete", state);
+  console.log("statete1111", state);
+
+  const cardDetailsShowGetter = async () => {
+    try {
+      const response = await cardDetailsShow();
+      setCardData(response?.data);
+      console.log("response in carrd detail Getter", response?.data);
+    } catch (e) {
+      console.log(" error in card detail ", e);
+    }
+  };
+
+  useEffect(() => {
+    cardDetailsShowGetter();
+  }, []);
 
   return (
     <div className="w-screen h-screen signup-outer-wrapper relative overflow-x-hidden mt-12 mb-12">

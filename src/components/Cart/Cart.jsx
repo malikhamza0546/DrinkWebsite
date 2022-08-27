@@ -29,7 +29,7 @@ const data = [
 ];
 
 const Cart = ({ ID }) => {
-  const product = ["food", "milk"];
+  // const product = ["food", "milk"];
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -43,14 +43,8 @@ const Cart = ({ ID }) => {
 
   let navigate = useNavigate();
 
-  const inner = {};
-
-  inner["addons"] = addons;
-  inner["count"] = quantity;
-  inner["product"] = "11312312312312";
-
-  arrayNew.push(inner);
-  console.log("aarraaryneeww", arrayNew);
+  // arrayNew.push(inner);
+  // console.log("aarraaryneeww", arrayNew);
 
   const handleAddons = (e) => {
     console.log("e", e.target.value);
@@ -85,10 +79,18 @@ const Cart = ({ ID }) => {
   };
 
   const handleClick = () => {
-    dispatch(AddToCart({ product, quantity }));
+    const inner = {};
+
+    inner["addons"] = addons;
+    inner["count"] = quantity;
+    inner["product"] = "11312312312312";
+
+    console.log("inner from func", inner);
+
+    dispatch(AddToCart({ arrayNew, quantity }));
     navigate("/order", {
       state: {
-        arrayData: [arrayNew],
+        arrayData: inner,
       },
     });
   };
