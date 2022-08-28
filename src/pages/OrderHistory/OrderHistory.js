@@ -207,8 +207,9 @@ const OrderHistory = () => {
                   direction="column"
                   alignItems="center"
                   justifyContent="center"
+                  className="sm:px-0 px-12"
                 >
-                  <hr className={`${classes.hr}  w-full mt-6`} />
+                  <hr className={`${classes.hr}  w-full mt-6  `} />
                   <div
                     className={`${classes.total} w-full px-20 flex justify-between items-center mt-4`}
                   >
