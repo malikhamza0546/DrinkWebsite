@@ -43,6 +43,7 @@ import QrCode from "./images/QrCode.png";
 import Visa from "./images/Visa.png";
 
 import Star from "./images/Star.png";
+import StarWhite from "./images/StarWhite.png";
 
 import homeIcon from "./images/home-icon.png";
 import orderIcon from "./images/order-icon.png";
@@ -58,7 +59,7 @@ import cancel from "./images/cancel.png";
 import error from "./images/error.png";
 import success from "./images/success.png";
 
-import explore from "./images/explore.png"
+import explore from "./images/explore.png";
 
 const assets = {
   logo,
@@ -103,6 +104,7 @@ const assets = {
   QrCode,
   Visa,
   Star,
+  StarWhite,
 
   homeIcon,
   orderIcon,
@@ -117,7 +119,7 @@ const assets = {
 
   error,
   success,
-  explore
+  explore,
 };
 
 export default assets;

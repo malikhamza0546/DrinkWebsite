@@ -333,22 +333,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "20px",
     fontWeight: "700",
   },
-  name: {
-    fontFamily: "Nunito",
-    fontSize: "16px",
-    fontWeight: "400",
-  },
+
   cardNumber: {
     fontFamily: "Nunito",
     fontSize: "16px",
     fontWeight: "700",
     color: "#000000",
     marginTop: "4px",
-  },
-  total: {
-    fontFamily: "Nunito",
-    fontSize: "16px",
-    fontWeight: "700",
   },
 
   detail: {
@@ -411,6 +402,16 @@ const useStyles = makeStyles((theme) => ({
       height: "1px",
       border: 0,
       borderTop: "1px solid #000000",
+    },
+    name: {
+      fontFamily: "Nunito",
+      fontSize: "16px",
+      fontWeight: "400",
+    },
+    total: {
+      fontFamily: "Nunito",
+      fontSize: "16px",
+      fontWeight: "700",
     },
   },
 }));
