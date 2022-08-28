@@ -17,17 +17,17 @@ import ReactStars from "react-rating-stars-component"
 import { OrderDetailAPI } from "../../services/API"
 import Notification from "../../components/Notification"
 const style = {
-	position: "absolute",
-	top: "50%",
-	left: "50%",
-	transform: "translate(-50%, -50%)",
-	width: 500,
-	bgcolor: "background.paper",
-	// border: "2px solid #000",
-	borderRadius: 4,
-	boxShadow: 24,
-	p: 4,
-}
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  bgcolor: "background.paper",
+  // border: "2px solid #000",
+  borderRadius: 4,
+  boxShadow: 24,
+  p: 2,
+};
 
 const OrderHistory = () => {
 	const classes = useStyles()
@@ -41,15 +41,15 @@ const OrderHistory = () => {
 	//mui modal
 	const [open, setOpen] = useState(false)
 
-	const handleClose = () => setOpen(false)
+  const handleClose = () => setOpen(false);
 
-	const [tip, setTip] = useState([
-		{ key: 1, tip: "10", status: false },
-		{ key: 2, tip: "15", status: false },
-		{ key: 3, tip: "20", status: false },
-		{ key: 4, tip: "0", status: false },
-	])
-	console.log("order hook hisrtity", OrderHistory)
+  const [tip, setTip] = useState([
+    { key: 1, tip: "10", status: false },
+    { key: 2, tip: "15", status: false },
+    { key: 3, tip: "20", status: false },
+    { key: 4, tip: "0", status: false },
+  ]);
+  console.log("order hook hisrtity", OrderHistory);
 
 	const OrderHistoryGetter = async () => {
 		try {
@@ -78,25 +78,25 @@ const OrderHistory = () => {
 		OrderHistoryGetter()
 	}, [])
 
-	const TipHandler = (item) => {
-		let UpdatedArray = tip.map((object) => {
-			console.log(object, "object.key", item, "item.key")
-			if (object.key === item.key) {
-				return {
-					...object,
-					status: true,
-				}
-			} else {
-				return {
-					...object,
-					status: false,
-				}
-			}
-		})
-		console.log("UpdatedArray", UpdatedArray)
-		setTip(UpdatedArray)
-		setTipToBeSent(item?.tip)
-	}
+  const TipHandler = (item) => {
+    let UpdatedArray = tip.map((object) => {
+      console.log(object, "object.key", item, "item.key");
+      if (object.key === item.key) {
+        return {
+          ...object,
+          status: true,
+        };
+      } else {
+        return {
+          ...object,
+          status: false,
+        };
+      }
+    });
+    console.log("UpdatedArray", UpdatedArray);
+    setTip(UpdatedArray);
+    setTipToBeSent(item?.tip);
+  };
 
 	const TipAPIHandler = async () => {
 		console.log("TipAPIHandler")
@@ -113,34 +113,34 @@ const OrderHistory = () => {
 		}
 	}
 
-	const ratingChanged = (newRating) => {
-		console.log(newRating)
-		setstarRating(newRating)
-	}
+  const ratingChanged = (newRating) => {
+    console.log(newRating);
+    setstarRating(newRating);
+  };
 
-	return (
-		<>
-			<div className="w-screen h-screen signup-outer-wrapper relative overflow-x-hidden mt-12 pb-12 bg-[#FFFF]">
-				<div className="absolute my-12  bg-white overflow-clip mx-auto signup-wrapper left-0 top-0 bottom-0 right-0">
-					<Grid className="px-8 py-4">
-						<div className="flex justify-center items-center">
-							<div
-								className={`font-bold mb-4 self-center items-center text-lg  flex ${classes.info}`}
-							>
-								Order History
-							</div>
-						</div>
+  return (
+    <>
+      <div className="w-screen h-screen signup-outer-wrapper relative overflow-x-hidden mt-12 pb-12 bg-[#FFFF]">
+        <div className="absolute my-12  bg-white overflow-clip mx-auto signup-wrapper left-0 top-0 bottom-0 right-0">
+          <Grid className="px-8 py-4">
+            <div className="flex justify-center items-center">
+              <div
+                className={`font-bold mb-4 self-center items-center text-lg  flex ${classes.info}`}
+              >
+                Order History
+              </div>
+            </div>
 
-						{OrderHistory?.map((obj) => (
-							<div
-								className={`mb-6  ${classes.appetizerOuter}`}
-								onClick={() => handleOpen(obj)}
-							>
-								<div className="flex sm:p-4 sm:ml-2 ml-0 sm:pl-0 p-4">
-									<img
-										src={obj?.products[0]?.product?.image}
-										className={classes.InnerImage}
-									/>
+            {OrderHistory?.map((obj) => (
+              <div
+                className={`mb-6  ${classes.appetizerOuter}`}
+                onClick={() => handleOpen(obj)}
+              >
+                <div className="flex sm:p-4 sm:ml-2 ml-0 sm:pl-0 p-4">
+                  <img
+                    src={obj?.products[0]?.product?.image}
+                    className={classes.InnerImage}
+                  />
 
 									<div className="w-full">
 										<div className="flex flex-row justify-between w-full ">
@@ -322,156 +322,156 @@ const OrderHistory = () => {
 	)
 }
 
-export default OrderHistory
+export default OrderHistory;
 
 const useStyles = makeStyles((theme) => ({
-	image: {
-		height: "400px",
-		width: "767",
-		[theme.breakpoints.down("sm")]: {
-			display: "none",
-		},
-	},
-	title: {
-		fontFamily: "Nunito",
-		fontSize: "24px",
-		fontWeight: "700",
-	},
-	tip: {
-		fontFamily: "Nunito",
-		fontSize: "18px",
-		fontWeight: "400",
-		marginRight: 2,
-	},
-	detail: {
-		fontFamily: "Nunito",
-		fontSize: "16px",
-		color: "#2B2B43",
-	},
-	address: {
-		[theme.breakpoints.down("sm")]: {
-			display: "none",
-		},
-	},
-	container: {
-		display: "flex",
-		alignItems: "center",
-		paddingLeft: "22%",
-		paddingRight: "22%",
-		background: "#ffff",
-		paddingBottom: "60px",
-		[theme.breakpoints.down("sm")]: {
-			paddingTop: "0px",
-			paddingLeft: "0px",
-			paddingRight: "0px",
-		},
-		[theme.breakpoints.between("sm", "md")]: {
-			paddingTop: "90px",
-		},
-	},
-	top: {
-		[theme.breakpoints.down("sm")]: {
-			maxWidth: "100%",
-		},
-	},
-	buttonActive: {
-		width: "100%",
-		height: "40px",
-		fontFamily: "Nunito",
-		fontWeight: 900,
-		fontSize: "13px",
-		[theme.breakpoints.down("sm")]: {
-			borderRadius: "0px",
-		},
-	},
-	buttonDisabled: {
-		width: "100%",
-		fontFamily: "Nunito",
-		fontWeight: 900,
-		fontSize: "13px",
-		backgroundColor: "#EDEEF2",
-	},
-	disable: {
-		backgroundColor: "red",
-	},
-	info: {
-		fontFamily: "Nunito",
-		color: "#2B2B43",
-		marginTop: "4px",
-	},
-	appetizer: {
-		fontFamily: "Nunito",
-		fontSize: "24px",
-		fontWeight: "700",
-		color: "#2B2B43",
-		marginBottom: "16px",
-	},
-	appetizerOuter: {
-		border: "1px solid #FF9901",
-		borderRadius: "8px",
-		width: "100%%",
-		[theme.breakpoints.down("lg")]: {
-			width: "100%",
-		},
-	},
-	font: {
-		fontFamily: "Nunito",
-	},
-	item: {
-		minWidth: "100px",
-		[theme.breakpoints.down("sm")]: {
-			minWidth: "20px",
-		},
-	},
-	removeCart: {
-		border: "1px solid #000000",
-		borderRadius: "6px 0px 0px 6px",
-		width: "40px",
-		height: "40px",
+  image: {
+    height: "400px",
+    width: "767",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+  title: {
+    fontFamily: "Nunito",
+    fontSize: "24px",
+    fontWeight: "700",
+  },
+  tip: {
+    fontFamily: "Nunito",
+    fontSize: "18px",
+    fontWeight: "400",
+    marginRight: 2,
+  },
+  detail: {
+    fontFamily: "Nunito",
+    fontSize: "16px",
+    color: "#2B2B43",
+  },
+  address: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+  container: {
+    display: "flex",
+    alignItems: "center",
+    paddingLeft: "22%",
+    paddingRight: "22%",
+    background: "#ffff",
+    paddingBottom: "60px",
+    [theme.breakpoints.down("sm")]: {
+      paddingTop: "0px",
+      paddingLeft: "0px",
+      paddingRight: "0px",
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      paddingTop: "90px",
+    },
+  },
+  top: {
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "100%",
+    },
+  },
+  buttonActive: {
+    width: "100%",
+    height: "40px",
+    fontFamily: "Nunito",
+    fontWeight: 900,
+    fontSize: "13px",
+    [theme.breakpoints.down("sm")]: {
+      borderRadius: "0px",
+    },
+  },
+  buttonDisabled: {
+    width: "100%",
+    fontFamily: "Nunito",
+    fontWeight: 900,
+    fontSize: "13px",
+    backgroundColor: "#EDEEF2",
+  },
+  disable: {
+    backgroundColor: "red",
+  },
+  info: {
+    fontFamily: "Nunito",
+    color: "#2B2B43",
+    marginTop: "4px",
+  },
+  appetizer: {
+    fontFamily: "Nunito",
+    fontSize: "24px",
+    fontWeight: "700",
+    color: "#2B2B43",
+    marginBottom: "16px",
+  },
+  appetizerOuter: {
+    border: "1px solid #FF9901",
+    borderRadius: "8px",
+    width: "100%%",
+    [theme.breakpoints.down("lg")]: {
+      width: "100%",
+    },
+  },
+  font: {
+    fontFamily: "Nunito",
+  },
+  item: {
+    minWidth: "100px",
+    [theme.breakpoints.down("sm")]: {
+      minWidth: "20px",
+    },
+  },
+  removeCart: {
+    border: "1px solid #000000",
+    borderRadius: "6px 0px 0px 6px",
+    width: "40px",
+    height: "40px",
 
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		cursor: "pointer",
-	},
-	addCart: {
-		border: "1px solid #000000",
-		borderRadius: "0px 6px 6px 0px",
-		width: "40px",
-		height: "40px",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		cursor: "pointer",
-	},
-	number: {
-		border: "1px solid #000000",
-		width: "40px",
-		height: "40px",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		marginLeft: "10px",
-		marginRight: "10px",
-	},
-	InnerImage: {
-		height: 60,
-		width: 60,
-	},
-	hr: {
-		display: "block",
-		height: "1px",
-		border: 0,
-		borderTop: "1px solid #000000",
-	},
-	name: {
-		fontFamily: "Nunito",
-		fontSize: "16px",
-		fontWeight: "400",
-	},
-	total: {
-		fontFamily: "Nunito",
-		fontSize: "16px",
-		fontWeight: "700",
-	},
-}))
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+  },
+  addCart: {
+    border: "1px solid #000000",
+    borderRadius: "0px 6px 6px 0px",
+    width: "40px",
+    height: "40px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+  },
+  number: {
+    border: "1px solid #000000",
+    width: "40px",
+    height: "40px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: "10px",
+    marginRight: "10px",
+  },
+  InnerImage: {
+    height: 60,
+    width: 60,
+  },
+  hr: {
+    display: "block",
+    height: "1px",
+    border: 0,
+    borderTop: "1px solid #000000",
+  },
+  name: {
+    fontFamily: "Nunito",
+    fontSize: "16px",
+    fontWeight: "400",
+  },
+  total: {
+    fontFamily: "Nunito",
+    fontSize: "16px",
+    fontWeight: "700",
+  },
+}));
