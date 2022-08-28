@@ -1,0 +1,78 @@
+.left-ellipses {
+    bottom: -9rem;
+    left: -8rem;
+}
+.right-ellipses {
+    top: -9rem;
+    right: -8rem;
+}
+
+.signup-wrapper {
+    width: 60rem;
+    max-width: 80%;
+    height: max-content;
+    overflow-y: visible;
+    /* box-shadow: 0px 4px 4px rgb(0 0 0 / 25%); */
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    padding-bottom: 20px;
+}
+
+.extend-height {
+    min-height: 120vh;
+}
+
+.signup-tabs {
+    color: black;
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+
+.signup-tabs .active {
+    background: linear-gradient(0deg, var(--primary), var(--primary)), #FFFFFF;
+    color: white;
+}
+
+.signup-btns button {
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.signup-link span{ 
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+
+.ellipses-animate {
+    animation-name: ellipses;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function: lenear;
+    width: 25rem;
+}
+
+@keyframes ellipses {
+    0% {
+        transform: scale(1, 1);
+      }
+      50% {
+        transform: scale(1.5, 1.5);
+      }
+      100% {
+        transform: scale(1, 1);
+      }
+  }
+
+  @media screen and (max-width: 900px) {
+    .signup-outer-wrapper {
+        min-height: 800px;
+    }
+  }
