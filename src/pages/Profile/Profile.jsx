@@ -1,69 +1,257 @@
-import { Grid } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@mui/styles";
+import Profile from "../../components/Profile";
+import Input from "../../components/FormInput/Input";
+import { useForm } from "react-hook-form";
+import assets from "../../assets/assets";
+import Button from "../../components/Forms/Button/AuthButton";
+import SaveButton from "../../components/Forms/Button/SaveButton";
+import { getProfile } from "../../services/API";
+
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
+
 // import Events from "../../components/CalanderEvents/Events";
 const ProfilePage = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const [profile, setProfile] = useState();
+
+  const GetProfileGetter = async () => {
+    try {
+      const response = await getProfile();
+      setProfile(response?.data);
+      console.log("response in OrderHistoryGetter", response?.data);
+    } catch (e) {
+      console.log(e, " else Body Error");
+    }
+  };
+
+  useEffect(() => {
+    GetProfileGetter();
+  }, []);
+
   return (
-    <Grid container>
-      <div className="w-screen h-screen signup-outer-wrapper relative overflow-x-hidden mt-14 mb-12">
-        <h1 className={`${classes.card}`}>Busniess Setting</h1>
-      </div>
+    <Grid
+      container
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
+      className={classes.container}
+    >
+      <Grid>
+        <Grid>
+          <Input
+            //   label={"First Name"}
+            type="text"
+            placeholder={"Exp Year"}
+            name="name"
+            validation={{ required: true, maxLength: 16 }}
+            error={errors.exp_year}
+            register={register}
+            errorMessage={"Enter Exp Year"}
+            className={`mb-4  ${classes.inputField}`}
+          />
+          <Input
+            //   label={"First Name"}
+            type="text"
+            placeholder={"Exp Year"}
+            name="pro"
+            validation={{ required: true, maxLength: 16 }}
+            error={errors.exp_year}
+            register={register}
+            errorMessage={"Enter Exp Year"}
+            className="mb-4"
+          />
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Input
+            //   label={"First Name"}
+            type="text"
+            placeholder={"Exp Year"}
+            name="exp_year"
+            validation={{ required: true, maxLength: 16 }}
+            error={errors.exp_year}
+            register={register}
+            errorMessage={"Enter Exp Year"}
+            className="mb-4"
+          />
+          <Input
+            //   label={"First Name"}
+            type="text"
+            placeholder={"Exp Year"}
+            name="exp_year"
+            validation={{ required: true, maxLength: 16 }}
+            error={errors.exp_year}
+            register={register}
+            errorMessage={"Enter Exp Year"}
+            className="mb-4"
+          />
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Input
+            //   label={"First Name"}
+            type="text"
+            placeholder={"Exp Year"}
+            name="exp_year"
+            validation={{ required: true, maxLength: 16 }}
+            error={errors.exp_year}
+            register={register}
+            errorMessage={"Enter Exp Year"}
+            className="mb-4"
+          />
+          <Input
+            //   label={"First Name"}
+            type="text"
+            placeholder={"Exp Year"}
+            name="exp_year"
+            validation={{ required: true, maxLength: 16 }}
+            error={errors.exp_year}
+            register={register}
+            errorMessage={"Enter Exp Year"}
+            className="mb-4"
+          />
+        </Grid>
+      </Grid>
+
+      <Grid className={classes.editOuter}>
+        <img className={classes.image} src={assets.guide1} />
+
+        <div className={classes.edit}>
+          <div>Edit</div>
+        </div>
+      </Grid>
+
+      <Grid container className="mt-8">
+        <Grid item xs={6} md={6}>
+          <SaveButton label="Edit" />
+        </Grid>
+        <Grid item xs={6} md={6}>
+          <Button
+            label="Save Changes"
+            //   icon={<img src={assets.emailIcon} alt="" />}
+          />
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    fontFamily: "Nunito",
-    fontSize: "22px",
-    fontWeight: "700",
+  editOuter: {
+    position: "relative",
+    borderRadius: 12,
   },
-  subtitle: {
-    fontFamily: "Nunito",
-    fontSize: "14px",
-    fontWeight: "400",
-  },
-  subtitle: {
+
+  edit: {
+    width: "100%",
+    backgroundColor: "rgba(248, 173, 63, 0.5)",
+    height: 40,
+    position: "absolute",
+    marginTop: -40,
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    color: "#FFFF",
     fontFamily: "Nunito",
     fontSize: "18px",
-    fontWeight: "400",
+    fontWeight: "500",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  signupTabs: {
-    color: "white",
-    fontFamily: "Roboto",
-    fontWeight: "400",
-    fontSize: "14px",
-    cursor: "pointer",
-    marginBottom: "20px",
-    background:
-      "linear-gradient(0deg, var(--primary), var(--primary)), #FFFFFF",
+  image: {
+    height: "240px",
+    width: "307",
+    borderRadius: 12,
+
     [theme.breakpoints.down("sm")]: {
-      marginBottom: "0px",
+      display: "none",
     },
   },
-  card: {
-    borderRadius: "24px",
-    marginBottom: "20px",
+  title: {
+    fontFamily: "Nunito",
+    fontSize: "24px",
+    fontWeight: "700",
+  },
+  inputField: {
+    width: 400,
+    marginBottom: 20,
+  },
+  detail: {
+    fontFamily: "Nunito",
+    fontSize: "16px",
+    color: "#2B2B43",
+  },
+  address: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+  container: {
+    display: "flex",
+    alignItems: "center",
+    paddingLeft: "22%",
+    paddingRight: "22%",
+    background: "#ffff",
+    paddingBottom: "60px",
+    paddingTop: "10%",
+
+    [theme.breakpoints.down("sm")]: {
+      paddingTop: "0px",
+      paddingLeft: "0px",
+      paddingRight: "0px",
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      paddingTop: "90px",
+    },
+  },
+
+  buttonActive: {
+    width: "100%",
+    height: "40px",
+    fontFamily: "Nunito",
+    fontWeight: 900,
+    fontSize: "13px",
     [theme.breakpoints.down("sm")]: {
       borderRadius: "0px",
-      marginBottom: "0px",
     },
   },
-  signupWrapper: {
-    width: "38rem",
-    maxWidth: "80%",
-    height: "max-content",
-    overflowY: "visible",
+  buttonDisabled: {
+    width: "100%",
+    fontFamily: "Nunito",
+    fontWeight: 900,
+    fontSize: "13px",
+    backgroundColor: "#EDEEF2",
+  },
+  disable: {
+    backgroundColor: "red",
+  },
 
-    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-    borderRadius: "16px",
-    marginBottom: "48px",
-    marginTop: "60px",
-
+  font: {
+    fontFamily: "Nunito",
+  },
+  item: {
+    minWidth: "100px",
     [theme.breakpoints.down("sm")]: {
-      marginBottom: "48px",
+      minWidth: "20px",
     },
   },
 }));
+
 export default ProfilePage;

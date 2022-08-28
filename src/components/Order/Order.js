@@ -20,6 +20,11 @@ import { FaUser } from "react-icons/fa";
 import Notification from "../Notification";
 import { useDispatch } from "react-redux";
 
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+
 const data = [
   { name: "Rice", quantity: 2, price: 10 },
   { name: "Beans", quantity: 2, price: 10 },
@@ -156,11 +161,7 @@ const Order = ({ route }) => {
         <Grid
           className={`${classes.card} bg-[#FF9901] sm:mx-16 mx-0 py-4 rounded-2xl mt-8`}
         >
-          <div
-            className={`${"active"} text-xl flex justify-center items-center text-white`}
-          >
-            Select Card
-          </div>
+          {" "}
           {cardData &&
             cardData.map((item) => (
               <div
@@ -168,24 +169,52 @@ const Order = ({ route }) => {
                 // onClick={() => setCardSelected(item._id)}
                 onClick={() => cardID(item._id)}
               >
-                <div
-                  className={
-                    item._id == cardSelected
-                      ? "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-8 px-2 mb-2 border-4 border-[#006400]"
-                      : "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-8 px-2 mb-2"
-                  }
-                >
-                  <div className=" flex ">
-                    <img src={assets.walletCard} className="mr-4" />
-                    <div className={classes.cardNumber}>
-                      *****
-                      {item?.card_number.substr(item?.card_number.length - 5)}
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={
+                      <FaGreaterThan color="#000000" fontSize="1em" />
+                    }
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <div
+                      className={`${"active"} text-xl flex justify-center items-center text-white`}
+                    >
+                      Select Card
                     </div>
-                  </div>
-                  <div>
-                    <FaGreaterThan color="#000000" fontSize="1em" />
-                  </div>
-                </div>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <div
+                      className={
+                        item._id == cardSelected
+                          ? "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-8 px-2 mb-2 border-4 border-[#006400]"
+                          : "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-8 px-2 mb-2"
+                      }
+                    >
+                      <div className=" flex ">
+                        {item.brand == "visa" && <img src={assets.visaCard} />}
+                        {item.brand == "master" && (
+                          <img src={assets.masterCard} />
+                        )}
+
+                        {/* <img
+                          src={
+                            item.brand == "visa"
+                              ? assets.visaCard
+                              : assets.masterCard
+                          }
+                          className="mr-4"
+                        /> */}
+                        <div className={classes.cardNumber}>
+                          *****
+                          {item?.card_number.substr(
+                            item?.card_number.length - 5
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </AccordionDetails>
+                </Accordion>
               </div>
             ))}
         </Grid>
