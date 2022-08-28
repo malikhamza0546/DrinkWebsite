@@ -12,7 +12,7 @@ import { makeStyles } from "@mui/styles";
 import { Grid, useMediaQuery, useTheme, Box } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import { borderRadius } from "@mui/system";
-import { FaGreaterThan } from "react-icons/fa";
+import { FaAngleDown } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { cardDetailsShow, postOrder } from "../../services/API";
 import Modal from "@mui/material/Modal";
@@ -172,7 +172,7 @@ const Order = ({ route }) => {
                 <Accordion>
                   <AccordionSummary
                     expandIcon={
-                      <FaGreaterThan color="#000000" fontSize="1em" />
+                      <FaAngleDown color="#000000" fontSize="1.8em" />
                     }
                     aria-controls="panel1a-content"
                     id="panel1a-header"
@@ -369,6 +369,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "700",
     color: "#000000",
     marginTop: "4px",
+    marginLeft: "8px",
   },
 
   detail: {

@@ -146,11 +146,12 @@ const Explore = ({ setcatagory }) => {
             {/* <MenuItem value="">
                   <em>None</em>
                 </MenuItem> */}
-            <MenuItem value={"Restaurant"}>Restaurant</MenuItem>
-            <MenuItem value={"Lounge"}>Lounge</MenuItem>
-            <MenuItem value={"Nightclub"}>Nightclub</MenuItem>
-            <MenuItem value={"Bar/ Tavern"}>Bar/ Tavern</MenuItem>
-            <MenuItem value={"Coffee Shop"}>Coffee Shop</MenuItem>
+            <MenuItem value={"restaurant"}>Restaurant</MenuItem>
+            <MenuItem value={"lounge"}>Lounge</MenuItem>
+            <MenuItem value={"nightclub"}>Nightclub</MenuItem>
+            <MenuItem value={"bar"}>Bar/ Tavern</MenuItem>
+            <MenuItem value={"coffeeShop"}>Coffee Shop</MenuItem>
+            <MenuItem value={"hookahLounge"}>Hookah Lounge</MenuItem>
           </Select>
         </FormControl>
       </Grid>

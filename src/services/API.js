@@ -192,21 +192,22 @@ export const cardDetailsShow = async () => {
 }
 
 export const getExploreCardData = async (maxNum, PageNumber, catagory) => {
-	const token = localStorage.getItem("access")
-	console.log("catagory getExploreCardData", catagory)
-	return new Promise((resolve, reject) => {
-		axios({
-			method: "get",
-			url: `${REACT_APP_API_URL}/establishment/web?limit=${
-				maxNum || null
-			}&page=${PageNumber || null}&search=${catagory || null}`,
-		})
-			.then((res) => resolve(res))
-			.catch((err) => {
-				reject(err)
-			})
-	})
-}
+  const token = localStorage.getItem("access");
+  console.log("catagory getExploreCardData", catagory);
+  return new Promise((resolve, reject) => {
+    axios({
+      method: "get",
+      //   url: `${REACT_APP_API_URL}/establishment/web?limit=${
+      //     maxNum || null
+      //   }&page=${PageNumber || null}&catagory=${catagory || null}`,
+      url: `${REACT_APP_API_URL}/establishment/web?limit=${maxNum}&page=${PageNumber}&category=${catagory}`,
+    })
+      .then((res) => resolve(res))
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
 
 export const postSocailAccount = async (Data) => {
 	return new Promise((resolve, reject) => {
