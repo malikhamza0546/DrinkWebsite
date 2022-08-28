@@ -39,15 +39,19 @@ const ProfilePage = () => {
 
 	const onSubmit = async (data) => {
 		console.log("Profile Data", data)
+		let x = {
+			firstName: data?.firstName,
+			surName: data?.surName,
+			dob: data?.dob,
+			phoneNumber: data?.phoneNumber,
+		}
 		try {
-			const response = await UpdateProfile(data)
+			const response = await UpdateProfile(x)
 			setUpdateprofile(response?.data)
 			console.log("response in ProductGetter", response?.data)
 		} catch (e) {
-			console.log(e, " else Body Error")
+			console.log(" else Body Error", e)
 		}
-
-		// pay(data)
 	}
 
 	return (

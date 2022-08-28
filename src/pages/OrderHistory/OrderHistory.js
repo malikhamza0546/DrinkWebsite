@@ -14,6 +14,8 @@ import Modal from "@mui/material/Modal"
 import AuthButton from "../../components/Forms/Button/AuthButton"
 import { postTip } from "../../services/API"
 import ReactStars from "react-rating-stars-component"
+import { OrderDetailAPI } from "../../services/API"
+import Notification from "../../components/Notification"
 const style = {
 	position: "absolute",
 	top: "50%",
@@ -35,6 +37,7 @@ const OrderHistory = () => {
 	const [TipAPIResponse, setTipAPIResponse] = useState("")
 	const [TipToBeSent, setTipToBeSent] = useState("")
 	const [starRating, setstarRating] = useState("")
+	const [OrderDetailAPIState, setOrderDetailAPIState] = useState("")
 	//mui modal
 	const [open, setOpen] = useState(false)
 
@@ -53,14 +56,23 @@ const OrderHistory = () => {
 			const response = await OrderHistoryApi()
 			setOrderHistory(response?.data)
 			console.log("response in OrderHistoryGetter", response?.data)
+			// Notification("success", response?.data)
 		} catch (e) {
 			console.log(e, " else Body Error")
+			// Notification("error", e)
 		}
 	}
 
-	const handleOpen = (orderFromAPI) => {
+	const handleOpen = async (orderFromAPI) => {
 		setOrderDataFromAPI(orderFromAPI)
 		setOpen(true)
+		try {
+			let response = await OrderDetailAPI(orderFromAPI?.id)
+			console.log("response OrderDetailAPI", response?.data)
+			setOrderDetailAPIState(response?.data)
+		} catch (e) {
+			console.log("e", e)
+		}
 	}
 	useEffect(() => {
 		OrderHistoryGetter()
@@ -94,8 +106,10 @@ const OrderHistory = () => {
 			})
 			console.log("postOrder API Response ", response?.data)
 			setTipAPIResponse(response?.data)
+			// Notification("success", response?.data)
 		} catch (e) {
-			console.log(e.response.data.message, "Error  PostOrderOnClick")
+			console.log(e?.response?.data?.message, "Error  PostOrderOnClick")
+			Notification("error", e?.response?.data?.message)
 		}
 	}
 
@@ -177,18 +191,18 @@ const OrderHistory = () => {
 							>
 								<div>
 									<div className="font-nunito font-bold text-lg mb-6">
-										Order Completed
+										Order {OrderDetailAPIState?.order_status}
 									</div>
 
 									<div className="mb-6 flex flex-col items-center">
 										<div>
 											<img
 												className="rounded-full border-2 border-[#FF5F00] w-20 h-20 "
-												src={assets.bottles}
+												src={OrderDetailAPIState?.products?.[0]?.product?.image}
 											/>
 										</div>
 										<div className="font-bold font-nunito text-lg text-[#FF5F00] mt-2">
-											Racket
+											{OrderDetailAPIState?.products?.[0]?.product?.name}
 										</div>
 									</div>
 								</div>
@@ -215,18 +229,16 @@ const OrderHistory = () => {
 										</div>
 									</div>
 								</div>
-
 								<div className=" mb-8 flex flex-col justify-between items-center ">
 									<div className="flex flex-col items-center justify-center md:mb-0 mb-4">
 										<div className="font-medium font-nunito md:text-lg text-sm text-[#FF5F00] mb-2 md:mb-0">
-											Order #: {OrderDataFromAPI?.order_number}
+											Order #: {OrderDetailAPIState?.order_number}
 										</div>
 										<div className="font-nunito font-medium md:text-lg text-sm text-[#2B2B43]">
 											(786) 637-2987
 										</div>
 									</div>
 								</div>
-
 								<Grid
 									container
 									direction="column"
@@ -260,7 +272,6 @@ const OrderHistory = () => {
 										))}
 									</div>
 								</Grid>
-
 								<Grid
 									container
 									direction="column"
@@ -273,12 +284,13 @@ const OrderHistory = () => {
 										className={`${classes.total} w-full px-20 flex justify-between items-center mt-4`}
 									>
 										<div>Total</div>
-										<div>{OrderDataFromAPI?.total}</div>
+										<div>{OrderDetailAPIState?.total}</div>
 									</div>
 
 									<div className="flex items-center justify-around w-full mt-4 px-20">
 										<ReactStars
 											count={5}
+											value={OrderDetailAPIState?.rating?.rating || 0}
 											onChange={ratingChanged}
 											size={24}
 											activeColor="#ffd700"
@@ -286,8 +298,10 @@ const OrderHistory = () => {
 									</div>
 								</Grid>
 
-								<AuthButton label="Review" onClick={TipAPIHandler} />
-
+								{OrderDetailAPIState?.isRatingSaved === false &&
+									OrderDetailAPIState?.isTipSaved === false && (
+										<AuthButton label="Review" onClick={TipAPIHandler} />
+									)}
 								<div className="flex  items-center justify-center mt-4">
 									<div className="flex ml-4" onClick={handleClose}>
 										<img
