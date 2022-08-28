@@ -363,7 +363,13 @@ const Racket = ({ EstablishmentID, phoneNumber, address }) => {
                 </Grid>
               ))
             ) : (
-              <h1>Product Not Found</h1>
+              <div className="flex items-center justify-center mt-4">
+                <div
+                  className={`${classes.notFoundContainer} flex items-center justify-center `}
+                >
+                  <div className="prodNotFound">Product Not Found</div>
+                </div>
+              </div>
             )}
           </>
         )}
@@ -600,6 +606,18 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Nunito",
     fontSize: "24px",
     fontWeight: "700",
+  },
+
+  prodNotFound: {
+    fontFamily: "Nunito",
+    fontSize: "24px",
+    fontWeight: "700",
+  },
+  notFoundContainer: {
+    paddingTop: 20,
+    paddingBottom: 20,
+    backgroundColor: "#EDEEF2",
+    width: "50%",
   },
   detail: {
     fontFamily: "Nunito",

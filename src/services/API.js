@@ -197,9 +197,10 @@ export const getExploreCardData = async (maxNum, PageNumber, catagory) => {
   return new Promise((resolve, reject) => {
     axios({
       method: "get",
-      url: `${REACT_APP_API_URL}/establishment/web?limit=${
-        maxNum || null
-      }&page=${PageNumber || null}&search=${catagory || null}`,
+      //   url: `${REACT_APP_API_URL}/establishment/web?limit=${
+      //     maxNum || null
+      //   }&page=${PageNumber || null}&catagory=${catagory || null}`,
+      url: `${REACT_APP_API_URL}/establishment/web?limit=${maxNum}&page=${PageNumber}&category=${catagory}`,
     })
       .then((res) => resolve(res))
       .catch((err) => {
