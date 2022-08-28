@@ -61,6 +61,9 @@ import success from "./images/success.png";
 
 import explore from "./images/explore.png";
 
+import masterCard from "./images/masterCard.png";
+import visaCard from "./images/VisaCard.png";
+
 const assets = {
   logo,
   dashboardMenu,
@@ -120,6 +123,9 @@ const assets = {
   error,
   success,
   explore,
+
+  masterCard,
+  visaCard,
 };
 
 export default assets;

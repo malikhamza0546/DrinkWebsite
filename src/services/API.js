@@ -279,3 +279,40 @@ export const postTip = async (ID, percentage, data) => {
 			})
 	})
 }
+
+export const getProfile = async () => {
+	const token = localStorage.getItem("access")
+	return new Promise((resolve, reject) => {
+		axios({
+			method: "get",
+			url: `${REACT_APP_API_URL}/users/manage/profile`,
+			headers: {
+				"x-access-token": token,
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((res) => resolve(res))
+			.catch((err) => {
+				reject(err)
+			})
+	})
+}
+
+export const UpdateProfile = async (data) => {
+	const token = localStorage.getItem("access")
+	return new Promise((resolve, reject) => {
+		axios({
+			method: "post",
+			url: `${REACT_APP_API_URL}/users/manage/profile`,
+			data: data,
+			headers: {
+				"x-access-token": token,
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((res) => resolve(res))
+			.catch((err) => {
+				reject(err)
+			})
+	})
+}
