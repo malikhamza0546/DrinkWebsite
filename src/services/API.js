@@ -318,11 +318,32 @@ export const getProfile = async () => {
 }
 
 export const UpdateProfile = async (data) => {
+	console.log("data from api", data)
 	const token = localStorage.getItem("access")
 	return new Promise((resolve, reject) => {
 		axios({
 			method: "post",
 			url: `${REACT_APP_API_URL}/users/manage/profile`,
+			data: data,
+			headers: {
+				"x-access-token": token,
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then((res) => resolve(res))
+			.catch((err) => {
+				reject(err)
+			})
+	})
+}
+
+export const UpdateProfilePicture = async (data) => {
+	console.log("data for API", data)
+	const token = localStorage.getItem("access")
+	return new Promise((resolve, reject) => {
+		axios({
+			method: "patch",
+			url: `${REACT_APP_API_URL}/users/profile/pic`,
 			data: data,
 			headers: {
 				"x-access-token": token,

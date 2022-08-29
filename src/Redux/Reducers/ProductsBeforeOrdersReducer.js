@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
-	ClickedProd: [],
-}
+  ClickedProd: [],
+};
 export default function ProductsOrderReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case "Products":
