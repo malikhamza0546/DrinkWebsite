@@ -225,7 +225,7 @@ export const postSocailAccount = async (Data) => {
 
 export const postOrder = async (establishmentID, data) => {
 	const token = localStorage.getItem("access")
-	console.log("token in Post dataaaaaaaaaa for order", establishmentID)
+	console.log("token in Post dataaaaaaaaaa for order", data)
 	return new Promise((resolve, reject) => {
 		axios({
 			method: "post",
