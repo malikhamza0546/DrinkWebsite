@@ -1,48 +1,48 @@
-import React, { useState } from "react";
-import { Grid, Button, useMediaQuery, useTheme, Box } from "@mui/material";
-import img from "../../assets/images/img.png";
-import headerImage1 from "../../assets/images/headerImage1.png";
-import { makeStyles } from "@mui/styles";
-import colors from "../../assets/colors";
-import { RACKET } from "../../services/slider";
-import assets from "../../assets/assets";
-import appetizer from "../../assets/images/appetizer.png";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react"
+import { Grid, Button, useMediaQuery, useTheme, Box } from "@mui/material"
+import img from "../../assets/images/img.png"
+import headerImage1 from "../../assets/images/headerImage1.png"
+import { makeStyles } from "@mui/styles"
+import colors from "../../assets/colors"
+import { RACKET } from "../../services/slider"
+import assets from "../../assets/assets"
+import appetizer from "../../assets/images/appetizer.png"
+import { useNavigate } from "react-router-dom"
 
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker";
-import { MonthPicker } from "@mui/x-date-pickers/MonthPicker";
-import { YearPicker } from "@mui/x-date-pickers/YearPicker";
-import ButtonOne from "../../components/Forms/Button/AuthButton";
-import { getProducts, getTimeSlot, postReservation } from "../../services/API";
-import { useParams } from "react-router";
-import { FaUser } from "react-icons/fa";
-import { useEffect } from "react";
-import moment from "moment";
-import Notification from "../../components/Notification";
-import { useDispatch } from "react-redux";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
+import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker"
+import { MonthPicker } from "@mui/x-date-pickers/MonthPicker"
+import { YearPicker } from "@mui/x-date-pickers/YearPicker"
+import ButtonOne from "../../components/Forms/Button/AuthButton"
+import { getProducts, getTimeSlot, postReservation } from "../../services/API"
+import { useParams } from "react-router"
+import { FaUser } from "react-icons/fa"
+import { useEffect } from "react"
+import moment from "moment"
+import Notification from "../../components/Notification"
+import { useDispatch } from "react-redux"
 
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography"
+import Modal from "@mui/material/Modal"
 
 const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 600,
-  bgcolor: "background.paper",
-  // border: "2px solid #000",
-  borderRadius: 4,
-  boxShadow: 24,
-  p: 4,
-};
+	position: "absolute",
+	top: "50%",
+	left: "50%",
+	transform: "translate(-50%, -50%)",
+	width: 600,
+	bgcolor: "background.paper",
+	// border: "2px solid #000",
+	borderRadius: 4,
+	boxShadow: 24,
+	p: 4,
+}
 
-const minDate = new Date("2020-01-01T00:00:00.000");
-const maxDate = new Date("2034-01-01T00:00:00.000");
+const minDate = new Date("2020-01-01T00:00:00.000")
+const maxDate = new Date("2034-01-01T00:00:00.000")
 
-const Racket = ({ EstablishmentID, phoneNumber, address, name, pic }) => {
+const Racket = ({ EstablishmentID, phoneNumber, address }) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -347,7 +347,7 @@ const Racket = ({ EstablishmentID, phoneNumber, address, name, pic }) => {
                               <p
                                 className={`text-base font-bold text-black ${classes.font}`}
                               >
-                                {`$ ${obj?.price}`}
+                                {obj?.price}
                               </p>
                             </div>
                             <p
@@ -368,89 +368,90 @@ const Racket = ({ EstablishmentID, phoneNumber, address, name, pic }) => {
           </>
         )}
 
-        {mainTab == "Reservation" && (
-          <Grid xs={24} className="px-8">
-            <Grid
-              container
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              className="py-8"
-            >
-              <Grid item>
-                <div className="font-nunito font-bold text-lg">Party Size</div>
-              </Grid>
-              <Grid item>
-                <div className="flex align-center justify-center ">
-                  <div
-                    className={classes.removeCart}
-                    onClick={() => handleQuantity("dec")}
-                  >
-                    -
-                  </div>
-                  <div className={classes.number}>{quantity}</div>
-                  <div
-                    className={classes.addCart}
-                    onClick={() => handleQuantity("inc")}
-                  >
-                    +
-                  </div>
-                </div>
-              </Grid>
-            </Grid>
+				{mainTab == "Reservation" && (
+					<Grid xs={24} className="px-8">
+						<Grid
+							container
+							direction="row"
+							justifyContent="space-between"
+							alignItems="center"
+							className="py-8"
+						>
+							<Grid item>
+								<div className="font-nunito font-bold text-lg">Party Size</div>
+							</Grid>
+							<Grid item>
+								<div className="flex align-center justify-center ">
+									<div
+										className={classes.removeCart}
+										onClick={() => handleQuantity("dec")}
+									>
+										-
+									</div>
+									<div className={classes.number}>{quantity}</div>
+									<div
+										className={classes.addCart}
+										onClick={() => handleQuantity("inc")}
+									>
+										+
+									</div>
+								</div>
+							</Grid>
+						</Grid>
 
-            <Grid
-              container
-              direction="column"
-              alignItems="center"
-              justifyContent="center"
-              className="h-80"
-            >
-              <Grid item>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <CalendarPicker
-                    date={date}
-                    onChange={(newDate) =>
-                      TimeSlotGetterOnClick(EstablishID, newDate)
-                    }
-                  />
-                </LocalizationProvider>
-              </Grid>
+						<Grid
+							container
+							direction="column"
+							alignItems="center"
+							justifyContent="center"
+							className="h-80"
+						>
+							<Grid item>
+								<LocalizationProvider dateAdapter={AdapterDateFns}>
+									<CalendarPicker
+										date={date}
+										onChange={(newDate) =>
+											TimeSlotGetterOnClick(EstablishID, newDate)
+										}
+									/>
+								</LocalizationProvider>
+							</Grid>
 
-              {/* <Grid item className="h-full overflow-y-auto">
+							{/* <Grid item className="h-full overflow-y-auto">
+>>>>>>> OrderUpdateUmer
                 {time.map((item) => (
                   <div className="w-24 flex items-center justify-center h-9 rounded-lg border-slate-600 bg-[#FF9901] mb-4 ">
                     <p>{item.time}</p>
                   </div>
                 ))}
               </Grid> */}
-            </Grid>
+						</Grid>
 
-            <Grid
-              container
-              direction="column"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <div className=" flex w-80 pt-12 flex-row overflow-x-auto">
-                {changeDate && changeDate.length > 0 ? (
-                  changeDate.map((item) => (
-                    <div
-                      // className="w-28 p-2 mr-4 flex items-center justify-center h-9 rounded-lg border-slate-600 bg-[#FF9901] mb-4 "
-                      className={
-                        item == moment.utc(slot * 1000).format("HH:mm")
-                          ? "w-28 p-2 mr-4 flex items-center justify-center h-9 rounded-lg border-slate-600 bg-[#FF9901] mb-4 cursor-pointer "
-                          : "w-28 p-2 mr-4 flex items-center justify-center h-9 rounded-lg border-slate-600 bg-[#DADADA] mb-4 cursor-pointer"
-                      }
-                      onClick={() => setSlotFunc(item)}
-                    >
-                      <p>{item}</p>
-                    </div>
-                  ))
-                ) : (
-                  <div className={classes.detail}>No Slots Avaiable</div>
-                )}
-                {/* {time.map((item) => (
+						<Grid
+							container
+							direction="column"
+							alignItems="center"
+							justifyContent="center"
+						>
+							<div className=" flex w-80 pt-12 flex-row overflow-x-auto">
+								{changeDate && changeDate.length > 0 ? (
+									changeDate.map((item) => (
+										<div
+											// className="w-28 p-2 mr-4 flex items-center justify-center h-9 rounded-lg border-slate-600 bg-[#FF9901] mb-4 "
+											className={
+												item == moment.utc(slot * 1000).format("HH:mm")
+													? "w-28 p-2 mr-4 flex items-center justify-center h-9 rounded-lg border-slate-600 bg-[#FF9901] mb-4 cursor-pointer "
+													: "w-28 p-2 mr-4 flex items-center justify-center h-9 rounded-lg border-slate-600 bg-[#DADADA] mb-4 cursor-pointer"
+											}
+											onClick={() => setSlotFunc(item)}
+										>
+											<p>{item}</p>
+										</div>
+									))
+								) : (
+									<div className={classes.detail}>No Slots Avaiable</div>
+								)}
+								{/* {time.map((item) => (
                   <div
                     className={
                       selected == true
@@ -461,262 +462,274 @@ const Racket = ({ EstablishmentID, phoneNumber, address, name, pic }) => {
                     <p onClick={() => setSelected(true)}>{item.time}</p>
                   </div>
                 ))} */}
-              </div>
-            </Grid>
+							</div>
+						</Grid>
 
-            <Grid container className="mt-16">
-              <button
-                style={{ fontSize: 13, height: 45 }}
-                className="flex bg-black w-full text-whiteColor font-bold py-2 px-4 rounded items-center"
-                onClick={() => PostReservationOnClick(EstablishmentID, obj)}
-              >
-                <span className="text-center m-auto">{"Reservation"}</span>
-              </button>
-            </Grid>
-          </Grid>
-        )}
+						<Grid container className="mt-16">
+							<button
+								style={{ fontSize: 13, height: 45 }}
+								className="flex bg-black w-full text-whiteColor font-bold py-2 px-4 rounded items-center"
+								onClick={() => PostReservationOnClick(EstablishmentID, obj)}
+							>
+								<span className="text-center m-auto">{"Reservation"}</span>
+							</button>
+						</Grid>
+					</Grid>
+				)}
 
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            {confirm && (
-              <Grid>
-                <Box>
-                  <Grid
-                    container
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <div>
-                      <div className="font-nunito font-bold text-lg mb-8">
-                        Reservation Confirmed
-                      </div>
+				<Modal
+					open={open}
+					onClose={handleClose}
+					aria-labelledby="modal-modal-title"
+					aria-describedby="modal-modal-description"
+				>
+					<Box sx={style}>
+						{confirm && (
+							<Grid>
+								<Box>
+									<Grid
+										container
+										direction="column"
+										justifyContent="center"
+										alignItems="center"
+									>
+										<div>
+											<div className="font-nunito font-bold text-lg mb-8">
+												Reservation Confirmed
+											</div>
 
-                      <div className="mb-8 flex flex-col items-center">
-                        <div>
-                          <img
-                            className="rounded-full border-2 border-[#FF5F00] w-20 h-20"
-                            src={reservationAPI?.establishment?.image}
-                          />
-                        </div>
-                        <div className="font-bold font-nunito text-lg text-[#FF5F00]">
-                          Racket
-                        </div>
-                      </div>
-                    </div>
-                  </Grid>
+											<div className="mb-8 flex flex-col items-center">
+												<div>
+													<img
+														className="rounded-full border-2 border-[#FF5F00] w-20 h-20"
+														src={reservationAPI?.establishment?.image}
+													/>
+												</div>
+												<div className="font-bold font-nunito text-lg text-[#FF5F00]">
+													Racket
+												</div>
+											</div>
+										</div>
+									</Grid>
 
-                  <Grid className=" lg:px-14 md:px-4 px-4">
-                    <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-                      <div className="flex flex-col md:items-start md:justify-start items-center justify-center mb-4 md:mb-0">
-                        <div className="font-nunito md:font-medium font-normal text-lg  text-[#2B2B43] mb-2 md:mb-0">
-                          {reservationAPI?.establishment?.address?.streetName}
-                        </div>
-                        <div className="font-nunito font-bold md:text-lg text-sm text-[#2B2B43]">
-                          {moment(reservationAPI?.date).format("MMMM Do YYYY")}
-                        </div>
-                      </div>
+									<Grid className=" lg:px-14 md:px-4 px-4">
+										<div className="flex flex-col md:flex-row justify-between items-center mb-8">
+											<div className="flex flex-col md:items-start md:justify-start items-center justify-center mb-4 md:mb-0">
+												<div className="font-nunito md:font-medium font-normal text-lg  text-[#2B2B43] mb-2 md:mb-0">
+													{reservationAPI?.establishment?.address?.streetName}
+												</div>
+												<div className="font-nunito font-bold md:text-lg text-sm text-[#2B2B43]">
+													{moment(reservationAPI?.date).format("MMMM Do YYYY")}
+												</div>
+											</div>
 
-                      <div className="flex flex-row md:flex-col">
-                        <div className="flex ">
-                          <div className="md:pt-1 pt-0 mr-2">
-                            <FaUser />
-                          </div>
-                          <div className="font-nunito font-bold md:text-lg text-sm text-[#2B2B43] mr-4 md:mr-0">
-                            {reservationAPI?.partySize} people
-                          </div>
-                        </div>
-                        <div className="font-nunito font-bold md:text-lg text-sm text-[#2B2B43]">
-                          {moment
-                            .utc(reservationAPI?.slot * 1000)
-                            .format("HH:mm")}{" "}
-                          pm
-                        </div>
-                      </div>
-                    </div>
+											<div className="flex flex-row md:flex-col">
+												<div className="flex ">
+													<div className="md:pt-1 pt-0 mr-2">
+														<FaUser />
+													</div>
+													<div className="font-nunito font-bold md:text-lg text-sm text-[#2B2B43] mr-4 md:mr-0">
+														{reservationAPI?.partySize} people
+													</div>
+												</div>
+												<div className="font-nunito font-bold md:text-lg text-sm text-[#2B2B43]">
+													{moment
+														.utc(reservationAPI?.slot * 1000)
+														.format("HH:mm")}{" "}
+													pm
+												</div>
+											</div>
+										</div>
 
-                    <div className=" mb-8 flex flex-col md:flex-row justify-between items-center ">
-                      <div className="flex flex-col items-center justify-center md:items-start md:justify-start  md:mb-0 mb-4">
-                        <div className="font-medium font-nunito md:text-lg text-sm text-[#FF5F00] mb-2 md:mb-0">
-                          Confirmation #: 02122
-                        </div>
-                        <div className="font-nunito font-medium md:text-lg text-sm text-[#2B2B43]">
-                          {reservationAPI?.establishment?.phoneNumber}
-                        </div>
-                      </div>
+										<div className=" mb-8 flex flex-col md:flex-row justify-between items-center ">
+											<div className="flex flex-col items-center justify-center md:items-start md:justify-start  md:mb-0 mb-4">
+												<div className="font-medium font-nunito md:text-lg text-sm text-[#FF5F00] mb-2 md:mb-0">
+													Confirmation #: 02122
+												</div>
+												<div className="font-nunito font-medium md:text-lg text-sm text-[#2B2B43]">
+													{reservationAPI?.establishment?.phoneNumber}
+												</div>
+											</div>
 
-                      <div>
-                        <img src={assets.QrCode} className="w-16 h-16" />
-                      </div>
-                    </div>
+											<div>
+												<img src={assets.QrCode} className="w-16 h-16" />
+											</div>
+										</div>
 
-                    <div className="flex  items-center justify-center mt-4">
-                      <div className="flex mr-4" onClick={handleClose}>
-                        <img
-                          className="mr-2 mt-1 h-4 w-4"
-                          src={assets.modify}
-                        />
-                        <div className="font-nunito font-bold text-lg text-[#000000]">
-                          Modify
-                        </div>
-                      </div>
-                      <div className="flex ml-4" onClick={handleClose}>
-                        <img
-                          className="mr-2 w-4 mt-1 h-4 w-4"
-                          src={assets.cancel}
-                        />
-                        <div className="font-nunito font-bold text-lg text-[#000000]">
-                          Cancel
-                        </div>
-                      </div>
-                    </div>
-                  </Grid>
-                </Box>
-              </Grid>
-            )}
-          </Box>
-        </Modal>
-      </Grid>
-    </Grid>
-  );
-};
+										<div className="flex  items-center justify-center mt-4">
+											<div className="flex mr-4" onClick={handleClose}>
+												<img
+													className="mr-2 mt-1 h-4 w-4"
+													src={assets.modify}
+												/>
+												<div className="font-nunito font-bold text-lg text-[#000000]">
+													Modify
+												</div>
+											</div>
+											<div className="flex ml-4" onClick={handleClose}>
+												<img
+													className="mr-2 w-4 mt-1 h-4 w-4"
+													src={assets.cancel}
+												/>
+												<div className="font-nunito font-bold text-lg text-[#000000]">
+													Cancel
+												</div>
+											</div>
+										</div>
+									</Grid>
+								</Box>
+							</Grid>
+						)}
+					</Box>
+				</Modal>
+			</Grid>
+		</Grid>
+	)
+}
 
-export default Racket;
+export default Racket
 
 const useStyles = makeStyles((theme) => ({
-  image: {
-    height: "400px",
-    width: "767",
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
-  },
-  title: {
-    fontFamily: "Nunito",
-    fontSize: "24px",
-    fontWeight: "700",
-  },
-  detail: {
-    fontFamily: "Nunito",
-    fontSize: "16px",
-    color: "#2B2B43",
-  },
-  address: {
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
-  },
-  container: {
-    display: "flex",
-    alignItems: "center",
-    paddingLeft: "22%",
-    paddingRight: "22%",
-    background: "#ffff",
-    paddingBottom: "60px",
-    [theme.breakpoints.down("sm")]: {
-      paddingTop: "0px",
-      paddingLeft: "0px",
-      paddingRight: "0px",
-    },
-    [theme.breakpoints.between("sm", "md")]: {
-      paddingTop: "90px",
-    },
-  },
-  top: {
-    [theme.breakpoints.down("sm")]: {
-      maxWidth: "100%",
-    },
-  },
-  buttonActive: {
-    width: "100%",
-    height: "40px",
-    fontFamily: "Nunito",
-    fontWeight: 900,
-    fontSize: "13px",
-    [theme.breakpoints.down("sm")]: {
-      borderRadius: "0px",
-    },
-  },
-  buttonDisabled: {
-    width: "100%",
-    fontFamily: "Nunito",
-    fontWeight: 900,
-    fontSize: "13px",
-    backgroundColor: "#EDEEF2",
-  },
-  disable: {
-    backgroundColor: "red",
-  },
-  info: {
-    fontFamily: "Nunito",
-    color: "#2B2B43",
-    marginTop: "4px",
-  },
-  appetizer: {
-    fontFamily: "Nunito",
-    fontSize: "24px",
-    fontWeight: "700",
-    color: "#2B2B43",
-    marginBottom: "16px",
-  },
-  appetizerOuter: {
-    border: "1px solid #DADADA",
-    borderRadius: "8px",
-    width: "48%",
-    [theme.breakpoints.down("lg")]: {
-      width: "100%",
-    },
-    [theme.breakpoints.down("sm")]: {
-      border: "none",
-    },
-  },
-  font: {
-    fontFamily: "Nunito",
-  },
-  item: {
-    minWidth: "100px",
-    [theme.breakpoints.down("sm")]: {
-      minWidth: "20px",
-    },
-  },
-  removeCart: {
-    border: "1px solid #000000",
-    borderRadius: "6px 0px 0px 6px",
-    width: "40px",
-    height: "40px",
+	image: {
+		height: "400px",
+		width: "767",
+		[theme.breakpoints.down("sm")]: {
+			display: "none",
+		},
+	},
+	title: {
+		fontFamily: "Nunito",
+		fontSize: "24px",
+		fontWeight: "700",
+	},
 
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-  },
-  addCart: {
-    border: "1px solid #000000",
-    borderRadius: "0px 6px 6px 0px",
-    width: "40px",
-    height: "40px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-  },
-  number: {
-    border: "1px solid #000000",
-    width: "40px",
-    height: "40px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    marginLeft: "10px",
-    marginRight: "10px",
-  },
-  InnerImage: {
-    height: 60,
-    width: 60,
-  },
-}));
+	prodNotFound: {
+		fontFamily: "Nunito",
+		fontSize: "24px",
+		fontWeight: "700",
+	},
+	notFoundContainer: {
+		paddingTop: 20,
+		paddingBottom: 20,
+		backgroundColor: "#EDEEF2",
+		width: "50%",
+	},
+	detail: {
+		fontFamily: "Nunito",
+		fontSize: "16px",
+		color: "#2B2B43",
+	},
+	address: {
+		[theme.breakpoints.down("sm")]: {
+			display: "none",
+		},
+	},
+	container: {
+		display: "flex",
+		alignItems: "center",
+		paddingLeft: "22%",
+		paddingRight: "22%",
+		background: "#ffff",
+		paddingBottom: "60px",
+		[theme.breakpoints.down("sm")]: {
+			paddingTop: "0px",
+			paddingLeft: "0px",
+			paddingRight: "0px",
+		},
+		[theme.breakpoints.between("sm", "md")]: {
+			paddingTop: "90px",
+		},
+	},
+	top: {
+		[theme.breakpoints.down("sm")]: {
+			maxWidth: "100%",
+		},
+	},
+	buttonActive: {
+		width: "100%",
+		height: "40px",
+		fontFamily: "Nunito",
+		fontWeight: 900,
+		fontSize: "13px",
+		[theme.breakpoints.down("sm")]: {
+			borderRadius: "0px",
+		},
+	},
+	buttonDisabled: {
+		width: "100%",
+		fontFamily: "Nunito",
+		fontWeight: 900,
+		fontSize: "13px",
+		backgroundColor: "#EDEEF2",
+	},
+	disable: {
+		backgroundColor: "red",
+	},
+	info: {
+		fontFamily: "Nunito",
+		color: "#2B2B43",
+		marginTop: "4px",
+	},
+	appetizer: {
+		fontFamily: "Nunito",
+		fontSize: "24px",
+		fontWeight: "700",
+		color: "#2B2B43",
+		marginBottom: "16px",
+	},
+	appetizerOuter: {
+		border: "1px solid #DADADA",
+		borderRadius: "8px",
+		width: "48%",
+		[theme.breakpoints.down("lg")]: {
+			width: "100%",
+		},
+		[theme.breakpoints.down("sm")]: {
+			border: "none",
+		},
+	},
+	font: {
+		fontFamily: "Nunito",
+	},
+	item: {
+		minWidth: "100px",
+		[theme.breakpoints.down("sm")]: {
+			minWidth: "20px",
+		},
+	},
+	removeCart: {
+		border: "1px solid #000000",
+		borderRadius: "6px 0px 0px 6px",
+		width: "40px",
+		height: "40px",
+
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		cursor: "pointer",
+	},
+	addCart: {
+		border: "1px solid #000000",
+		borderRadius: "0px 6px 6px 0px",
+		width: "40px",
+		height: "40px",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		cursor: "pointer",
+	},
+	number: {
+		border: "1px solid #000000",
+		width: "40px",
+		height: "40px",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		marginLeft: "10px",
+		marginRight: "10px",
+	},
+	InnerImage: {
+		height: 60,
+		width: 60,
+	},
+}))

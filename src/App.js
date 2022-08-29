@@ -18,7 +18,7 @@ import RegisterCustomer from "./pages/Auth/RegisterCustomer";
 import Explore from "./pages/ExplorePage/ExplorePage";
 import Services from "./pages/Services/Services";
 import OrderHistory from "./pages/OrderHistory/OrderHistory";
-
+import UpdateProfile from "./pages/UpdateProfile";
 import DrinkGuidePage from "./pages/Services/DrinkGuidePage";
 
 import Loader from "./components/Loader";
@@ -65,6 +65,7 @@ function App() {
           <Route path="/signup" element={<RegisterCustomer />} />
           <Route path="/order" element={<Order />} />
           <Route path="/order-history" element={<OrderHistory />} />
+          <Route path="/profile-page" element={<UpdateProfile />} />
         </Routes>
         <Footer />
       </Grid>
