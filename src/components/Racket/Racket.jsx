@@ -363,7 +363,13 @@ const Racket = ({ EstablishmentID, phoneNumber, address, name, pic }) => {
 								</Grid>
 							))
 						) : (
-							<h1>Product Not Found</h1>
+							<div className="flex items-center justify-center mt-4">
+								<div
+									className={`${classes.notFoundContainer} flex items-center justify-center `}
+								>
+									<div className="prodNotFound">Product Not Found</div>
+								</div>
+							</div>
 						)}
 					</>
 				)}
