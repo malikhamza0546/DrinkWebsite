@@ -73,7 +73,7 @@ const UpdateProfilePage = () => {
   return (
     <div className="w-screen h-screen signup-outer-wrapper relative overflow-x-hidden mt-12">
       <div
-        className="absolute my-12 z-10 bg-white overflow-clip mx-auto signup-wrapper left-0 top-0 bottom-0 right-0"
+        className={`${classes.signupWrapper} absolute my-12 z-10 bg-white overflow-clip mx-auto  left-0 top-0 bottom-0 right-0`}
         style={{ background: "white" }}
       >
         <div className="h-16 grid grid-cols-1 signup-tabs">
@@ -280,5 +280,15 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       minWidth: "20px",
     },
+  },
+  signupWrapper: {
+    width: "58rem",
+    maxWidth: " 80%",
+    height: "max-content",
+    overflowY: "visible",
+    /* box-shadow: 0px 4px 4px rgb(0 0 0 / 25%), */
+    boxShadow: " 0px 4px 4px rgba(0, 0, 0, 0.25)",
+    borderRadius: "16px",
+    paddingBottom: "20px",
   },
 }));
