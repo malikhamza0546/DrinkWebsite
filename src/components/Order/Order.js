@@ -121,9 +121,9 @@ const Order = ({ route }) => {
   };
 
   const handleClick = (EstablishmentedID, orderDataForAPI) => {
-		console.log("orderDataForAPI Inside", orderDataForAPI)
-		PostOrderOnClick(EstablishmentedID, orderDataForAPI)
-	}
+    console.log("orderDataForAPI Inside", orderDataForAPI);
+    PostOrderOnClick(EstablishmentedID, orderDataForAPI);
+  };
 
   const cardID = (item) => {
     setCardSelected(item);
@@ -134,23 +134,23 @@ const Order = ({ route }) => {
   const PostOrderOnClick = async (EstablishmentID, orderDataForAPI) => {
     dispatch({ type: "START_LOADER", payload: "Getting your Order Placed..." });
 
-		try {
-			const response = await postOrder(EstablishmentID, orderDataForAPI)
-			console.log("postOrder API Response ", response?.data)
-			setOrderResponse(response?.data)
-			handleOpen()
-			//   handleOpen();
-			Notification("success", "Order Placed")
-			dispatch({ type: "STOP_LOADER" })
-			dispatch({
-				type: "EmptyClcikProd",
-			})
-		} catch (e) {
-			console.log(e.response.data.message, "Error  PostOrderOnClick")
-			Notification("error", e.response.data.message)
-			dispatch({ type: "STOP_LOADER" })
-		}
-	}
+    try {
+      const response = await postOrder(EstablishmentID, orderDataForAPI);
+      console.log("postOrder API Response ", response?.data);
+      setOrderResponse(response?.data);
+      handleOpen();
+      //   handleOpen();
+      Notification("success", "Order Placed");
+      dispatch({ type: "STOP_LOADER" });
+      dispatch({
+        type: "EmptyClcikProd",
+      });
+    } catch (e) {
+      console.log(e.response.data.message, "Error  PostOrderOnClick");
+      Notification("error", e.response.data.message);
+      dispatch({ type: "STOP_LOADER" });
+    }
+  };
 
   useEffect(() => {
     cardDetailsShowGetter();
@@ -173,7 +173,11 @@ const Order = ({ route }) => {
         <Grid
           className={`${classes.card} bg-[#FF9901] sm:mx-16 mx-0 py-4 rounded-2xl mt-8`}
         >
-          {" "}
+          {cardData && cardData.length == 0 && (
+            <div className="flex items-center justify-center ">
+              <div className={classes.noCard}>No Card Added</div>
+            </div>
+          )}
           {cardData &&
             cardData.map((item) => (
               <div className="  sm:px-10 px-4">
@@ -444,6 +448,12 @@ const useStyles = makeStyles((theme) => ({
     name: {
       fontFamily: "Nunito",
       fontSize: "16px",
+      fontWeight: "400",
+    },
+    noCard: {
+      fontFamily: "Nunito",
+      fontSize: "16px",
+      // color: "white",
       fontWeight: "400",
     },
     total: {
