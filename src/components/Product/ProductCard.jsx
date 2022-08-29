@@ -55,7 +55,9 @@ const ProductCard = ({
 	const token = localStorage.getItem("access")
 	let idd = null
 	idd = useSelector((state) => state?.Auth?.user?.user?.id)
-
+	var PreviousEstablishmentID = useSelector(
+		(state) => state?.ProductsOrderReducer?.establishmentID
+	)
 	const [heart, setHeart] = useState(
 		idd === null ? false : FavouriteBy.includes(idd)
 	)
@@ -124,7 +126,8 @@ const ProductCard = ({
 						alt=""
 						src={pic}
 						className="w-full h-full "
-						onClick={() =>
+						onClick={() => {
+							dispatch({ type: "ForEstablishmentID", payload: ID })
 							navigate("/racket", {
 								state: {
 									EstablishmentID: ID,
@@ -132,7 +135,7 @@ const ProductCard = ({
 									phoneNumber: phoneNumber,
 								},
 							})
-						}
+						}}
 					/>
 				</Grid>
 			</div>
@@ -143,7 +146,8 @@ const ProductCard = ({
 			>
 				<p
 					className="w-11/12 font-nunito sm:text-lg text-sm font-bold"
-					onClick={() =>
+					onClick={() => {
+						dispatch({ type: "ForEstablishmentID", payload: ID })
 						navigate("/racket", {
 							state: {
 								EstablishmentID: ID,
@@ -151,7 +155,7 @@ const ProductCard = ({
 								phoneNumber: phoneNumber,
 							},
 						})
-					}
+					}}
 				>
 					{name}
 				</p>
@@ -183,15 +187,44 @@ const ProductCard = ({
 				className={`${classes.detail} flex justify-start gap-1 items-center px-2`}
 				item
 				xs={12}
-				onClick={() =>
-					navigate("/racket", {
-						state: {
-							EstablishmentID: ID,
-							address: address,
-							phoneNumber: phoneNumber,
-						},
-					})
-				}
+				onClick={() => {
+					if (PreviousEstablishmentID === "") {
+						dispatch({ type: "ForEstablishmentID", payload: ID })
+						navigate("/racket", {
+							state: {
+								EstablishmentID: ID,
+								address: address,
+								phoneNumber: phoneNumber,
+							},
+						})
+						return
+					}
+					if (PreviousEstablishmentID === null) {
+						dispatch({ type: "ForEstablishmentID", payload: ID })
+						navigate("/racket", {
+							state: {
+								EstablishmentID: ID,
+								address: address,
+								phoneNumber: phoneNumber,
+							},
+						})
+						return
+					}
+					console.log(PreviousEstablishmentID, ID, "Comparison")
+					if (PreviousEstablishmentID === ID) {
+						dispatch({ type: "ForEstablishmentID", payload: ID })
+						navigate("/racket", {
+							state: {
+								EstablishmentID: ID,
+								address: address,
+								phoneNumber: phoneNumber,
+							},
+						})
+						return
+					} else {
+						Notification("error", "Please FullFil Previous Order Before")
+					}
+				}}
 			>
 				<GrLocation />
 				<p className="font-nunito text-xs">{Location}</p>
