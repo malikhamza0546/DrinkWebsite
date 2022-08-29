@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./update.css";
 
 import { makeStyles } from "@mui/styles";
-import Profile from "../../components/Profile";
+
 import Input from "../../components/FormInput/Input";
 import { useForm } from "react-hook-form";
 import assets from "../../assets/assets";
@@ -12,7 +12,6 @@ import { getProfile } from "../../services/API";
 import moment from "moment";
 import { Grid, useMediaQuery, useTheme, Box } from "@mui/material";
 import { UpdateProfile, UpdateProfilePicture } from "../../services/API";
-// import Events from "../../components/CalanderEvents/Events";
 
 const UpdateProfilePage = () => {
   const classes = useStyles();
@@ -26,29 +25,34 @@ const UpdateProfilePage = () => {
 
   const [profile, setProfile] = useState();
   const [Updateprofile, setUpdateprofile] = useState();
-  const [imageState, setImageState] = useState();
+  const [imageState, setImageState] = useState(profile?.image);
+  const [fieldValue, setFieldValue] = useState("hello");
 
+  function onChange(event) {
+    setFieldValue(event.target.value); //update your value here
+  }
+
+  console.log("value infield", fieldValue);
   const GetProfileGetter = async () => {
     try {
       const response = await getProfile();
       setProfile(response?.data);
+
       console.log("response in GetProfileGetter", response?.data);
     } catch (e) {
       console.log(e, " else Body Error");
     }
   };
 
-  let formData = new FormData();
-
   const handleImage = (e) => {
+    let formData = new FormData();
+    console.log("formData", formData);
     console.log("this is e", e.target.files[0]);
     if (e.target && e.target.files[0]) {
       // setImageState(e.target.files[0])
       setImageState(URL.createObjectURL(e.target.files[0]));
       formData.append("image", e.target.files[0]);
     }
-    console.log("formdata", formData);
-    console.log("formdata  state	", imageState);
     UpdateProfilePicture(formData);
   };
 
@@ -92,11 +96,12 @@ const UpdateProfilePage = () => {
                   type="text"
                   placeholder={"First Name"}
                   name="firstName"
-                  value={profile?.firstName}
+                  value={fieldValue}
                   validation={{ required: true, maxLength: 16 }}
                   error={errors.exp_year}
                   register={register}
                   errorMessage={"Enter First Name"}
+                  onChange={onChange}
                   className={`mb-4  ${classes.inputField}`}
                 />
                 <Input
@@ -139,17 +144,19 @@ const UpdateProfilePage = () => {
 
             {/* test */}
             <input
+              multiple
+              accept="image/*"
               type="file"
-              name="file_upload"
+              name="image"
               ref={hiddenFileInput}
               onChange={handleImage}
               style={{ display: "none" }}
             />
 
-            <img src={imageState} className="image-preview-style" />
+            {/* <img src={imageState} className={`${classes.image} `} /> */}
 
             {/* end */}
-            <div className="">
+            <div className={classes.editOuter}>
               <img className={`${classes.image} `} src={profile?.image} />
               <div className={classes.edit} onClick={() => handleClick()}>
                 <div>Edit</div>
@@ -188,11 +195,13 @@ const useStyles = makeStyles((theme) => ({
   editOuter: {
     position: "relative",
     borderRadius: 12,
+    maxWidth: "300px",
+    minWidth: "300px",
   },
 
   edit: {
-    width: "300px",
     cursor: "pointer",
+    width: "100%",
 
     backgroundColor: "rgba(248, 173, 63, 0.5)",
     height: 40,
@@ -207,10 +216,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
   },
   image: {
-    height: "180px",
-    width: "300px",
+    height: "170px",
+    width: "100%",
+    // width: "300px",
     borderRadius: 12,
   },
   title: {

@@ -43,8 +43,8 @@ const Cart = ({ ID, productName, productDescription, EstablishmentID }) => {
 
   let navigate = useNavigate();
   const { state } = useLocation();
-
-  console.log("cart EstablishmentIDEstablishmentID", state.EstablishmentID);
+  const CartProductPayLoad = state?.payload;
+  console.log("cart redux sent", state?.payload);
 
   const handleAddons = (e) => {
     console.log("e", e.target.value);
@@ -81,7 +81,6 @@ const Cart = ({ ID, productName, productDescription, EstablishmentID }) => {
 
   const handleClick = () => {
     const inner = {};
-
     inner["addons"] = addons;
     inner["count"] = quantity;
     inner["product"] = ID;
@@ -89,6 +88,16 @@ const Cart = ({ ID, productName, productDescription, EstablishmentID }) => {
     console.log("inner from func", inner);
 
     dispatch(AddToCart({ arrayNew, quantity }));
+    // dispatch({ type: "ProductCount", payload: quantity })
+    dispatch({
+      type: "Products",
+      payload: {
+        ProductAndCount: {
+          Product: CartProductPayLoad,
+          Count: quantity,
+        },
+      },
+    });
     navigate("/order", {
       state: {
         products: {

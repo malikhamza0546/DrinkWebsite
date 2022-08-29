@@ -87,10 +87,19 @@ const Order = ({ route }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [confirm, setConfirm] = useState(true);
+
   const cart = useSelector((state) => state.Cart);
   const dispatch = useDispatch();
   const { state } = useLocation();
   // console.log("statete1111", state)
+  const ProductsOrderReducer = useSelector(
+    (state) => state.ProductsOrderReducer?.ClickedProd
+  );
+  const [ProductsOrderReducerRedux, setProductsOrderReducerRedux] = useState([
+    ...ProductsOrderReducer,
+  ]);
+
+  console.log(ProductsOrderReducerRedux, "ProductsOrderReducer final Result");
 
   const orderData = state;
 
@@ -133,10 +142,12 @@ const Order = ({ route }) => {
       //   handleOpen();
       Notification("success", "Order Placed");
       dispatch({ type: "STOP_LOADER" });
+      dispatch({ type: "RESET" });
     } catch (e) {
       console.log(e.response.data.message, "Error  PostOrderOnClick");
       Notification("error", e.response.data.message);
       dispatch({ type: "STOP_LOADER" });
+      dispatch({ type: "RESET" });
     }
   };
 
@@ -164,11 +175,7 @@ const Order = ({ route }) => {
           {" "}
           {cardData &&
             cardData.map((item) => (
-              <div
-                className="  sm:px-10 px-4"
-                // onClick={() => setCardSelected(item._id)}
-                onClick={() => cardID(item._id)}
-              >
+              <div className="  sm:px-10 px-4">
                 <Accordion>
                   <AccordionSummary
                     expandIcon={
@@ -183,12 +190,12 @@ const Order = ({ route }) => {
                       Select Card
                     </div>
                   </AccordionSummary>
-                  <AccordionDetails>
+                  <AccordionDetails onClick={() => setCardSelected(item._id)}>
                     <div
                       className={
                         item._id == cardSelected
                           ? "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-8 px-2 mb-2 border-4 border-[#006400]"
-                          : "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-8 px-2 mb-2"
+                          : "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-8 px-2 mb-2 border-4 border-[#DADADA]"
                       }
                     >
                       <div className=" flex ">
@@ -220,16 +227,16 @@ const Order = ({ route }) => {
         </Grid>
 
         <Grid className="sm:px-24 mt-8 px-4">
-          {data.map((item) => (
+          {ProductsOrderReducerRedux.map((item) => (
             <div className="flex justify-between mt-2">
               <div className="flex">
                 <div className={`${classes.name} sm:w-16 w-8`}>
-                  {item.quantity}x
+                  {item?.Count}x
                 </div>
-                <div className={`${classes.name} `}>{item.name}</div>
+                <div className={`${classes.name} `}>{item?.Product?.name}</div>
               </div>
 
-              <div className={`${classes.name} `}>${item.price}</div>
+              <div className={`${classes.name} `}>${item?.Product.price}</div>
             </div>
           ))}
           <hr className={`${classes.hr} mt-8`} />
