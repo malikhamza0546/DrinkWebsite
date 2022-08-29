@@ -96,7 +96,7 @@ const UpdateProfilePage = () => {
             className={`${admin && "active"} flex justify-center items-center`}
             onClick={() => setAdmin(true)}
           >
-            Update Profile
+            Profile
           </div>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>

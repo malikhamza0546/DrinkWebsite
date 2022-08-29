@@ -16,6 +16,8 @@ import { postTip } from "../../services/API";
 import ReactStars from "react-rating-stars-component";
 import { OrderDetailAPI } from "../../services/API";
 import Notification from "../../components/Notification";
+import { useSelector } from "react-redux";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -38,6 +40,10 @@ const OrderHistory = () => {
   const [TipToBeSent, setTipToBeSent] = useState("");
   const [starRating, setstarRating] = useState("");
   const [OrderDetailAPIState, setOrderDetailAPIState] = useState("");
+
+  const User = useSelector((state) => state?.Auth?.user?.user);
+  console.log("user from history", User);
+
   //mui modal
   const [open, setOpen] = useState(false);
 
@@ -49,7 +55,7 @@ const OrderHistory = () => {
     { key: 3, tip: "20", status: false },
     { key: 4, tip: "0", status: false },
   ]);
-  console.log("order hook hisrtity", OrderHistory);
+  console.log("order historyy data", OrderDetailAPIState);
 
   const OrderHistoryGetter = async () => {
     try {
@@ -182,146 +188,222 @@ const OrderHistory = () => {
       >
         <Box sx={style}>
           <Grid>
-            <Box>
-              <div className="flex  items-center justify-end ">
-                <div className="" onClick={handleClose}>
-                  <img className="" src={assets.cancel} />
+            {OrderHistory?.order_status == "completed" ? (
+              <Box>
+                <div className="flex  items-center justify-end ">
+                  <div className="" onClick={handleClose}>
+                    <img className="" src={assets.cancel} />
+                  </div>
                 </div>
-              </div>
-              <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <div>
-                  <div className="h-16">
-                    <img src={assets.blackLogo1} alt="" />
-                  </div>
-                  <div className="font-nunito font-bold text-xl mb-8">
-                    {/* Order {OrderDetailAPIState?.order_status} */}
-                    Order Completed
-                  </div>
+                <Grid
+                  container
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <div>
+                    <div className="h-16">
+                      <img src={assets.blackLogo1} alt="" />
+                    </div>
+                    <div className="font-nunito font-bold text-xl mb-8">
+                      {/* Order {OrderDetailAPIState?.order_status} */}
+                      Order Completed
+                    </div>
 
-                  <div className="mb-6 flex flex-col items-center">
-                    <div>
-                      <img
-                        className="rounded-full border-2 border-[#FF5F00] w-20 h-20 "
-                        src={OrderDetailAPIState?.products?.[0]?.product?.image}
+                    <div className="mb-6 flex flex-col items-center">
+                      <div>
+                        <img
+                          className="rounded-full border-2 border-[#FF5F00] w-20 h-20 "
+                          src={
+                            OrderDetailAPIState?.products?.[0]?.product?.image
+                          }
+                        />
+                      </div>
+                      <div className="font-bold font-nunito text-lg text-[#FF5F00] mt-2">
+                        {OrderDetailAPIState?.products?.[0]?.product?.name}
+                      </div>
+                    </div>
+                  </div>
+                </Grid>
+
+                <Grid
+                  container
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  className=" lg:px-14  px-4"
+                >
+                  <div className="flex  justify-between items-center mb-2">
+                    <div className="flex flex-col  items-center justify-center mb-4 ">
+                      <div className="font-nunito  font-normal text-xs  text-[#2B2B43] mb-4 ">
+                        150 NW 24 Street | Miami, FL 33127
+                      </div>
+                      <div className="font-nunito font-bold  text-sm text-[#2B2B43]">
+                        {/* {moment(reservationAPI?.date).format("MMMM Do YYYY")} */}
+                        Saturday, March 12, 2022
+                      </div>
+                      <div className="font-nunito font-bold  text-sm text-[#2B2B43]">
+                        9:00 pm
+                      </div>
+                    </div>
+                  </div>
+                  <div className=" mb-8 flex flex-col justify-between items-center ">
+                    <div className="flex flex-col items-center justify-center md:mb-0 mb-4">
+                      <div className="font-medium font-nunito  text-xs text-[#FF5F00] mb-2 md:mb-0">
+                        Order #: {OrderDetailAPIState?.order_number}
+                      </div>
+                      <div className="font-nunito font-medium  text-xs text-[#2B2B43]">
+                        (786) 637-2987
+                      </div>
+                    </div>
+                  </div>
+                  <Grid
+                    container
+                    direction="column"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <div className=" flex w-60 flex-row overflow-x-auto">
+                      <div className={classes.tip}>Tip</div>
+                      {tip.map((item) => (
+                        <div
+                          // className="w-28 p-2 mr-4 flex items-center justify-center h-9 rounded-lg border-slate-600 bg-[#FF9901] mb-4 "
+                          className={
+                            item.status === true
+                              ? "w-28 p-2 mr-2 flex items-center justify-center h-7 rounded-lg border-slate-600 bg-[#FF9901] text-[#FFFF] mb-4 cursor-pointer "
+                              : "w-28 p-2 mr-2 flex items-center justify-center h-7 rounded-lg border-slate-600 bg-[#DADADA] mb-4 cursor-pointer"
+                          }
+                          onClick={() => {
+                            TipHandler(item);
+                          }}
+                        >
+                          {item.tip === "0" ? (
+                            <p className="font-nunito text-xs font-normal flex">
+                              {"None"}
+                            </p>
+                          ) : (
+                            <p className="font-nunito text-xs font-normal flex">
+                              {item.tip}%
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </Grid>
+                  <Grid
+                    container
+                    direction="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    className="sm:px-0 px-12"
+                  >
+                    <hr className={`${classes.hr}  w-full mt-6  `} />
+                    <div
+                      className={`${classes.total} w-full px-20 flex justify-between items-center mt-4`}
+                    >
+                      <div>Total</div>
+                      <div>{OrderDetailAPIState?.total}</div>
+                    </div>
+
+                    <div className="flex items-center justify-around w-full mt-4 px-20">
+                      <ReactStars
+                        count={5}
+                        value={OrderDetailAPIState?.rating?.rating || 0}
+                        onChange={ratingChanged}
+                        size={24}
+                        activeColor="#ffd700"
                       />
                     </div>
-                    <div className="font-bold font-nunito text-lg text-[#FF5F00] mt-2">
-                      {OrderDetailAPIState?.products?.[0]?.product?.name}
-                    </div>
-                  </div>
-                </div>
-              </Grid>
+                  </Grid>
 
-              <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                className=" lg:px-14  px-4"
-              >
-                <div className="flex  justify-between items-center mb-2">
-                  <div className="flex flex-col  items-center justify-center mb-4 ">
-                    <div className="font-nunito  font-normal text-xs  text-[#2B2B43] mb-4 ">
-                      150 NW 24 Street | Miami, FL 33127
-                    </div>
-                    <div className="font-nunito font-bold  text-sm text-[#2B2B43]">
-                      {/* {moment(reservationAPI?.date).format("MMMM Do YYYY")} */}
-                      Saturday, March 12, 2022
-                    </div>
-                    <div className="font-nunito font-bold  text-sm text-[#2B2B43]">
-                      9:00 pm
-                    </div>
+                  <div className="mt-8 w-48">
+                    {OrderDetailAPIState?.isRatingSaved === false &&
+                      OrderDetailAPIState?.isTipSaved === false && (
+                        //   <AuthButton label="Review" onClick={TipAPIHandler} />
+                        <button
+                          onClick={TipAPIHandler}
+                          style={{ fontSize: 13, height: 45 }}
+                          className="flex bg-black w-full text-whiteColor w-48 font-bold py-2 px-4 rounded items-center"
+                        >
+                          <span className="text-center m-auto">Review</span>
+                        </button>
+                      )}
                   </div>
-                </div>
-                <div className=" mb-8 flex flex-col justify-between items-center ">
-                  <div className="flex flex-col items-center justify-center md:mb-0 mb-4">
-                    <div className="font-medium font-nunito  text-xs text-[#FF5F00] mb-2 md:mb-0">
-                      Order #: {OrderDetailAPIState?.order_number}
-                    </div>
-                    <div className="font-nunito font-medium  text-xs text-[#2B2B43]">
-                      (786) 637-2987
-                    </div>
+                </Grid>
+              </Box>
+            ) : (
+              <Box className="sm:px-0  px-16">
+                <div className="flex  items-center justify-end ">
+                  <div className="" onClick={handleClose}>
+                    <img className="" src={assets.cancel} />
                   </div>
                 </div>
                 <Grid
-                  container
-                  direction="column"
-                  alignItems="center"
-                  justifyContent="center"
+                //   container
+                //   direction="column"
+                //   justifyContent="center"
+                //   alignItems="center"
                 >
-                  <div className=" flex w-60 flex-row overflow-x-auto">
-                    <div className={classes.tip}>Tip</div>
-                    {tip.map((item) => (
-                      <div
-                        // className="w-28 p-2 mr-4 flex items-center justify-center h-9 rounded-lg border-slate-600 bg-[#FF9901] mb-4 "
-                        className={
-                          item.status === true
-                            ? "w-28 p-2 mr-2 flex items-center justify-center h-7 rounded-lg border-slate-600 bg-[#FF9901] text-[#FFFF] mb-4 cursor-pointer "
-                            : "w-28 p-2 mr-2 flex items-center justify-center h-7 rounded-lg border-slate-600 bg-[#DADADA] mb-4 cursor-pointer"
-                        }
-                        onClick={() => {
-                          TipHandler(item);
-                        }}
-                      >
-                        {item.tip === "0" ? (
-                          <p className="font-nunito text-xs font-normal flex">
-                            {"None"}
-                          </p>
-                        ) : (
-                          <p className="font-nunito text-xs font-normal flex">
-                            {item.tip}%
-                          </p>
-                        )}
+                  <div className="flex mb-4 items-center justify-center ">
+                    {/* Order {OrderDetailAPIState?.order_status} */}
+                    <div className="font-nunito font-bold text-xl ">
+                      Order Received
+                    </div>
+                  </div>
+                  <div className="bg-[#EDEEF2] m-2 p-2 px-4 rounded-lg ">
+                    <div>
+                      <div className={classes.total}>
+                        {User?.firstName} {User?.surName}
                       </div>
-                    ))}
+                      <div className={classes.name}>
+                        Order Number # {OrderDetailAPIState?.order_number}
+                      </div>
+                    </div>
+
+                    <div className="flex mt-4 items-center ">
+                      <div className={classes.four}>
+                        {OrderDetailAPIState &&
+                          OrderDetailAPIState?.products[0]?.count}
+                      </div>
+                      <div className="flex justify-between items-center w-full ">
+                        <div className="font-semibold font-nunito">
+                          {OrderDetailAPIState &&
+                            OrderDetailAPIState?.products[0]?.product?.name}
+                        </div>
+                        <div className="font-semibold font-nunito">
+                          $
+                          {OrderDetailAPIState &&
+                            OrderDetailAPIState?.products[0]?.product?.price}
+                        </div>
+                      </div>
+                    </div>
+                    <hr className={`${classes.hr}  w-full mt-6  `} />
+                    <div className="flex mt-4 items-center ">
+                      <div className={classes.four}></div>
+                      <div className="flex justify-between items-center w-full ">
+                        <div className="font-semibold font-nunito">
+                          Service Fee
+                        </div>
+                        <div className="font-semibold font-nunito">$6</div>
+                      </div>
+                    </div>
+
+                    <div className="flex mt-4 items-center ">
+                      <div className={classes.four}></div>
+                      <div className="flex justify-between items-center w-full ">
+                        <div className="font-semibold font-nunito">Total</div>
+                        <div className="font-semibold font-nunito">
+                          ${OrderDetailAPIState?.total}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex mt-4 items-center justify-center">
+                      <img src={assets.QrCode} className="w-24 h-24 mb-8" />
+                    </div>
                   </div>
                 </Grid>
-                <Grid
-                  container
-                  direction="column"
-                  alignItems="center"
-                  justifyContent="center"
-                  className="sm:px-0 px-12"
-                >
-                  <hr className={`${classes.hr}  w-full mt-6  `} />
-                  <div
-                    className={`${classes.total} w-full px-20 flex justify-between items-center mt-4`}
-                  >
-                    <div>Total</div>
-                    <div>{OrderDetailAPIState?.total}</div>
-                  </div>
-
-                  <div className="flex items-center justify-around w-full mt-4 px-20">
-                    <ReactStars
-                      count={5}
-                      value={OrderDetailAPIState?.rating?.rating || 0}
-                      onChange={ratingChanged}
-                      size={24}
-                      activeColor="#ffd700"
-                    />
-                  </div>
-                </Grid>
-
-                <div className="mt-8 w-48">
-                  {OrderDetailAPIState?.isRatingSaved === false &&
-                    OrderDetailAPIState?.isTipSaved === false && (
-                      //   <AuthButton label="Review" onClick={TipAPIHandler} />
-                      <button
-                        onClick={TipAPIHandler}
-                        style={{ fontSize: 13, height: 45 }}
-                        className="flex bg-black w-full text-whiteColor w-48 font-bold py-2 px-4 rounded items-center"
-                      >
-                        <span className="text-center m-auto">Review</span>
-                      </button>
-                    )}
-                </div>
-              </Grid>
-            </Box>
+              </Box>
+            )}
           </Grid>
         </Box>
       </Modal>
@@ -480,5 +562,8 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Nunito",
     fontSize: "16px",
     fontWeight: "700",
+  },
+  four: {
+    minWidth: "30%",
   },
 }));

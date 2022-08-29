@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import assets from "../../assets/assets";
 import TextField from "../Forms/Input/TextField";
 import Button from "../Forms/Button/AuthButton";
@@ -17,6 +17,7 @@ import { addVicaCardToCustm } from "../../services/API";
 import { cardDetailsShow } from "../../services/API";
 import { useEffect } from "react";
 import Notification from "../Notification";
+import { useDispatch } from "react-redux";
 
 export const PaymentWallet = (props) => {
   const classes = useStyles();
@@ -24,6 +25,9 @@ export const PaymentWallet = (props) => {
   const [cardResponse, setCardResponse] = useState("");
   const [wallet, setWallet] = useState(false);
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -34,6 +38,8 @@ export const PaymentWallet = (props) => {
   const pay = async (data) => {
     // e.preventDefault()
     console.log("pay finc dd", data);
+    dispatch({ type: "START_LOADER", payload: "Your Card is being Added..." });
+
     try {
       let response = await getStripeToken({
         exp_month: data?.exp_month,
@@ -45,6 +51,7 @@ export const PaymentWallet = (props) => {
       console.log("tokenFromAPI", response?.data);
     } catch (e) {
       console.log(e);
+      dispatch({ type: "STOP_LOADER" });
     }
     try {
       let responsed = await addVicaCardToCustm({
@@ -56,9 +63,12 @@ export const PaymentWallet = (props) => {
         brand: data?.brand,
       });
       setCardResponse(responsed?.data);
-      Notification("success", "asdfasdfa");
+      Notification("success", "Card Added Successfully");
+      navigate("/");
+      dispatch({ type: "STOP_LOADER" });
     } catch (e) {
       Notification("error", e?.response?.data?.message);
+      dispatch({ type: "STOP_LOADER" });
 
       console.log("error from card", e?.response?.data?.message);
       setCardResponse(e?.response?.data?.message);
@@ -197,7 +207,7 @@ export const PaymentWallet = (props) => {
                   />
                 </div>
 
-                <div className="mb-4 flex justify-between items-center">
+                <div className="mb-4 flex justify-around items-center">
                   <Grid item xs={6} md={5}>
                     <SaveButton
                       label="Save"

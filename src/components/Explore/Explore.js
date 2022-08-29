@@ -146,6 +146,7 @@ const Explore = ({ setcatagory }) => {
             {/* <MenuItem value="">
                   <em>None</em>
                 </MenuItem> */}
+            <MenuItem value={""}>All</MenuItem>
             <MenuItem value={"restaurant"}>Restaurant</MenuItem>
             <MenuItem value={"lounge"}>Lounge</MenuItem>
             <MenuItem value={"nightclub"}>Nightclub</MenuItem>

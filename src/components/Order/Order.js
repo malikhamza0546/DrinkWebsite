@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import assets from "../../assets/assets";
 import TextField from "../../components/Forms/Input/TextField";
 import Button from "../../components/Forms/Button/AuthButton";
@@ -14,7 +14,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { borderRadius } from "@mui/system";
 import { FaAngleDown } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { cardDetailsShow, postOrder } from "../../services/API";
+import { cardDetailsShow, postOrder, OrderDetailAPI } from "../../services/API";
 import Modal from "@mui/material/Modal";
 import { FaUser } from "react-icons/fa";
 import Notification from "../Notification";
@@ -83,12 +83,28 @@ const Order = ({ route }) => {
   const [cardData, setCardData] = useState();
   const [cardSelected, setCardSelected] = useState("");
   const [orderResponse, setOrderResponse] = useState();
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const [open, setOpen] = useState(false);
+  const [OrderDataFromAPI, setOrderDataFromAPI] = useState("");
+  const [OrderDetailAPIState, setOrderDetailAPIState] = useState("");
+
+  // const handleOpen = () => setOpen(true);
+  const handleOpen = async (orderFromAPI) => {
+    setOrderDataFromAPI(orderFromAPI);
+    setOpen(true);
+    try {
+      let response = await OrderDetailAPI(orderFromAPI?.id);
+      console.log("response OrderDetailAPI", response?.data);
+      setOrderDetailAPIState(response?.data);
+    } catch (e) {
+      console.log("e", e);
+    }
+  };
+
   const handleClose = () => setOpen(false);
   const [confirm, setConfirm] = useState(true);
 
   const cart = useSelector((state) => state.Cart);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { state } = useLocation();
   // console.log("statete1111", state)
@@ -102,6 +118,7 @@ const Order = ({ route }) => {
   console.log(ProductsOrderReducerRedux, "ProductsOrderReducer final Result");
 
   const orderData = state;
+  const token = localStorage.getItem("access");
 
   var orderDataForAPI = {
     cardId: cardSelected,
@@ -139,7 +156,6 @@ const Order = ({ route }) => {
       console.log("postOrder API Response ", response?.data);
       setOrderResponse(response?.data);
       handleOpen();
-      //   handleOpen();
       Notification("success", "Order Placed");
       dispatch({ type: "STOP_LOADER" });
       dispatch({
@@ -158,58 +174,61 @@ const Order = ({ route }) => {
 
   return (
     <div className="w-screen h-screen signup-outer-wrapper relative overflow-x-hidden mt-12 mb-12">
-      <div
-        className="absolute my-12 z-10 bg-white overflow-clip mx-auto signup-wrapper left-0 top-0 bottom-0 right-0"
-        style={{ background: "white" }}
-      >
-        <div className="h-16  grid grid-cols signup-tabs">
-          <div
-            className={`${"active"} text-xl flex justify-center items-center`}
-          >
-            Orders
-          </div>
-        </div>
-
-        <Grid
-          className={`${classes.card} bg-[#FF9901] sm:mx-16 mx-0 py-4 rounded-2xl mt-8`}
+      {token !== null ? (
+        <div
+          className="absolute my-12 z-10 bg-white overflow-clip mx-auto signup-wrapper left-0 top-0 bottom-0 right-0"
+          style={{ background: "white" }}
         >
-          {cardData && cardData.length == 0 && (
-            <div className="flex items-center justify-center ">
-              <div className={classes.noCard}>No Card Added</div>
+          <div className="h-16  grid grid-cols signup-tabs">
+            <div
+              className={`${"active"} text-xl flex justify-center items-center`}
+            >
+              Place Order
             </div>
-          )}
-          {cardData &&
-            cardData.map((item) => (
-              <div className="  sm:px-10 px-4">
-                <Accordion>
-                  <AccordionSummary
-                    expandIcon={
-                      <FaAngleDown color="#000000" fontSize="1.8em" />
-                    }
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                  >
-                    <div
-                      className={`${"active"} text-xl flex justify-center items-center text-white`}
-                    >
-                      Select Card
-                    </div>
-                  </AccordionSummary>
-                  <AccordionDetails onClick={() => setCardSelected(item._id)}>
-                    <div
-                      className={
-                        item._id == cardSelected
-                          ? "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-8 px-2 mb-2 border-4 border-[#006400]"
-                          : "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-8 px-2 mb-2 border-4 border-[#DADADA]"
-                      }
-                    >
-                      <div className=" flex ">
-                        {item.brand == "visa" && <img src={assets.visaCard} />}
-                        {item.brand == "master" && (
-                          <img src={assets.masterCard} />
-                        )}
+          </div>
 
-                        {/* <img
+          <Grid
+            className={`${classes.card} bg-[#FF9901] sm:mx-16 mx-0 py-4 rounded-2xl mt-8`}
+          >
+            {cardData && cardData.length == 0 && (
+              <div className="flex items-center justify-center ">
+                <div className={classes.noCard}>No Card Added</div>
+              </div>
+            )}
+            {cardData &&
+              cardData.map((item) => (
+                <div className="  sm:px-10 px-4">
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={
+                        <FaAngleDown color="#000000" fontSize="1.8em" />
+                      }
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                    >
+                      <div
+                        className={`${"active"} text-xl flex justify-center items-center text-white`}
+                      >
+                        Select Card
+                      </div>
+                    </AccordionSummary>
+                    <AccordionDetails onClick={() => setCardSelected(item._id)}>
+                      <div
+                        className={
+                          item._id == cardSelected
+                            ? "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-4 px-2 mb-2 border-4 border-[#006400]"
+                            : "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-4 px-2 mb-2 border-2 border-[#DADADA]"
+                        }
+                      >
+                        <div className=" flex ">
+                          {item.brand == "visa" && (
+                            <img src={assets.visaCard} />
+                          )}
+                          {item.brand == "master" && (
+                            <img src={assets.masterCard} />
+                          )}
+
+                          {/* <img
                           src={
                             item.brand == "visa"
                               ? assets.visaCard
@@ -217,73 +236,86 @@ const Order = ({ route }) => {
                           }
                           className="mr-4"
                         /> */}
-                        <div className={classes.cardNumber}>
-                          *****
-                          {item?.card_number.substr(
-                            item?.card_number.length - 5
-                          )}
+                          <div className={classes.cardNumber}>
+                            *****
+                            {item?.card_number.substr(
+                              item?.card_number.length - 5
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </AccordionDetails>
-                </Accordion>
+                    </AccordionDetails>
+                  </Accordion>
+                </div>
+              ))}
+          </Grid>
+
+          <Grid className="sm:px-24 mt-8 px-4">
+            {ProductsOrderReducerRedux.map((item) => (
+              <div className="flex justify-between mt-2">
+                <div className="flex">
+                  <div className={`${classes.name} sm:w-16 w-8`}>
+                    {item?.Count}x
+                  </div>
+                  <div className={`${classes.name} `}>
+                    {item?.Product?.name}
+                  </div>
+                </div>
+
+                <div className={`${classes.name} `}>
+                  ${item?.Product?.price}
+                </div>
               </div>
             ))}
-        </Grid>
-
-        <Grid className="sm:px-24 mt-8 px-4">
-          {ProductsOrderReducerRedux.map((item) => (
-            <div className="flex justify-between mt-2">
-              <div className="flex">
-                <div className={`${classes.name} sm:w-16 w-8`}>
-                  {item?.Count}x
-                </div>
-                <div className={`${classes.name} `}>{item?.Product?.name}</div>
+            <hr className={`${classes.hr} mt-8`} />
+            <div className="mt-4">
+              <div className={`${classes.name} flex justify-between`}>
+                <div>Subtotal</div>
+                <div>$10</div>
               </div>
-
-              <div className={`${classes.name} `}>${item?.Product.price}</div>
+              <div className={`${classes.name} flex justify-between mt-2`}>
+                <div>ServiceFee</div>
+                <div>$10</div>
+              </div>
+              <div className={`${classes.total}  flex justify-between mt-6`}>
+                <div>Total</div>
+                <div>$10</div>
+              </div>
             </div>
-          ))}
-          <hr className={`${classes.hr} mt-8`} />
-          <div className="mt-4">
-            <div className={`${classes.name} flex justify-between`}>
-              <div>Subtotal</div>
-              <div>$10</div>
-            </div>
-            <div className={`${classes.name} flex justify-between mt-2`}>
-              <div>ServiceFee</div>
-              <div>$10</div>
-            </div>
-            <div className={`${classes.total}  flex justify-between mt-6`}>
-              <div>Total</div>
-              <div>$10</div>
-            </div>
-          </div>
-        </Grid>
-
-        <Grid container className="my-8">
-          <Grid item xs={1} md={3}></Grid>
-          <Grid item xs={10} md={6}>
-            <button
-              style={{ fontSize: 13, height: 45 }}
-              className="flex bg-black w-full text-whiteColor font-bold py-2 px-4 rounded items-center"
-              onClick={() => handleClick(EstablishmentedID, orderDataForAPI)}
-            >
-              <span className="text-center m-auto">{"Order"}</span>
-            </button>
           </Grid>
-        </Grid>
 
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            {confirm && (
+          <Grid container className="my-8">
+            <Grid item xs={1} md={3}></Grid>
+            <Grid item xs={10} md={6}>
+              <button
+                style={{ fontSize: 13, height: 45 }}
+                className="flex bg-black w-full text-whiteColor font-bold py-2 px-4 rounded items-center"
+                onClick={() => handleClick(EstablishmentedID, orderDataForAPI)}
+              >
+                <span className="text-center m-auto">{"Order"}</span>
+              </button>
+            </Grid>
+          </Grid>
+
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
               <Grid>
                 <Box>
+                  <div className="flex  items-center justify-end ">
+                    <div
+                      className=""
+                      onClick={() => {
+                        navigate("/");
+                      }}
+                    >
+                      <img className="" src={assets.cancel} />
+                    </div>
+                  </div>
                   <Grid
                     container
                     direction="column"
@@ -291,72 +323,89 @@ const Order = ({ route }) => {
                     alignItems="center"
                   >
                     <div>
-                      <div className="font-nunito font-bold text-lg mb-8">
-                        Order {orderResponse?.order_status}
+                      <div className="h-16">
+                        <img src={assets.blackLogo1} alt="" />
+                      </div>
+                      <div className="font-nunito font-bold text-xl mb-8">
+                        {/* Order {OrderDetailAPIState?.order_status} */}
+                        Order Completed
                       </div>
 
-                      <div className="mb-8 flex flex-col items-center">
-                        <div className="font-bold font-nunito text-lg text-[#FF5F00]">
-                          Racket
+                      <div className="mb-6 flex flex-col items-center">
+                        <div>
+                          <img
+                            className="rounded-full border-2 border-[#FF5F00] w-20 h-20 "
+                            // src={
+                            //   OrderDetailAPIState?.products?.[0]?.product?.image
+                            // }
+                          />
+                        </div>
+                        <div className="font-bold font-nunito text-lg text-[#FF5F00] mt-2">
+                          {/* {OrderDetailAPIState?.products?.[0]?.product?.name} */}
+                          Mac Burger
                         </div>
                       </div>
                     </div>
                   </Grid>
 
-                  <Grid className=" lg:px-14 md:px-4 px-4">
-                    <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-                      <div className="flex flex-col md:items-start md:justify-start items-center justify-center mb-4 md:mb-0">
-                        <div className="font-nunito font-bold md:text-lg text-sm text-[#2B2B43]">
-                          {/* {moment(orderResponse?.date).format("MMMM Do YYYY")} */}
-                          <p>Date Here </p>
+                  <Grid
+                    container
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    className=" lg:px-14  px-4"
+                  >
+                    <div className="flex  justify-between items-center mb-2">
+                      <div className="flex flex-col  items-center justify-center mb-4 ">
+                        <div className="font-nunito  font-normal text-xs  text-[#2B2B43] mb-4 ">
+                          150 NW 24 Street | Miami, FL 33127
                         </div>
-                      </div>
-
-                      <div className="flex flex-row md:flex-col">
-                        <div className="flex ">
-                          <div className="md:pt-1 pt-0 mr-2">
-                            <FaUser />
-                          </div>
-                          <div className="font-nunito font-bold md:text-lg text-sm text-[#2B2B43] mr-4 md:mr-0">
-                            {"5"} people
-                          </div>
+                        <div className="font-nunito font-bold  text-sm text-[#2B2B43]">
+                          {/* {moment(reservationAPI?.date).format("MMMM Do YYYY")} */}
+                          Saturday, March 12, 2022
+                        </div>
+                        <div className="font-nunito font-bold  text-sm text-[#2B2B43]">
+                          9:00 pm
                         </div>
                       </div>
                     </div>
-
-                    <div className=" mb-8 flex flex-col md:flex-row justify-between items-center ">
-                      <div className="flex flex-col items-center justify-center md:items-start md:justify-start  md:mb-0 mb-4">
-                        <div className="font-medium font-nunito md:text-lg text-sm text-[#FF5F00] mb-2 md:mb-0">
-                          Confirmation #: {orderResponse?.order_number}
+                    <div className=" mb-8 flex flex-col justify-between items-center ">
+                      <div className="flex flex-col items-center justify-center md:mb-0 mb-4">
+                        <div className="font-medium font-nunito  text-xs text-[#FF5F00] mb-2 md:mb-0">
+                          Order #: 123
                         </div>
-                        {/* <div className="font-nunito font-medium md:text-lg text-sm text-[#2B2B43]">
-													{"reservationAPI?.establishment?.phoneNumber"}
-												</div> */}
-                      </div>
-
-                      {/* <div>
-												<img src={assets.QrCode} className="w-16 h-16" />
-											</div> */}
-                    </div>
-
-                    <div className="flex  items-center justify-center mt-4">
-                      <div className="flex ml-4" onClick={handleClose}>
-                        <img
-                          className="mr-2 w-4 mt-1 h-4 w-4"
-                          src={assets.cancel}
-                        />
-                        <div className="font-nunito font-bold text-lg text-[#000000]">
-                          Cancel
+                        <div className="font-nunito font-medium  text-xs text-[#2B2B43]">
+                          (786) 637-2987
                         </div>
                       </div>
                     </div>
                   </Grid>
                 </Box>
               </Grid>
-            )}
-          </Box>
-        </Modal>
-      </div>
+            </Box>
+          </Modal>
+        </div>
+      ) : (
+        <>
+          <div
+            className="absolute my-12 z-10 bg-white overflow-clip mx-auto signup-wrapper left-0 top-0 bottom-0 right-0"
+            style={{ background: "white" }}
+          >
+            <div className="h-16  grid grid-cols signup-tabs">
+              <div
+                className={`${"active"} text-xl flex justify-center items-center`}
+              >
+                Orders
+              </div>
+            </div>
+            <div className="flex items-center justify-center">
+              <div className="text-[#FF9901] text-2xl font-bold">
+                Cart is Empty
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
