@@ -12,6 +12,7 @@ import { getProfile } from "../../services/API";
 import moment from "moment";
 import { Grid, useMediaQuery, useTheme, Box } from "@mui/material";
 import { UpdateProfile, UpdateProfilePicture } from "../../services/API";
+import ProductCard from "../../components/Product/ProductCard";
 
 const UpdateProfilePage = () => {
   const classes = useStyles();
@@ -26,13 +27,16 @@ const UpdateProfilePage = () => {
   const [profile, setProfile] = useState();
   const [Updateprofile, setUpdateprofile] = useState();
   const [imageState, setImageState] = useState();
-  const [fieldValue, setFieldValue] = useState("hello");
+  //   const [fieldValue, setFieldValue] = useState("hello");
+  const [sirName, setSirName] = useState(
+    profile?.surName ? profile.surName : ""
+  );
 
   function onChange(event) {
-    setFieldValue(event.target.value); //update your value here
+    setSirName(event.target.value); //update your value here
   }
 
-  console.log("value infield", fieldValue);
+  console.log("value infield", sirName);
   const GetProfileGetter = async () => {
     try {
       const response = await getProfile();
@@ -103,7 +107,7 @@ const UpdateProfilePage = () => {
                   type="text"
                   placeholder={"First Name"}
                   name="firstName"
-                  value={fieldValue}
+                  value={sirName}
                   validation={{ required: true, maxLength: 16 }}
                   error={errors.exp_year}
                   register={register}
@@ -114,7 +118,7 @@ const UpdateProfilePage = () => {
                 <Input
                   type="text"
                   placeholder={"Sure Name"}
-                  value={profile?.surName}
+                  //   value={sirName}
                   name="surName"
                   validation={{ required: true, maxLength: 16 }}
                   error={errors.exp_year}
