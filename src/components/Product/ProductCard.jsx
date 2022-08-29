@@ -8,6 +8,8 @@ import { Grid, Button, useMediaQuery, useTheme } from "@mui/material"
 import { postFavourite } from "../../services/API"
 import { useDispatch } from "react-redux"
 import { EstablishmentID } from "../../Redux/Actions/EstablishmentID"
+import Notification from "../Notification"
+import { useSelector } from "react-redux"
 const styles = makeStyles((theme) => ({
 	cardContainer: {
 		height: 290,
@@ -41,8 +43,23 @@ const styles = makeStyles((theme) => ({
 	},
 }))
 
-const ProductCard = ({ name, pic, Location, ID, address, phoneNumber }) => {
-	const [heart, setHeart] = useState(false)
+const ProductCard = ({
+	name,
+	pic,
+	Location,
+	ID,
+	address,
+	phoneNumber,
+	FavouriteBy,
+}) => {
+	const token = localStorage.getItem("access")
+	let idd = null
+	idd = useSelector((state) => state?.Auth?.user?.user?.id)
+
+	const [heart, setHeart] = useState(
+		idd === null ? false : FavouriteBy.includes(idd)
+	)
+
 	const classes = styles()
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
@@ -56,13 +73,15 @@ const ProductCard = ({ name, pic, Location, ID, address, phoneNumber }) => {
 	const postFavourites = async (EstablishmentID) => {
 		try {
 			const response = await postFavourite(EstablishmentID)
-
+			console.log("response of fav", response)
+			Notification("success", response.data)
 			setHeart(!heart)
 		} catch (e) {
+			Notification("error", e.response.data)
 			console.log(e, " else Body Error")
 		}
 	}
-	
+
 	return (
 		<Grid
 			className={`${classes.mobileCard} rounded-3xl overflow-hidden h-44 sm:h- ${classes.cardContainer}`}
@@ -76,10 +95,23 @@ const ProductCard = ({ name, pic, Location, ID, address, phoneNumber }) => {
 			<div className="relative">
 				{isXS && location.pathname !== "/explore" && (
 					<div className="flex flex-row-reverse">
-						<AiFillHeart
-							className="absolute top-2 right-2 text-primary text-3xl"
-							onClick={() => setHeart(false)}
-						/>
+						{!heart ? (
+							<AiOutlineHeart
+								className="absolute top-2 right-2 text-primary text-3xl"
+								//   onClick={() => setHeart(false)}
+								onClick={() => {
+									postFavourites(ID)
+								}}
+							/>
+						) : (
+							<AiFillHeart
+								className="absolute top-2 right-2 text-primary text-3xl"
+								//   onClick={() => setHeart(false)}
+								onClick={() => {
+									postFavourites(ID)
+								}}
+							/>
+						)}
 					</div>
 				)}
 
@@ -98,6 +130,8 @@ const ProductCard = ({ name, pic, Location, ID, address, phoneNumber }) => {
 									EstablishmentID: ID,
 									address: address,
 									phoneNumber: phoneNumber,
+									name: name,
+									pic: pic,
 								},
 							})
 						}
@@ -111,7 +145,17 @@ const ProductCard = ({ name, pic, Location, ID, address, phoneNumber }) => {
 			>
 				<p
 					className="w-11/12 font-nunito sm:text-lg text-sm font-bold"
-					onClick={() => navigate("/racket")}
+					onClick={() =>
+						navigate("/racket", {
+							state: {
+								EstablishmentID: ID,
+								address: address,
+								phoneNumber: phoneNumber,
+								name: name,
+								pic: pic,
+							},
+						})
+					}
 				>
 					{name}
 				</p>
@@ -121,14 +165,20 @@ const ProductCard = ({ name, pic, Location, ID, address, phoneNumber }) => {
 					<AiOutlineHeart
 						className="text-xl"
 						onClick={() => {
-							postFavourites(ID)
+							if (token !== null) postFavourites(ID)
+							else {
+								console.log(" Not Signed in ")
+							}
 						}}
 					/>
 				) : (
 					<AiFillHeart
 						className="text-primary text-xl"
 						onClick={() => {
-							postFavourites(ID)
+							if (token !== null) postFavourites(ID)
+							else {
+								console.log(" Not Signed in ")
+							}
 						}}
 					/>
 				)}
@@ -137,16 +187,26 @@ const ProductCard = ({ name, pic, Location, ID, address, phoneNumber }) => {
 				className={`${classes.detail} flex justify-start gap-1 items-center px-2`}
 				item
 				xs={12}
-				onClick={() => navigate("/racket")}
+				onClick={() =>
+					navigate("/racket", {
+						state: {
+							EstablishmentID: ID,
+							address: address,
+							phoneNumber: phoneNumber,
+							name: name,
+							pic: pic,
+						},
+					})
+				}
 			>
 				<GrLocation />
 				<p className="font-nunito text-xs">{Location}</p>
-				<span className="text-primary text-lg">.</span>
+				{/* <span className="text-primary text-lg">.</span> */}
 				<span className="text-xs">
 					<img src={assets.Star} className="h-4 w-4" />
 				</span>
 				<span>
-					<p className="font-nunito text-xs">(5 Stars)</p>
+					<p className="font-nunito text-xs">{"5 Stars"}</p>
 				</span>
 			</Grid>
 		</Grid>

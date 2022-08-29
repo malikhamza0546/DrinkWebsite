@@ -13,6 +13,8 @@ export default function Input({
   error,
   errorMessage,
   className,
+  value,
+  onChange,
 }) {
   return (
     // <div className="input">
@@ -27,6 +29,8 @@ export default function Input({
         type={type}
         {...register(name, validation)}
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
       />
       {error && <p className="errorMessage">{errorMessage}</p>}
     </div>

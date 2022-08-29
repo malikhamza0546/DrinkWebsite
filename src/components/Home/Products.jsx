@@ -3,7 +3,7 @@ import Slider from "react-slick"
 import { Grid, useMediaQuery, useTheme } from "@mui/material"
 import ProductCard from "../Product/ProductCard"
 import { getEstablishment } from "../../services/API"
-
+// import { LoadingButton } from "@mui/lab"
 const Products = ({ getEstablishmentThunk }) => {
 	const theme = useTheme()
 	const isMD = useMediaQuery(theme.breakpoints.only("md"))
@@ -47,6 +47,7 @@ const Products = ({ getEstablishmentThunk }) => {
 		>
 			<Slider {...settings}>
 				{cards.map((obj, key) => {
+					console.log(obj?.id, "Objjj")
 					return (
 						<div key={key} style={{ padding: 10 }}>
 							<div style={{ padding: 10 }}>
@@ -57,6 +58,7 @@ const Products = ({ getEstablishmentThunk }) => {
 									ID={obj?.id}
 									address={obj?.address}
 									phoneNumber={obj?.phoneNumber}
+									FavouriteBy={obj?.favouriteBy}
 								/>
 							</div>
 						</div>

@@ -26,6 +26,7 @@ const Navbar = () => {
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
 
   const history = useNavigate();
+  // const token = localStorage.getItem("access")
 
   return (
     <>
@@ -112,13 +113,12 @@ const Navbar = () => {
 
                 {token !== null ? (
                   <>
-                    <div>
+                    <div onClick={() => history("/profile-page")}>
                       <img
                         className="rounded-full border-2 border-[#FF5F00] w-10 h-10"
                         src={assets.Reservation}
                       />
                     </div>
-
                     <Button
                       onClick={() => {
                         localStorage.clear();

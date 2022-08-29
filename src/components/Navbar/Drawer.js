@@ -83,7 +83,7 @@ const DrawerComp = () => {
             <>
               <ListItemButton
                 onClick={() => {
-                  history("/explore");
+                  history("/order-history");
                   setOpenDrawer(false);
                 }}
               >
@@ -111,7 +111,7 @@ const DrawerComp = () => {
 
               <ListItemButton
                 onClick={() => {
-                  history("/signup");
+                  history("/wallet");
                   setOpenDrawer(false);
                 }}
               >
@@ -154,19 +154,31 @@ const DrawerComp = () => {
               </ListItemText>
             </ListItemButton>
           ) : (
-            <ListItemButton
-              onClick={() => {
-                history("/signin");
-                setOpenDrawer(false);
-              }}
-            >
-              <ListItemIcon>
-                <div className="ml-4 pt-32" />
-              </ListItemIcon>
-              <ListItemText className="font-nunito font-semibold text-base ">
-                Sign In
-              </ListItemText>
-            </ListItemButton>
+            <div className="flex">
+              <ListItemButton
+                onClick={() => {
+                  history("/signin");
+                  setOpenDrawer(false);
+                }}
+              >
+                <ListItemIcon>
+                  <div className=" pt-32" />
+                </ListItemIcon>
+                <ListItemText className="font-nunito font-semibold text-base text-[#FF5F00]">
+                  Sign In
+                </ListItemText>
+              </ListItemButton>
+              <ListItemButton
+                onClick={() => {
+                  history("/signup");
+                  setOpenDrawer(false);
+                }}
+              >
+                <ListItemText className="font-nunito font-semibold text-base text-[#FF5F00]">
+                  Sign Up
+                </ListItemText>
+              </ListItemButton>
+            </div>
           )}
         </List>
       </Drawer>

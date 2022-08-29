@@ -9,6 +9,9 @@ const RacketPage = (props) => {
   const EstablishmentID = location?.state;
   const { address } = location?.state;
   const { phoneNumber } = location?.state;
+  const { name } = location?.state;
+  const { pic } = location?.state;
+
   console.log("phoneNumber", phoneNumber);
   return (
     <Grid container>
@@ -16,6 +19,8 @@ const RacketPage = (props) => {
         EstablishmentID={EstablishmentID}
         address={address}
         phoneNumber={phoneNumber}
+        name={name}
+        pic={pic}
       />
     </Grid>
   );

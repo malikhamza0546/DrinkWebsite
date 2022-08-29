@@ -1,5 +1,5 @@
 import { ImportantDevices } from "@mui/icons-material";
-import { Button, Grid , useMediaQuery , useTheme} from "@mui/material";
+import { Button, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useState } from "react";
 import colors from "../../assets/colors";
@@ -56,7 +56,7 @@ const Intro = (props) => {
             </>
           ) : (
             <>
-             
+
 
               <p className={`text-3xl text-primary font-cabin`}>
                 {"Place your next orders contactlessly"}
@@ -76,8 +76,8 @@ const Intro = (props) => {
         </Grid>
       </div>
       <Grid xs={12} >
-        {isXS && <img src={assets.headerImage}/>}
-        </Grid>
+        {isXS && (active === 1 ? <img src={assets.headerImage} /> : <img src={assets.headerImage1} />)}
+      </Grid>
     </Grid>
   );
 };

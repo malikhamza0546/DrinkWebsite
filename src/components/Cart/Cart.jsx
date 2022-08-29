@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import assets from "../../assets/assets";
 import TextField from "../../components/Forms/Input/TextField";
 import Button from "../../components/Forms/Button/AuthButton";
@@ -28,8 +28,8 @@ const data = [
   { name: "No Ice" },
 ];
 
-const Cart = ({ ID }) => {
-  const product = ["food", "milk"];
+const Cart = ({ ID, productName, productDescription, EstablishmentID }) => {
+  // const product = ["food", "milk"];
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -42,15 +42,9 @@ const Cart = ({ ID }) => {
   const [arrayNew, setArrayNew] = useState([]);
 
   let navigate = useNavigate();
-
-  const inner = {};
-
-  inner["addons"] = addons;
-  inner["count"] = quantity;
-  inner["product"] = "11312312312312";
-
-  arrayNew.push(inner);
-  console.log("aarraaryneeww", arrayNew);
+  const { state } = useLocation();
+  const CartProductPayLoad = state?.payload;
+  console.log("cart redux sent", state?.payload);
 
   const handleAddons = (e) => {
     console.log("e", e.target.value);
@@ -64,10 +58,11 @@ const Cart = ({ ID }) => {
     }
   };
 
+  console.log("ID in EstablishmentIDEstablishmentID", EstablishmentID);
+
   // const [counter, setCounter] = useState(0);
   const cartValueGetter = async () => {
     try {
-      console.log("ID in cartValueGetter", ID);
       const response = await getCartData(ID);
       setAPIData(response?.data);
       console.log("response in cartValueGetter", response?.data);
@@ -85,10 +80,30 @@ const Cart = ({ ID }) => {
   };
 
   const handleClick = () => {
-    dispatch(AddToCart({ product, quantity }));
+    const inner = {};
+    inner["addons"] = addons;
+    inner["count"] = quantity;
+    inner["product"] = ID;
+
+    console.log("inner from func", inner);
+
+    dispatch(AddToCart({ arrayNew, quantity }));
+    // dispatch({ type: "ProductCount", payload: quantity })
+    dispatch({
+      type: "Products",
+      payload: {
+        ProductAndCount: {
+          Product: CartProductPayLoad,
+          Count: quantity,
+        },
+      },
+    });
     navigate("/order", {
       state: {
-        arrayData: [arrayNew],
+        products: {
+          products: [inner],
+        },
+        establishmentID: state.EstablishmentID,
       },
     });
   };
@@ -116,13 +131,8 @@ const Cart = ({ ID }) => {
         )}
 
         <Grid className="p-6">
-          <div className={`${classes.title} mb-2`}>
-            Australian Wagyu Beef Sliders
-          </div>
-          <div>
-            Sesame brioche bun, au wagyu patties, cheddar cheese, slaw &
-            sriracha aioli
-          </div>
+          <div className={`${classes.title} mb-2`}>{state.productName}</div>
+          <div>{state.productDescripion}</div>
         </Grid>
 
         <Grid className="px-6">
