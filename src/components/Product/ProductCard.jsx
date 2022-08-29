@@ -127,14 +127,42 @@ const ProductCard = ({
 						src={pic}
 						className="w-full h-full "
 						onClick={() => {
-							dispatch({ type: "ForEstablishmentID", payload: ID })
-							navigate("/racket", {
-								state: {
-									EstablishmentID: ID,
-									address: address,
-									phoneNumber: phoneNumber,
-								},
-							})
+							if (PreviousEstablishmentID === "") {
+								dispatch({ type: "ForEstablishmentID", payload: ID })
+								navigate("/racket", {
+									state: {
+										EstablishmentID: ID,
+										address: address,
+										phoneNumber: phoneNumber,
+									},
+								})
+								return
+							}
+							if (PreviousEstablishmentID === null) {
+								dispatch({ type: "ForEstablishmentID", payload: ID })
+								navigate("/racket", {
+									state: {
+										EstablishmentID: ID,
+										address: address,
+										phoneNumber: phoneNumber,
+									},
+								})
+								return
+							}
+							console.log(PreviousEstablishmentID, ID, "Comparison")
+							if (PreviousEstablishmentID === ID) {
+								dispatch({ type: "ForEstablishmentID", payload: ID })
+								navigate("/racket", {
+									state: {
+										EstablishmentID: ID,
+										address: address,
+										phoneNumber: phoneNumber,
+									},
+								})
+								return
+							} else {
+								Notification("error", "Please FullFil Previous Order Before")
+							}
 						}}
 					/>
 				</Grid>
@@ -147,14 +175,42 @@ const ProductCard = ({
 				<p
 					className="w-11/12 font-nunito sm:text-lg text-sm font-bold"
 					onClick={() => {
-						dispatch({ type: "ForEstablishmentID", payload: ID })
-						navigate("/racket", {
-							state: {
-								EstablishmentID: ID,
-								address: address,
-								phoneNumber: phoneNumber,
-							},
-						})
+						if (PreviousEstablishmentID === "") {
+							dispatch({ type: "ForEstablishmentID", payload: ID })
+							navigate("/racket", {
+								state: {
+									EstablishmentID: ID,
+									address: address,
+									phoneNumber: phoneNumber,
+								},
+							})
+							return
+						}
+						if (PreviousEstablishmentID === null) {
+							dispatch({ type: "ForEstablishmentID", payload: ID })
+							navigate("/racket", {
+								state: {
+									EstablishmentID: ID,
+									address: address,
+									phoneNumber: phoneNumber,
+								},
+							})
+							return
+						}
+						console.log(PreviousEstablishmentID, ID, "Comparison")
+						if (PreviousEstablishmentID === ID) {
+							dispatch({ type: "ForEstablishmentID", payload: ID })
+							navigate("/racket", {
+								state: {
+									EstablishmentID: ID,
+									address: address,
+									phoneNumber: phoneNumber,
+								},
+							})
+							return
+						} else {
+							Notification("error", "Please FullFil Previous Order Before")
+						}
 					}}
 				>
 					{name}
