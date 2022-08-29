@@ -275,7 +275,7 @@ const Order = ({ route }) => {
               </div>
               <div className={`${classes.name} flex justify-between mt-2`}>
                 <div>ServiceFee</div>
-                <div>$10</div>
+                <div>$6</div>
               </div>
               <div className={`${classes.total}  flex justify-between mt-6`}>
                 <div>Total</div>

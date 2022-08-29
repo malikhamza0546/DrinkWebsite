@@ -27,13 +27,27 @@ const UpdateProfilePage = () => {
   const [profile, setProfile] = useState();
   const [Updateprofile, setUpdateprofile] = useState();
   const [imageState, setImageState] = useState();
-  //   const [fieldValue, setFieldValue] = useState("hello");
-  const [sirName, setSirName] = useState(
-    profile?.surName ? profile.surName : ""
+  const [dob, setDob] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [name, setName] = useState(
+    profile?.firstName && profile?.firstName ? profile?.firstName : ""
   );
 
-  function onChange(event) {
+  const [sirName, setSirName] = useState(
+    profile?.surName && profile?.surName ? profile?.surName : ""
+  );
+
+  function onChangeName(event) {
+    setName(event.target.value); //update your value here
+  }
+  function onChangeSirName(event) {
     setSirName(event.target.value); //update your value here
+  }
+  function onChangePhone(event) {
+    setPhoneNumber(event.target.value); //update your value here
+  }
+  function onChangeDob(event) {
+    setDob(event.target.value); //update your value here
   }
 
   console.log("value infield", sirName);
@@ -41,6 +55,8 @@ const UpdateProfilePage = () => {
     try {
       const response = await getProfile();
       setProfile(response?.data);
+      setName(response?.data?.firstName);
+      setSirName(response?.data?.surName);
 
       console.log("response in GetProfileGetter", response?.data);
     } catch (e) {
@@ -107,18 +123,19 @@ const UpdateProfilePage = () => {
                   type="text"
                   placeholder={"First Name"}
                   name="firstName"
-                  value={sirName}
+                  value={name}
+                  onChange={onChangeName}
                   validation={{ required: true, maxLength: 16 }}
                   error={errors.exp_year}
                   register={register}
                   errorMessage={"Enter First Name"}
-                  onChange={onChange}
                   className={`mb-4  ${classes.inputField}`}
                 />
                 <Input
                   type="text"
                   placeholder={"Sure Name"}
-                  //   value={sirName}
+                  value={sirName}
+                  onChange={onChangeSirName}
                   name="surName"
                   validation={{ required: true, maxLength: 16 }}
                   error={errors.exp_year}
@@ -132,7 +149,9 @@ const UpdateProfilePage = () => {
                   type="text"
                   placeholder={"Date of Birth"}
                   name="dob"
-                  value={moment(profile?.dob).format("YYYY-MM-DD")}
+                  value={dob}
+                  onChange={onChangeDob}
+                  //   value={moment(profile?.dob).format("YYYY-MM-DD")}
                   validation={{ required: true, maxLength: 16 }}
                   error={errors.exp_year}
                   register={register}
@@ -143,7 +162,8 @@ const UpdateProfilePage = () => {
                   type="text"
                   placeholder={"Phone Number"}
                   name="phoneNumber"
-                  value={profile?.phoneNumber}
+                  value={phoneNumber}
+                  onChange={onChangePhone}
                   validation={{ required: true, maxLength: 16 }}
                   error={errors.exp_year}
                   register={register}
@@ -168,7 +188,10 @@ const UpdateProfilePage = () => {
 
             {/* end */}
             <div className={classes.editOuter}>
-              <img className={`${classes.image} `} src={profile?.image} />
+              <img
+                className={`${classes.image} `}
+                src={profile?.image || assets.blackLogo}
+              />
               <div className={classes.edit} onClick={() => handleClick()}>
                 <div>Edit</div>
               </div>

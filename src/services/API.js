@@ -1,4 +1,6 @@
 import axios from "axios";
+import Notification from "../components/Notification";
+
 const REACT_APP_API_URL = "https://pacific-brushlands-27461.herokuapp.com/v1";
 
 export const getEstablishment = async () => {
@@ -330,7 +332,7 @@ export const UpdateProfile = async (data) => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => resolve(res))
+      .then((res) => resolve(res), Notification("success", "Profile Updated"))
       .catch((err) => {
         reject(err);
       });
@@ -350,7 +352,11 @@ export const UpdateProfilePicture = async (data) => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => resolve(res))
+      .then(
+        (res) => resolve(res),
+        Notification("success", "Profile Picture Updated")
+      )
+
       .catch((err) => {
         reject(err);
       });
