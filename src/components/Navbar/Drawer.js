@@ -83,7 +83,7 @@ const DrawerComp = () => {
             <>
               <ListItemButton
                 onClick={() => {
-                  history("/explore");
+                  history("/order-history");
                   setOpenDrawer(false);
                 }}
               >
@@ -111,7 +111,7 @@ const DrawerComp = () => {
 
               <ListItemButton
                 onClick={() => {
-                  history("/signup");
+                  history("/wallet");
                   setOpenDrawer(false);
                 }}
               >

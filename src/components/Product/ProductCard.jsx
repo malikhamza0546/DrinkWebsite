@@ -130,6 +130,8 @@ const ProductCard = ({
 									EstablishmentID: ID,
 									address: address,
 									phoneNumber: phoneNumber,
+									name: name,
+									pic: pic,
 								},
 							})
 						}
@@ -149,6 +151,8 @@ const ProductCard = ({
 								EstablishmentID: ID,
 								address: address,
 								phoneNumber: phoneNumber,
+								name: name,
+								pic: pic,
 							},
 						})
 					}
@@ -189,18 +193,20 @@ const ProductCard = ({
 							EstablishmentID: ID,
 							address: address,
 							phoneNumber: phoneNumber,
+							name: name,
+							pic: pic,
 						},
 					})
 				}
 			>
 				<GrLocation />
 				<p className="font-nunito text-xs">{Location}</p>
-				<span className="text-primary text-lg">.</span>
+				{/* <span className="text-primary text-lg">.</span> */}
 				<span className="text-xs">
 					<img src={assets.Star} className="h-4 w-4" />
 				</span>
 				<span>
-					<p className="font-nunito text-xs">(5 Stars)</p>
+					<p className="font-nunito text-xs">{"5 Stars"}</p>
 				</span>
 			</Grid>
 		</Grid>

@@ -42,7 +42,7 @@ const style = {
 const minDate = new Date("2020-01-01T00:00:00.000");
 const maxDate = new Date("2034-01-01T00:00:00.000");
 
-const Racket = ({ EstablishmentID, phoneNumber, address }) => {
+const Racket = ({ EstablishmentID, phoneNumber, address, name, pic }) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -180,11 +180,11 @@ const Racket = ({ EstablishmentID, phoneNumber, address }) => {
     >
       <Grid>
         <Grid xs={12} lg={24} className="sm:mt-32  mt-0">
-          {isXS && <img src={headerImage1} className="w-full" />}
-          <img src={img} className={classes.image} />
+          {isXS && <img src={pic} className="w-full" />}
+          <img src={pic} className={classes.image} />
         </Grid>
         <Grid xs={24} className="sm:mt-12 mt-6 px-8 sm:px-0">
-          <p className={`mb-2 ${classes.title}`}>Racket</p>
+          <p className={`mb-2 ${classes.title}`}>{name}</p>
           <div className={`flex  ${classes.address}`}>
             <p className={classes.detail}>
               {" "}
@@ -205,9 +205,9 @@ const Racket = ({ EstablishmentID, phoneNumber, address }) => {
             sx={
               mainTab == "Menu"
                 ? {
-                    borderRadius: ["0px", "8px"],
-                    color: "white",
-                  }
+                  borderRadius: ["0px", "8px"],
+                  color: "white",
+                }
                 : { borderRadius: ["0px", "8px"], backgroundColor: "#EDEEF2" }
             }
             onClick={() => {
@@ -226,9 +226,9 @@ const Racket = ({ EstablishmentID, phoneNumber, address }) => {
             sx={
               mainTab == "Reservation"
                 ? {
-                    borderRadius: ["0px", "8px"],
-                    color: "white",
-                  }
+                  borderRadius: ["0px", "8px"],
+                  color: "white",
+                }
                 : { borderRadius: ["0px", "8px"], backgroundColor: "#EDEEF2" }
             }
             onClick={() => {
@@ -267,14 +267,14 @@ const Racket = ({ EstablishmentID, phoneNumber, address }) => {
                             item.name == "Bottles"
                               ? 15
                               : item.name == "Desserts"
-                              ? 15
-                              : 20,
+                                ? 15
+                                : 20,
                           height:
                             item.name == "Bottles"
                               ? 25
                               : item.name == "Desserts"
-                              ? 25
-                              : 20,
+                                ? 25
+                                : 20,
                         }}
                       />
                     ) : (
@@ -285,14 +285,14 @@ const Racket = ({ EstablishmentID, phoneNumber, address }) => {
                             item.name == "Bottles"
                               ? 15
                               : item.name == "Desserts"
-                              ? 15
-                              : 20,
+                                ? 15
+                                : 20,
                           height:
                             item.name == "Bottles"
                               ? 25
                               : item.name == "Desserts"
-                              ? 25
-                              : 20,
+                                ? 25
+                                : 20,
                         }}
                       />
                     )}
@@ -347,7 +347,7 @@ const Racket = ({ EstablishmentID, phoneNumber, address }) => {
                               <p
                                 className={`text-base font-bold text-black ${classes.font}`}
                               >
-                                {obj?.price}
+                                {`$ ${obj?.price}`}
                               </p>
                             </div>
                             <p
