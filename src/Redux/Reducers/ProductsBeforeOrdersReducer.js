@@ -7,6 +7,11 @@ export default function ProductsOrderReducer(state = INITIAL_STATE, action) {
 			return {
 				ClickedProd: [action.payload?.ProductAndCount, ...state.ClickedProd],
 			}
+		case "EmptyClcikProd":
+			console.log("EmptyClcikProd", action.type)
+			return {
+				ClickedProd: [],
+			}
 
 		default:
 			return state

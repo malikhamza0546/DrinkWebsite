@@ -140,6 +140,9 @@ const Order = ({ route }) => {
 			//   handleOpen();
 			Notification("success", "Order Placed")
 			dispatch({ type: "STOP_LOADER" })
+			dispatch({
+				type: "EmptyClcikProd",
+			})
 		} catch (e) {
 			console.log(e.response.data.message, "Error  PostOrderOnClick")
 			Notification("error", e.response.data.message)
