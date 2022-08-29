@@ -12,8 +12,15 @@ const NavbarMenu = () => {
 
 	const token = localStorage.getItem("access")
 
-  const cart = useSelector((state) => state.Cart);
-  console.log("cart", cart.quantity);
+	const cart = useSelector((state) => state?.ProductsOrderReducer?.ClickedProd)
+
+	let Quantity = 0
+	const myFunction = (item) => {
+		Quantity += item?.Count
+	}
+	let count = cart.forEach(myFunction)
+
+	console.log("Cart NavebarMenu", Quantity, count)
 
   const getActiveClass = useCallback(
     (routeToMatch) => {
