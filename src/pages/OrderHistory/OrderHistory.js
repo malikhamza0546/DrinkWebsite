@@ -151,24 +151,24 @@ const OrderHistory = () => {
                   <div className="w-full">
                     <div className="flex flex-row justify-between w-full ">
                       <p
-                        className={`text-base font-bold text-black ml-3 mr-16 ${classes.font}`}
+                        className={`text-base font-bold text-black ml-3 mr-16 font-nunito`}
                       >
                         {obj?.products[0]?.product?.name}
                       </p>
                       <p
-                        className={`text-base font-bold text-black ${classes.font}`}
+                        className={`text-base font-bold text-black font-nunito`}
                       >
                         ${obj?.products[0]?.product?.price}
                       </p>
                     </div>
                     <div className="flex flex-row justify-between w-full ">
                       <p
-                        className={`text-xs mt-3 font-bold text-black ml-3 ${classes.font}`}
+                        className={`text-xs mt-3 font-bold text-black ml-3 font-nunito`}
                       >
                         {"March 12, 2022"}
                       </p>
                       <p
-                        className={`text-xs mt-3 font-bold text-black ml-3 ${classes.font}`}
+                        className={`text-xs mt-3 font-bold text-black ml-3 font-nunito`}
                       >
                         {obj?.order_status}
                       </p>
