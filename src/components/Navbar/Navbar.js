@@ -17,7 +17,7 @@ import NavbarMenu from "./NavbarMenu";
 import "./navbar.css";
 import Icon from "../../assets/images/Icon.png";
 import { getProfile } from "../../services/API";
-
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [value, setValue] = useState();
@@ -26,12 +26,15 @@ const Navbar = () => {
   const token = localStorage.getItem("access");
 
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
+  // const profilePic = useSelector((state) => state);
+
+  // console.log("profile pic", profilePic);
 
   const history = useNavigate();
   // const token = localStorage.getItem("access")
   useEffect(() => {
     if (token != null) {
-      GetProfileGetter()
+      GetProfileGetter();
     }
   }, []);
 
@@ -133,7 +136,10 @@ const Navbar = () => {
 
                 {token !== null ? (
                   <>
-                    <div style={{ cursor: 'pointer' }} onClick={() => history("/profile-page")}>
+                    <div
+                      style={{ cursor: "pointer" }}
+                      onClick={() => history("/profile-page")}
+                    >
                       <img
                         className="rounded-full border-2 border-[#FF5F00] w-10 h-10"
                         src={assets.Reservation}

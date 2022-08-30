@@ -17,8 +17,7 @@ import ReactStars from "react-rating-stars-component";
 import { OrderDetailAPI } from "../../services/API";
 import Notification from "../../components/Notification";
 import { useSelector } from "react-redux";
-import moment from 'moment';
-
+import moment from "moment";
 
 const style = {
   position: "absolute",
@@ -130,7 +129,7 @@ const OrderHistory = () => {
     <>
       <div className="w-screen h-screen signup-outer-wrapper relative overflow-x-hidden mt-12 pb-12 bg-[#FFFF]">
         <div className="absolute my-12  bg-white overflow-clip mx-auto signup-wrapper left-0 top-0 bottom-0 right-0">
-          <Grid className="px-8 py-4">
+          <Grid className="sm:px-8 py-4 px-0">
             <div className="flex justify-center items-center">
               <div
                 className={`font-bold mb-4 self-center items-center text-lg  flex ${classes.info}`}
@@ -153,12 +152,12 @@ const OrderHistory = () => {
                   <div className="w-full">
                     <div className="flex flex-row justify-between w-full ">
                       <p
-                        className={`text-base font-bold text-black ml-3 mr-16 font-nunito`}
+                        className={`sm:text-base text-xs font-bold text-black ml-3 mr-16 font-nunito`}
                       >
                         {obj?.products[0]?.product?.name}
                       </p>
                       <p
-                        className={`text-base font-bold text-black font-nunito`}
+                        className={`sm:text-base text-xs font-bold text-black font-nunito`}
                       >
                         ${obj?.total}
                       </p>
@@ -241,7 +240,9 @@ const OrderHistory = () => {
                         {/* 150 NW 24 Street | Miami, FL 33127 */}
                       </div>
                       <div className="font-nunito font-bold  text-sm text-[#2B2B43]">
-                        {moment(OrderDetailAPIState?.createdAt).format("MMMM Do YYYY")}
+                        {moment(OrderDetailAPIState?.createdAt).format(
+                          "MMMM Do YYYY"
+                        )}
                         {/* Saturday, March 12, 2022 */}
                       </div>
                       <div className="font-nunito font-bold  text-sm text-[#2B2B43]">
@@ -349,7 +350,9 @@ const OrderHistory = () => {
                   <div className="flex mb-4 items-center justify-center ">
                     {/* Order {OrderDetailAPIState?.order_status} */}
                     <div className="font-nunito font-bold text-xl ">
-                      {OrderDetailAPIState?.order_status == "preparing" ? "Order Preparing" : "Order Received"}
+                      {OrderDetailAPIState?.order_status == "preparing"
+                        ? "Order Preparing"
+                        : "Order Received"}
                     </div>
                   </div>
                   <div className="bg-[#EDEEF2] m-2 p-2 px-4 rounded-lg ">

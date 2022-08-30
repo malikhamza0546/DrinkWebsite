@@ -126,10 +126,10 @@ const DrawerComp = () => {
           )}
 
           <ListItemButton
-            // onClick={() => {
-            //   history("/signup");
-            //   setOpenDrawer(false);
-            // }}
+          // onClick={() => {
+          //   history("/signup");
+          //   setOpenDrawer(false);
+          // }}
           >
             <ListItemIcon>
               <img src={assets.settingIcon} className="ml-4" />
@@ -144,6 +144,7 @@ const DrawerComp = () => {
               onClick={() => {
                 history("/");
                 setOpenDrawer(false);
+                localStorage.clear();
               }}
             >
               <ListItemIcon>
@@ -172,7 +173,8 @@ const DrawerComp = () => {
                 onClick={() => {
                   history("/signin");
                   setOpenDrawer(false);
-                }}>
+                }}
+              >
                 {" "}
                 <ListItemIcon>
                   <img src={assets.userAdd} className="ml-4" />
@@ -186,7 +188,8 @@ const DrawerComp = () => {
                 onClick={() => {
                   history("/signup");
                   setOpenDrawer(false);
-                }}>
+                }}
+              >
                 {" "}
                 <ListItemIcon>
                   <img src={assets.userAdd} className="ml-4" />
