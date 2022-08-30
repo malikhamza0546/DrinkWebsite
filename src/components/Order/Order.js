@@ -24,6 +24,8 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
+import moment from 'moment';
+
 
 const data = [
   { name: "Rice", quantity: 2, price: 10 },
@@ -31,7 +33,7 @@ const data = [
   { name: "Fries", quantity: 2, price: 10 },
   { name: "Ceasear Salad", quantity: 2, price: 10 },
   ,
-];
+]
 const cardDataChexk = [
   {
     brand: "visa",
@@ -60,7 +62,7 @@ const cardDataChexk = [
     stripe_card_id: "card_1Lb6gTLFKwlHVomwnaOPaaxc",
     _id: "630908e6e66e7300210a3172",
   },
-];
+]
 
 const style = {
   position: "absolute",
@@ -73,7 +75,7 @@ const style = {
   borderRadius: 4,
   boxShadow: 24,
   p: 4,
-};
+}
 
 const Order = ({ route }) => {
   const classes = useStyles();
@@ -85,7 +87,9 @@ const Order = ({ route }) => {
   const [orderResponse, setOrderResponse] = useState();
   const [open, setOpen] = useState(false);
   const [OrderDataFromAPI, setOrderDataFromAPI] = useState("");
-  const [OrderDetailAPIState, setOrderDetailAPIState] = useState("");
+  const [OrderDetailAPIState, setOrderDetailAPIState] = useState(null);
+
+  let subTotal = 0
 
   // const handleOpen = () => setOpen(true);
   const handleOpen = async (orderFromAPI) => {
@@ -103,7 +107,7 @@ const Order = ({ route }) => {
   const handleClose = () => setOpen(false);
   const [confirm, setConfirm] = useState(true);
 
-  const cart = useSelector((state) => state.Cart);
+  const cart = useSelector((state) => state);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { state } = useLocation();
@@ -111,18 +115,23 @@ const Order = ({ route }) => {
   const ProductsOrderReducer = useSelector(
     (state) => state.ProductsOrderReducer?.ClickedProd
   );
+
+  const ProductCartOrder = useSelector(
+    (state) => state.ProductsOrderReducer?.ProductCart
+  );
+
   const [ProductsOrderReducerRedux, setProductsOrderReducerRedux] = useState([
     ...ProductsOrderReducer,
   ]);
 
-  console.log(ProductsOrderReducerRedux, "ProductsOrderReducer final Result");
+  console.log(ProductsOrderReducerRedux, "ProductsOrderReducer final Result", ProductCartOrder);
 
   const orderData = state;
   const token = localStorage.getItem("access");
 
   var orderDataForAPI = {
     cardId: cardSelected,
-    products: state?.products?.products,
+    products: ProductsOrderReducer,
   };
   console.log("orderDataForAPI outside", orderDataForAPI);
   const EstablishmentedID = state?.establishmentID;
@@ -138,24 +147,24 @@ const Order = ({ route }) => {
   };
 
   const handleClick = (EstablishmentedID, orderDataForAPI) => {
-    console.log("orderDataForAPI Inside", orderDataForAPI);
+    console.log("orderDataForAPI Inside", orderDataForAPI, EstablishmentedID);
     PostOrderOnClick(EstablishmentedID, orderDataForAPI);
   };
 
   const cardID = (item) => {
-    setCardSelected(item);
-    orderData["cardId"] = item;
-    console.log("aaaaaaaaitem", item);
-  };
+    setCardSelected(item)
+    orderData["cardId"] = item
+    console.log("aaaaaaaaitem", item)
+  }
 
   const PostOrderOnClick = async (EstablishmentID, orderDataForAPI) => {
-    dispatch({ type: "START_LOADER", payload: "Getting your Order Placed..." });
+    dispatch({ type: "START_LOADER", payload: "Getting your Order Placed..." })
 
     try {
       const response = await postOrder(EstablishmentID, orderDataForAPI);
       console.log("postOrder API Response ", response?.data);
       setOrderResponse(response?.data);
-      handleOpen();
+      handleOpen(response?.data);
       Notification("success", "Order Placed");
       dispatch({ type: "STOP_LOADER" });
       dispatch({
@@ -172,6 +181,27 @@ const Order = ({ route }) => {
     cardDetailsShowGetter();
   }, []);
 
+
+  const showCartInner = (item, itemID) => {
+    subTotal = subTotal + item?.price
+    return (
+      <div key={itemID} className="flex justify-between mt-2">
+        <div className="flex">
+          <div className={`${classes.name} sm:w-16 w-8`}>
+            {item?.count}x
+          </div>
+          <div className={`${classes.name} `}>
+            {item?.productName}
+          </div>
+        </div>
+
+        <div className={`${classes.name} `}>
+          ${item?.price}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="w-screen h-screen signup-outer-wrapper relative overflow-x-hidden mt-12 mb-12">
       {token !== null ? (
@@ -183,52 +213,55 @@ const Order = ({ route }) => {
             <div
               className={`${"active"} text-xl flex justify-center items-center`}
             >
-              Place Order
+              Checkout
             </div>
           </div>
 
-          <Grid
-            className={`${classes.card} bg-[#FF9901] sm:mx-16 mx-0 py-4 rounded-2xl mt-8`}
-          >
-            {cardData && cardData.length == 0 && (
-              <div className="flex items-center justify-center ">
-                <div className={classes.noCard}>No Card Added</div>
-              </div>
-            )}
-            {cardData &&
-              cardData.map((item) => (
-                <div className="  sm:px-10 px-4">
-                  <Accordion>
-                    <AccordionSummary
-                      expandIcon={
-                        <FaAngleDown color="#000000" fontSize="1.8em" />
-                      }
-                      aria-controls="panel1a-content"
-                      id="panel1a-header"
-                    >
-                      <div
-                        className={`${"active"} text-xl flex justify-center items-center text-white`}
-                      >
-                        Select Card
-                      </div>
-                    </AccordionSummary>
-                    <AccordionDetails onClick={() => setCardSelected(item._id)}>
-                      <div
-                        className={
-                          item._id == cardSelected
-                            ? "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-4 px-2 mb-2 border-4 border-[#006400]"
-                            : "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-4 px-2 mb-2 border-2 border-[#DADADA]"
-                        }
-                      >
-                        <div className=" flex ">
-                          {item.brand == "visa" && (
-                            <img src={assets.visaCard} />
-                          )}
-                          {item.brand == "master" && (
-                            <img src={assets.masterCard} />
-                          )}
+          {
+            ProductsOrderReducerRedux?.length > 0 ?
+              <>
+                <Grid
+                  className={`${classes.card} bg-[#FF9901] sm:mx-16 mx-0 py-4 rounded-2xl mt-8`}
+                >
+                  {cardData && cardData.length == 0 && (
+                    <div className="flex items-center justify-center ">
+                      <div className={classes.noCard}>No Card Added</div>
+                    </div>
+                  )}
+                  {cardData &&
+                    cardData.map((item) => (
+                      <div className="  sm:px-10 px-4">
+                        <Accordion>
+                          <AccordionSummary
+                            expandIcon={
+                              <FaAngleDown color="#000000" fontSize="1.8em" />
+                            }
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                          >
+                            <div
+                              className={`${"active"} text-xl flex justify-center items-center text-white`}
+                            >
+                              Select Card
+                            </div>
+                          </AccordionSummary>
+                          <AccordionDetails onClick={() => setCardSelected(item._id)}>
+                            <div
+                              className={
+                                item._id == cardSelected
+                                  ? "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-4 px-2 mb-2 border-4 border-[#006400]"
+                                  : "bg-[#ffff] w-full h-12 rounded-md flex justify-between items-center sm:px-4 px-2 mb-2 border-2 border-[#DADADA]"
+                              }
+                            >
+                              <div className=" flex ">
+                                {item.brand == "visa" && (
+                                  <img src={assets.visaCard} />
+                                )}
+                                {item.brand == "master" && (
+                                  <img src={assets.masterCard} />
+                                )}
 
-                          {/* <img
+                                {/* <img
                           src={
                             item.brand == "visa"
                               ? assets.visaCard
@@ -236,70 +269,77 @@ const Order = ({ route }) => {
                           }
                           className="mr-4"
                         /> */}
-                          <div className={classes.cardNumber}>
-                            *****
-                            {item?.card_number.substr(
-                              item?.card_number.length - 5
-                            )}
-                          </div>
-                        </div>
+                                <div className={classes.cardNumber}>
+                                  *****
+                                  {item?.card_number.substr(
+                                    item?.card_number.length - 5
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </AccordionDetails>
+                        </Accordion>
                       </div>
-                    </AccordionDetails>
-                  </Accordion>
-                </div>
-              ))}
-          </Grid>
+                    ))}
+                </Grid>
+              </>
+              : null
+          }
 
-          <Grid className="sm:px-24 mt-8 px-4">
-            {ProductsOrderReducerRedux.map((item) => (
-              <div className="flex justify-between mt-2">
-                <div className="flex">
-                  <div className={`${classes.name} sm:w-16 w-8`}>
-                    {item?.Count}x
+          {
+            ProductCartOrder?.length > 0 ?
+              <>
+
+                <Grid className="sm:px-24 mt-8 px-4">
+                  {ProductCartOrder.map((item, itemID) => {
+                    return (
+                      showCartInner(item, itemID)
+                    )
+                  }
+                  )}
+                  <hr className={`${classes.hr} mt-8`} />
+                  <div className="mt-4">
+                    <div className={`${classes.name} flex justify-between`}>
+                      <div>Subtotal</div>
+                      <div>{`$${subTotal}`}</div>
+                    </div>
+                    <div className={`${classes.name} flex justify-between mt-2`}>
+                      <div>ServiceFee</div>
+                      <div>$6</div>
+                    </div>
+                    <div className={`${classes.total}  flex justify-between mt-6`}>
+                      <div>Total</div>
+                      <div>{`$${subTotal + 6}`}</div>
+                    </div>
                   </div>
-                  <div className={`${classes.name} `}>
-                    {item?.Product?.name}
-                  </div>
-                </div>
+                </Grid>
 
-                <div className={`${classes.name} `}>
-                  ${item?.Product?.price}
+                <Grid container className="my-8">
+                  <Grid item xs={1} md={3}></Grid>
+                  <Grid item xs={10} md={6}>
+                    <button
+                      style={{ fontSize: 13, height: 45 }}
+                      className="flex bg-black w-full text-whiteColor font-bold py-2 px-4 rounded items-center"
+                      onClick={() => handleClick(EstablishmentedID, orderDataForAPI)}
+                    >
+                      <span className="text-center m-auto">{"Place Order"}</span>
+                    </button>
+                  </Grid>
+                </Grid>
+              </>
+              :
+              <div className="flex items-center justify-center">
+                <div className="text-[#FF9901] text-2xl font-bold">
+                  Cart is Empty
                 </div>
               </div>
-            ))}
-            <hr className={`${classes.hr} mt-8`} />
-            <div className="mt-4">
-              <div className={`${classes.name} flex justify-between`}>
-                <div>Subtotal</div>
-                <div>$10</div>
-              </div>
-              <div className={`${classes.name} flex justify-between mt-2`}>
-                <div>ServiceFee</div>
-                <div>$6</div>
-              </div>
-              <div className={`${classes.total}  flex justify-between mt-6`}>
-                <div>Total</div>
-                <div>$10</div>
-              </div>
-            </div>
-          </Grid>
-
-          <Grid container className="my-8">
-            <Grid item xs={1} md={3}></Grid>
-            <Grid item xs={10} md={6}>
-              <button
-                style={{ fontSize: 13, height: 45 }}
-                className="flex bg-black w-full text-whiteColor font-bold py-2 px-4 rounded items-center"
-                onClick={() => handleClick(EstablishmentedID, orderDataForAPI)}
-              >
-                <span className="text-center m-auto">{"Order"}</span>
-              </button>
-            </Grid>
-          </Grid>
+          }
 
           <Modal
             open={open}
-            onClose={handleClose}
+            onClose={() => {
+              navigate("/");
+            }}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
@@ -311,8 +351,7 @@ const Order = ({ route }) => {
                       className=""
                       onClick={() => {
                         navigate("/");
-                      }}
-                    >
+                      }}>
                       <img className="" src={assets.cancel} />
                     </div>
                   </div>
@@ -327,22 +366,20 @@ const Order = ({ route }) => {
                         <img src={assets.blackLogo1} alt="" />
                       </div>
                       <div className="font-nunito font-bold text-xl mb-8">
-                        {/* Order {OrderDetailAPIState?.order_status} */}
-                        Order Completed
+                        Order {OrderDetailAPIState?.order_status}
                       </div>
 
                       <div className="mb-6 flex flex-col items-center">
                         <div>
                           <img
                             className="rounded-full border-2 border-[#FF5F00] w-20 h-20 "
-                            // src={
-                            //   OrderDetailAPIState?.products?.[0]?.product?.image
-                            // }
+                            src={
+                              OrderDetailAPIState?.products?.[0]?.product?.image
+                            }
                           />
                         </div>
                         <div className="font-bold font-nunito text-lg text-[#FF5F00] mt-2">
-                          {/* {OrderDetailAPIState?.products?.[0]?.product?.name} */}
-                          Mac Burger
+                          {OrderDetailAPIState?.products?.[0]?.product?.name}
                         </div>
                       </div>
                     </div>
@@ -358,24 +395,23 @@ const Order = ({ route }) => {
                     <div className="flex  justify-between items-center mb-2">
                       <div className="flex flex-col  items-center justify-center mb-4 ">
                         <div className="font-nunito  font-normal text-xs  text-[#2B2B43] mb-4 ">
-                          150 NW 24 Street | Miami, FL 33127
+                          {/* 150 NW 24 Street | Miami, FL 33127 */}
                         </div>
                         <div className="font-nunito font-bold  text-sm text-[#2B2B43]">
-                          {/* {moment(reservationAPI?.date).format("MMMM Do YYYY")} */}
-                          Saturday, March 12, 2022
+                          {moment(OrderDetailAPIState?.createdAt).format("MMMM Do YYYY")}
                         </div>
                         <div className="font-nunito font-bold  text-sm text-[#2B2B43]">
-                          9:00 pm
+                          {/* 9:00 pm */}
                         </div>
                       </div>
                     </div>
                     <div className=" mb-8 flex flex-col justify-between items-center ">
                       <div className="flex flex-col items-center justify-center md:mb-0 mb-4">
                         <div className="font-medium font-nunito  text-xs text-[#FF5F00] mb-2 md:mb-0">
-                          Order #: 123
+                          {`Order #: ${OrderDetailAPIState?.order_number}`}
                         </div>
                         <div className="font-nunito font-medium  text-xs text-[#2B2B43]">
-                          (786) 637-2987
+                          {/* (786) 637-2987 */}
                         </div>
                       </div>
                     </div>
@@ -395,7 +431,7 @@ const Order = ({ route }) => {
               <div
                 className={`${"active"} text-xl flex justify-center items-center`}
               >
-                Orders
+                Checkout
               </div>
             </div>
             <div className="flex items-center justify-center">
@@ -410,7 +446,7 @@ const Order = ({ route }) => {
   );
 };
 
-export default Order;
+export default Order
 
 const useStyles = makeStyles((theme) => ({
   title: {

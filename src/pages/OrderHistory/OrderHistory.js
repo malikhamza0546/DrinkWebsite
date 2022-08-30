@@ -17,6 +17,8 @@ import ReactStars from "react-rating-stars-component";
 import { OrderDetailAPI } from "../../services/API";
 import Notification from "../../components/Notification";
 import { useSelector } from "react-redux";
+import moment from 'moment';
+
 
 const style = {
   position: "absolute",
@@ -34,7 +36,7 @@ const style = {
 const OrderHistory = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const [OrderHistory, setOrderHistory] = useState();
+  const [OrderHistory, setOrderHistory] = useState([]);
   const [OrderDataFromAPI, setOrderDataFromAPI] = useState("");
   const [TipAPIResponse, setTipAPIResponse] = useState("");
   const [TipToBeSent, setTipToBeSent] = useState("");
@@ -158,14 +160,14 @@ const OrderHistory = () => {
                       <p
                         className={`text-base font-bold text-black font-nunito`}
                       >
-                        ${obj?.products[0]?.product?.price}
+                        ${obj?.total}
                       </p>
                     </div>
                     <div className="flex flex-row justify-between w-full ">
                       <p
                         className={`text-xs mt-3 font-bold text-black ml-3 font-nunito`}
                       >
-                        {"March 12, 2022"}
+                        {moment(obj?.createdAt).format("dddd, MMMM Do YYYY")}
                       </p>
                       <p
                         className={`text-xs mt-3 font-bold text-black ml-3 font-nunito`}
@@ -188,7 +190,7 @@ const OrderHistory = () => {
       >
         <Box sx={style}>
           <Grid>
-            {OrderHistory?.order_status == "completed" ? (
+            {OrderDetailAPIState?.order_status == "complete" ? (
               <Box>
                 <div className="flex  items-center justify-end ">
                   <div className="" onClick={handleClose}>
@@ -236,14 +238,14 @@ const OrderHistory = () => {
                   <div className="flex  justify-between items-center mb-2">
                     <div className="flex flex-col  items-center justify-center mb-4 ">
                       <div className="font-nunito  font-normal text-xs  text-[#2B2B43] mb-4 ">
-                        150 NW 24 Street | Miami, FL 33127
+                        {/* 150 NW 24 Street | Miami, FL 33127 */}
                       </div>
                       <div className="font-nunito font-bold  text-sm text-[#2B2B43]">
-                        {/* {moment(reservationAPI?.date).format("MMMM Do YYYY")} */}
-                        Saturday, March 12, 2022
+                        {moment(OrderDetailAPIState?.createdAt).format("MMMM Do YYYY")}
+                        {/* Saturday, March 12, 2022 */}
                       </div>
                       <div className="font-nunito font-bold  text-sm text-[#2B2B43]">
-                        9:00 pm
+                        {/* 9:00 pm */}
                       </div>
                     </div>
                   </div>
@@ -253,7 +255,7 @@ const OrderHistory = () => {
                         Order #: {OrderDetailAPIState?.order_number}
                       </div>
                       <div className="font-nunito font-medium  text-xs text-[#2B2B43]">
-                        (786) 637-2987
+                        {/* (786) 637-2987 */}
                       </div>
                     </div>
                   </div>
@@ -347,7 +349,7 @@ const OrderHistory = () => {
                   <div className="flex mb-4 items-center justify-center ">
                     {/* Order {OrderDetailAPIState?.order_status} */}
                     <div className="font-nunito font-bold text-xl ">
-                      Order Received
+                      {OrderDetailAPIState?.order_status == "preparing" ? "Order Preparing" : "Order Received"}
                     </div>
                   </div>
                   <div className="bg-[#EDEEF2] m-2 p-2 px-4 rounded-lg ">
@@ -371,9 +373,7 @@ const OrderHistory = () => {
                             OrderDetailAPIState?.products[0]?.product?.name}
                         </div>
                         <div className="font-semibold font-nunito">
-                          $
-                          {OrderDetailAPIState &&
-                            OrderDetailAPIState?.products[0]?.product?.price}
+                          ${OrderDetailAPIState?.subTotal}
                         </div>
                       </div>
                     </div>

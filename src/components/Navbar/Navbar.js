@@ -7,7 +7,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import assets from "../../assets/assets";
 import colors from "../../assets/colors";
 import { makeStyles } from "@mui/styles";
@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import NavbarMenu from "./NavbarMenu";
 import "./navbar.css";
 import Icon from "../../assets/images/Icon.png";
+import { getProfile } from "../../services/API";
+
 
 const Navbar = () => {
   const [value, setValue] = useState();
@@ -27,6 +29,24 @@ const Navbar = () => {
 
   const history = useNavigate();
   // const token = localStorage.getItem("access")
+  useEffect(() => {
+    if (token != null) {
+      GetProfileGetter()
+    }
+  }, []);
+
+  const GetProfileGetter = async () => {
+    try {
+      const response = await getProfile();
+      // setProfile(response?.data);
+      // setName(response?.data?.firstName);
+      // setSirName(response?.data?.surName);
+
+      console.log("response in GetProfileGetter", response);
+    } catch (e) {
+      console.log(e, " else Body Error");
+    }
+  };
 
   return (
     <>
@@ -113,7 +133,7 @@ const Navbar = () => {
 
                 {token !== null ? (
                   <>
-                    <div onClick={() => history("/profile-page")}>
+                    <div style={{ cursor: 'pointer' }} onClick={() => history("/profile-page")}>
                       <img
                         className="rounded-full border-2 border-[#FF5F00] w-10 h-10"
                         src={assets.Reservation}

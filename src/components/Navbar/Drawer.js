@@ -126,10 +126,10 @@ const DrawerComp = () => {
           )}
 
           <ListItemButton
-            onClick={() => {
-              history("/signup");
-              setOpenDrawer(false);
-            }}
+            // onClick={() => {
+            //   history("/signup");
+            //   setOpenDrawer(false);
+            // }}
           >
             <ListItemIcon>
               <img src={assets.settingIcon} className="ml-4" />
@@ -154,21 +154,60 @@ const DrawerComp = () => {
               </ListItemText>
             </ListItemButton>
           ) : (
-            <div className="flex">
-              <ListItemButton
+            <>
+              {/* <ListItemButton
                 onClick={() => {
                   history("/signin");
                   setOpenDrawer(false);
-                }}
-              >
+                }}>
+                {" "}
                 <ListItemIcon>
                   <div className=" pt-32" />
                 </ListItemIcon>
                 <ListItemText className="font-nunito font-semibold text-base text-[#FF5F00]">
                   Sign In
                 </ListItemText>
-              </ListItemButton>
+              </ListItemButton> */}
               <ListItemButton
+                onClick={() => {
+                  history("/signin");
+                  setOpenDrawer(false);
+                }}>
+                {" "}
+                <ListItemIcon>
+                  <img src={assets.userAdd} className="ml-4" />
+                </ListItemIcon>
+                <ListItemText className="font-nunito font-semibold text-base text-[#FF5F00]">
+                  Sign In
+                </ListItemText>
+              </ListItemButton>
+
+              <ListItemButton
+                onClick={() => {
+                  history("/signup");
+                  setOpenDrawer(false);
+                }}>
+                {" "}
+                <ListItemIcon>
+                  <img src={assets.userAdd} className="ml-4" />
+                </ListItemIcon>
+                <ListItemText className="font-nunito font-semibold text-base text-[#FF5F00]">
+                  Sign Up
+                </ListItemText>
+              </ListItemButton>
+              {/* <ListItemButton style={{ marginTop: 5 }}
+                onClick={() => {
+                  history("/signin");
+                  setOpenDrawer(false);
+                }}>
+                <ListItemIcon>
+                  <div className=" pt-32" />
+                </ListItemIcon>
+                <ListItemText className="font-nunito font-semibold text-base text-[#FF5F00]">
+                  Sign Up
+                </ListItemText>
+              </ListItemButton> */}
+              {/* <ListItemButton
                 onClick={() => {
                   history("/signup");
                   setOpenDrawer(false);
@@ -177,8 +216,8 @@ const DrawerComp = () => {
                 <ListItemText className="font-nunito font-semibold text-base text-[#FF5F00]">
                   Sign Up
                 </ListItemText>
-              </ListItemButton>
-            </div>
+              </ListItemButton> */}
+            </>
           )}
         </List>
       </Drawer>

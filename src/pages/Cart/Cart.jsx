@@ -5,11 +5,15 @@ import { useLocation } from "react-router-dom"
 
 const CartPage = (props) => {
 	const location = useLocation()
-	const { ID } = location?.state
-	console.log("ID in CartPage", ID)
+	const { ID, productName, price, EstablishmentID } = location?.state
+	console.log("ID in CartPage", ID, location?.state)
 	return (
 		<Grid container>
-			<Cart ID={ID} />
+			<Cart ID={ID}
+				productName={productName}
+				price={price}
+				EstablishmentID={EstablishmentID}
+			/>
 		</Grid>
 	)
 }
