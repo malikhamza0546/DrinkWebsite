@@ -64,6 +64,8 @@ import explore from "./images/explore.png";
 import masterCard from "./images/masterCard.png";
 import visaCard from "./images/VisaCard.png";
 
+import userAdd from  "./images/userAdd.png";
+
 const assets = {
   logo,
   dashboardMenu,
@@ -126,6 +128,7 @@ const assets = {
 
   masterCard,
   visaCard,
+  userAdd
 };
 
 export default assets;

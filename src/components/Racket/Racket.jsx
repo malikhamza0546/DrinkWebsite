@@ -205,9 +205,9 @@ const Racket = ({ EstablishmentID, phoneNumber, address, name, pic }) => {
             sx={
               mainTab == "Menu"
                 ? {
-                    borderRadius: ["0px", "8px"],
-                    color: "white",
-                  }
+                  borderRadius: ["0px", "8px"],
+                  color: "white",
+                }
                 : { borderRadius: ["0px", "8px"], backgroundColor: "#EDEEF2" }
             }
             onClick={() => {
@@ -226,9 +226,9 @@ const Racket = ({ EstablishmentID, phoneNumber, address, name, pic }) => {
             sx={
               mainTab == "Reservation"
                 ? {
-                    borderRadius: ["0px", "8px"],
-                    color: "white",
-                  }
+                  borderRadius: ["0px", "8px"],
+                  color: "white",
+                }
                 : { borderRadius: ["0px", "8px"], backgroundColor: "#EDEEF2" }
             }
             onClick={() => {
@@ -267,14 +267,14 @@ const Racket = ({ EstablishmentID, phoneNumber, address, name, pic }) => {
                             item.name == "Bottles"
                               ? 15
                               : item.name == "Desserts"
-                              ? 15
-                              : 20,
+                                ? 15
+                                : 20,
                           height:
                             item.name == "Bottles"
                               ? 25
                               : item.name == "Desserts"
-                              ? 25
-                              : 20,
+                                ? 25
+                                : 20,
                         }}
                       />
                     ) : (
@@ -285,14 +285,14 @@ const Racket = ({ EstablishmentID, phoneNumber, address, name, pic }) => {
                             item.name == "Bottles"
                               ? 15
                               : item.name == "Desserts"
-                              ? 15
-                              : 20,
+                                ? 15
+                                : 20,
                           height:
                             item.name == "Bottles"
                               ? 25
                               : item.name == "Desserts"
-                              ? 25
-                              : 20,
+                                ? 25
+                                : 20,
                         }}
                       />
                     )}
@@ -327,6 +327,7 @@ const Racket = ({ EstablishmentID, phoneNumber, address, name, pic }) => {
                               productName: obj?.name,
                               productDescripion: obj?.description,
                               EstablishmentID: EstablishID,
+                              price: obj?.price
                             },
                           })
                         }
@@ -347,7 +348,7 @@ const Racket = ({ EstablishmentID, phoneNumber, address, name, pic }) => {
                               <p
                                 className={`text-base font-bold text-black ${classes.font}`}
                               >
-                                {obj?.price}
+                                {`$${obj?.price}`}
                               </p>
                             </div>
                             <p
@@ -597,7 +598,8 @@ export default Racket;
 const useStyles = makeStyles((theme) => ({
   image: {
     height: "400px",
-    width: "767",
+    width: "767px",
+    borderRadius: '10px',
     [theme.breakpoints.down("sm")]: {
       display: "none",
     },

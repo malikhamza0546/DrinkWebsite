@@ -101,7 +101,7 @@ export const PaymentWallet = (props) => {
               <div className={classes.subtitle}>Preffered Method</div>
             </div>
             <div>
-              <img src={assets.QrCode} />
+              <img src={assets.QrCode} style={{ width: '50px', height: '50px' }} />
             </div>
           </div>
 

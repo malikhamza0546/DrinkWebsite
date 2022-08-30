@@ -14,13 +14,13 @@ const NavbarMenu = () => {
 
   const cart = useSelector((state) => state?.ProductsOrderReducer?.ClickedProd);
 
-  let Quantity = 0;
-  const myFunction = (item) => {
-    Quantity += item?.Count;
-  };
-  let count = cart.forEach(myFunction);
+  let Quantity = cart?.length > 0 ? cart?.length : 0;
+  // const myFunction = (item) => {
+  //   Quantity += item?.Count;
+  // };
+  // let count = cart.forEach(myFunction);
 
-  console.log("Cart NavebarMenu", Quantity, count);
+  console.log("Cart NavebarMenu", Quantity);
 
   const getActiveClass = useCallback(
     (routeToMatch) => {
@@ -81,14 +81,16 @@ const NavbarMenu = () => {
               Orders
             </span>
           )}
-          <span
-            onClick={() => navigate("/wallet")}
-            className={`${getActiveClass(
-              "drink-guide"
-            )} font-mulish cursor-pointer font-semibold text-base`}
-          >
-            Wallet
-          </span>
+          {token !== null && (
+            <span
+              onClick={() => navigate("/wallet")}
+              className={`${getActiveClass(
+                "drink-guide"
+              )} font-mulish cursor-pointer font-semibold text-base`}
+            >
+              Wallet
+            </span>
+          )}
         </div>
       </div>
       <span

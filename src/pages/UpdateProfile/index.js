@@ -8,10 +8,9 @@ import { useForm } from "react-hook-form";
 import assets from "../../assets/assets";
 import Button from "../../components/Forms/Button/AuthButton";
 import SaveButton from "../../components/Forms/Button/SaveButton";
-import { getProfile } from "../../services/API";
 import moment from "moment";
 import { Grid, useMediaQuery, useTheme, Box } from "@mui/material";
-import { UpdateProfile, UpdateProfilePicture } from "../../services/API";
+import { UpdateProfile, UpdateProfilePicture, getProfile } from "../../services/API";
 import ProductCard from "../../components/Product/ProductCard";
 
 const UpdateProfilePage = () => {
@@ -58,7 +57,7 @@ const UpdateProfilePage = () => {
       setName(response?.data?.firstName);
       setSirName(response?.data?.surName);
 
-      console.log("response in GetProfileGetter", response?.data);
+      console.log("response in GetProfileGetter", response);
     } catch (e) {
       console.log(e, " else Body Error");
     }
